@@ -1,0 +1,70 @@
+import 'dart:convert';
+
+import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/io_client.dart';
+
+final String server = 'http://10.0.2.2:8080/';
+
+class LoginController extends GetxController{
+  String idToken ="";
+   var _googleSignin = GoogleSignIn(
+      serverClientId: '205578501902-2g0aj7mkvmtbpqdcjqt86nhc64euj7l0.apps.googleusercontent.com',
+  );
+
+  var googleAccount = Rx<GoogleSignInAccount?>(null);
+  var googleAuthentication = Rx<GoogleSignInAuthentication?>(null);
+  var googleFormerUser = Rx<GoogleSignInAccount?>(null);
+
+  login() async{
+    googleFormerUser.value = await _googleSignin.signInSilently();
+    googleAccount.value = await _googleSignin.signIn();
+    if (googleAccount.value != null){
+      googleAuthentication.value = await googleAccount.value!.authentication;
+      idToken = googleAuthentication.value?.idToken ?? "";
+      sendIdTokenToServer(idToken);
+    }
+  }
+
+  logout() async{
+    googleAccount.value = await _googleSignin.signOut();
+  }
+
+  Future<String> sendIdTokenToServer(String idToken) async{
+    print(idToken);
+    final httpClient = IOClient();
+    final response = await httpClient.post(
+      Uri.parse('$server'),
+      headers: <String, String>{
+        'idToken': idToken,
+      },
+      body: jsonEncode(<String, String>{
+        'idToken': idToken,
+      }),
+    );
+    print("check!!");
+    httpClient.close();
+    return response.body;
+  }
+}
+
+//IdToken 전달
+Future<String> postIdToken(String idToken) async{
+  print(idToken);
+  final httpClient = IOClient();
+  final response = await httpClient.post(
+    Uri.parse('$server'),
+    headers: <String, String>{
+      'idToken': idToken,
+    },
+    body: jsonEncode(<String, String>{
+      'idToken': idToken,
+    }),
+  ).then((value){
+    print(value);
+  });
+
+  print("check!!");
+  httpClient.close();
+  return response.body;
+}
