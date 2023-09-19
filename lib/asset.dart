@@ -16,3 +16,14 @@ const MaterialColor appColor = MaterialColor(
   },);
 
 const int _appColor = 0xFFDBEBC7;
+
+const MaterialColor bookColor = MaterialColor(
+  _bookColor,
+  <int, Color>{
+    0: Color(0xFFEBBCC9),
+    1: Color(0xFFC4D1B2),
+    2: Color(0xFFCABCEB),
+
+  },);
+
+const int _bookColor = 0xFFC4D1B2;

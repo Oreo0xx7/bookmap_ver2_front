@@ -13,10 +13,8 @@ class LibraryModel{
   int star; // 평점
   DateTime start, end;
   int totalPage;
-  bool like;
 
   LibraryModel({
-    this.like = false,
     required this.bookName,
     required this.writer,
     required this.img, // 없는 경우 기본 값 제공

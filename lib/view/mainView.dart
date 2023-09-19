@@ -2,18 +2,18 @@
 
 import 'package:bookmap_ver2/view/startView.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:http/http.dart' as http;
 import '../asset.dart';
-
+import '../controller/bookController.dart';
 import 'bookMapView.dart';
 import 'libraryView.dart';
 import 'myView.dart';
 
 class MainView extends StatefulWidget{
-  const MainView({super.key});
-
   @override
   State<StatefulWidget> createState() => _MainView();
 }
@@ -41,6 +41,7 @@ class _MainView extends State<MainView>{
         title: Text(["홈", "서재", "북맵", "My"].elementAt(_selectedIndex),
           style: TextStyle(
               color: appColor.shade800,
+              fontSize: 22,
               fontFamily: 'Pretendard',
               fontWeight: FontWeight.bold)),
         actions: [IconButton(
@@ -70,18 +71,22 @@ class _MainView extends State<MainView>{
         tabs: const [
           GButton(
             icon: CupertinoIcons.home,
-            text: '홈',),
+            text: '홈',
+          textStyle: TextStyle(fontSize: 16, fontFamily: 'Pretendard')),
           GButton(
             icon: CupertinoIcons.book,
             text: '서재',
+              textStyle: TextStyle(fontSize: 16, fontFamily: 'Pretendard')
           ),
           GButton(
             icon: CupertinoIcons.bookmark,
             text: '북맵',
+              textStyle: TextStyle(fontSize: 16, fontFamily: 'Pretendard')
           ),
           GButton(
             icon: CupertinoIcons.person,
             text: 'My',
+              textStyle: TextStyle(fontSize: 16, fontFamily: 'Pretendard')
           )
         ],
         onTabChange: _onTabChange,
@@ -97,6 +102,7 @@ class Home extends StatefulWidget{
 
 class HomeStateful extends State<Home> with SingleTickerProviderStateMixin{
   final FocusNode _focusNode = FocusNode();
+  final BookController bookController = Get.put(BookController());
   int homeStatus = 0;
 
   // 검색을 위한 컨트롤러
@@ -139,6 +145,7 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin{
     //Get.put(HomeController());
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // a. 검색바 -> 클릭시 작동 OR 검색 페이지 이동
           Padding(
@@ -181,8 +188,6 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin{
                     contentPadding: const EdgeInsets.only(left: 15, top: 16),
                     hintText: '책이름/저자/ISBN',
                     hintStyle: TextStyle(color: appColor.shade800),
-                    // homeContent 화면으로의 back을 위한 아이콘
-                    prefixIcon: Icon(CupertinoIcons.home, color: appColor.shade900,),
                     // 검색 아이콘
                     suffixIcon: Icon(Icons.search, color: appColor.shade900),
                   ),
@@ -204,6 +209,54 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin{
 
           ),
           const Padding(padding: EdgeInsets.all(10)),
+          //저장된 책
+          Padding(
+            padding: const EdgeInsets.only(left: 12.0, bottom: 15),
+            child: Text('저장된 도서', style: TextStyle(fontFamily: 'Pretendard', fontSize: 20, fontWeight: FontWeight.w700, color: appColor.shade900),),
+          ),
+          NotificationListener(
+            onNotification: (OverscrollIndicatorNotification overscroll) {
+              overscroll.disallowIndicator();
+              return true;
+            },
+            child: Container(
+              color: appColor.shade400,
+              height: 200,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: bookController.books.length,
+                itemBuilder: (context, index){
+                  return Container(
+                    padding: EdgeInsets.only(top: 12, bottom: 12),
+                    //decoration: BoxDecoration(color: appColor.shade500, border: Border.all(), borderRadius: BorderRadius.all(Radius.circular(16))),
+                    width: 150,
+                    height: 150,
+                    child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Image.network(bookController.books[index].img, fit: BoxFit.fitHeight, height: 120),
+                          const Padding(padding: EdgeInsets.only(bottom: 10)),
+                          Text(bookController.books[index].bookName.replaceRange(8, bookController.books[index].bookName.toString().length, "..."), style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),),
+                          Text(bookController.books[index].writer, style: TextStyle(fontSize: 13),)
+                        ],
+                      ),
+                    );
+                },
+              ),
+            ),
+          ),
+          //팔로우 중인 사용자의 ? (메모, 서재, 북맵 중 일부 내용을 숫자로만 나타내고 클릭 시 상세 페이지로 이동)
+          const Padding(padding: EdgeInsets.all(10)),
+          //저장된 책
+          Padding(
+            padding: const EdgeInsets.only(left: 12.0, bottom: 15),
+            child: Text('팔로잉한 서재', style: TextStyle(fontFamily: 'Pretendard', fontSize: 20, fontWeight: FontWeight.w700, color: appColor.shade900),),
+          ),
+          //저장한 북맵 키워드를 기반으로 한 전체 사용자의 북맵
+
+          //인기책
+
         ],
 
       ),

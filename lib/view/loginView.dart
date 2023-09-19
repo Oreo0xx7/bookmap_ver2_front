@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 Column buildLoginButton() {
   return Column(
     children: [
-      const Padding(padding: EdgeInsets.only(top: 150)),
+      const Padding(padding: EdgeInsets.only(top: 200)),
       const Center(
           child: Image(image: AssetImage('src/logo.png'), width: 280)),
       const Padding(padding: EdgeInsets.all(80)),

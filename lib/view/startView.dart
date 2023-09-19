@@ -1,3 +1,4 @@
+import 'package:bookmap_ver2/asset.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,28 +31,46 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  String _msg = 'It\'s for blocking back button.';
-
+  String _msg = "";
   @override
   Widget build(BuildContext context) {
+
     return WillPopScope(
-      onWillPop: () {
+      onWillPop: ()async{
         setState(() {
           _msg = "d";
         });
-        print("뒤로가기 방지");
-        return Future(() => false);
+
+        final set = await showDialog<bool>
+          (context: context, builder: (BuildContext context){
+          return AlertDialog(
+              title: const Text("앱 종료"),
+              content: const Text("종료하시겠습니까?"),
+              actions: <Widget>[
+                TextButton(onPressed: (){
+                  Navigator.of(context).pop(false);
+                },
+                  child:Text("취소", style: TextStyle(color: appColor.shade900),),
+                ),
+                TextButton(onPressed: (){
+                  Navigator.of(context).pop(true);
+                }, child:Text("종료", style: TextStyle(color: appColor.shade700)))
+              ]);
+        }
+        );
+        print(set);
+        return set == true;
       },
       child: Scaffold(
-        body: Obx((){
-          if(loginController.googleAccount.value == null) {
-            // 로그아웃 상태
-            return buildLoginButton();
-          } else{
-            // 로그인 상태
-            return buildFutureBuilder();
-          }
-        })
+          body: Obx((){
+            if(loginController.googleAccount.value == null) {
+              // 로그아웃 상태
+              return buildLoginButton();
+            } else{
+              // 로그인 상태
+              return buildFutureBuilder();
+            }
+          })
       ),
     );
   }
@@ -83,33 +102,3 @@ MainView buildMainView() {
   }
   return MainView();
 }
-
-// 1. 메인 화면 (로그인 상태)
-// FutureBuilder<String> buildFutureBuilder() {
-//   return FutureBuilder(
-//     future: postIdToken(controller.googleAuthentication.value?.idToken.toString() ?? ''),
-//     builder: (BuildContext context, AsyncSnapshot snapshot){
-//       if (snapshot.hasData == false){
-//         return Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           children: const [
-//             Center(child: CircularProgressIndicator(color: Colors.green,)),
-//           ],
-//         );
-//       }
-//       else if (snapshot.hasError){
-//         return Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           children: const [
-//             Text("로그인이 비정상적으로 작동하였습니다.")
-//           ],
-//         );
-//       }
-//       else{
-//         return buildMainView();
-//       }
-//     },
-//   );
-// }
