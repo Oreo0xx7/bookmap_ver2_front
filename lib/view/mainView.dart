@@ -271,7 +271,7 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin{
               child: Obx(
                 () {
                   return Container(
-                    padding: EdgeInsets.all(0),
+                    padding: EdgeInsets.only(bottom: 8),
                     color: appColor.shade300,
                     height: 360,
                     child: ListView.builder(
@@ -279,12 +279,12 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin{
                       itemCount: bookMapController.bookMaps.length,
                       itemBuilder: (context, index){
                         return Container(
-                          padding: EdgeInsets.only(top: 8, left: 12),
+                          padding: EdgeInsets.only(top: 10, left: 12),
                           width: double.maxFinite,
-                          height: 110,
+                          height: 115,
                           child: Row(
                             children: [
-                              Image.network(bookMapController.bookMaps[index].img, fit: BoxFit.fitHeight, height: 120),
+                              Image.network(bookMapController.bookMaps[index].img, fit: BoxFit.fitHeight, height: 115),
                               Padding(padding: EdgeInsets.only(left: 15)),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
