@@ -158,13 +158,13 @@ class LibraryTabsState extends State<LibraryState> with SingleTickerProviderStat
                                          crossAxisAlignment: CrossAxisAlignment.start,
                                          children: [
                                            Row(
-                                               crossAxisAlignment: CrossAxisAlignment.start,
+                                               crossAxisAlignment: CrossAxisAlignment.center,
                                                children:[Icon(Icons.circle, color: bookColor[0],),
-                                                 Text(bookTypeList[bookController.books.where((p0) => p0.sort == 0).toList()[index].sort], style: TextStyle(fontSize: 12, fontWeight: FontWeight.w200),)]
+                                                 Text(bookTypeList[bookController.books.where((p0) => p0.sort == 0).toList()[index].sort], style: TextStyle(fontSize: 13, fontWeight: FontWeight.w200, fontFamily: 'Pretendard'),)]
                                            ),
                                            Padding(padding: EdgeInsets.only(bottom: 10)),
-                                           Text(bookController.books.where((p0) => p0.sort == 0).toList()[index].bookName, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),),
-                                           Text(bookController.books.where((p0) => p0.sort == 0).toList()[index].writer, style: TextStyle(fontSize: 14),)
+                                           Text(bookController.books.where((p0) => p0.sort == 0).toList()[index].bookName, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
+                                           Text(bookController.books.where((p0) => p0.sort == 0).toList()[index].writer, style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
                                          ],
                                        ),
                                      ],
@@ -209,13 +209,13 @@ class LibraryTabsState extends State<LibraryState> with SingleTickerProviderStat
                                          crossAxisAlignment: CrossAxisAlignment.start,
                                          children: [
                                            Row(
-                                               crossAxisAlignment: CrossAxisAlignment.start,
+                                               crossAxisAlignment: CrossAxisAlignment.center,
                                                children:[Icon(Icons.circle, color: bookColor[1],),
-                                                 Text(bookTypeList[bookController.books.where((p0) => p0.sort == 1).toList()[index].sort], style: TextStyle(fontSize: 12, fontWeight: FontWeight.w200),)]
+                                                 Text(bookTypeList[bookController.books.where((p0) => p0.sort == 1).toList()[index].sort], style: TextStyle(fontSize: 13, fontWeight: FontWeight.w200, fontFamily: 'Pretendard'),)]
                                            ),
                                            Padding(padding: EdgeInsets.only(bottom: 10)),
-                                           Text(bookController.books.where((p0) => p0.sort == 1).toList()[index].bookName, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),),
-                                           Text(bookController.books.where((p0) => p0.sort == 1).toList()[index].writer, style: TextStyle(fontSize: 14),)
+                                           Text(bookController.books.where((p0) => p0.sort == 1).toList()[index].bookName, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
+                                           Text(bookController.books.where((p0) => p0.sort == 1).toList()[index].writer, style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
                                          ],
                                        ),
                                      ],
@@ -260,13 +260,13 @@ class LibraryTabsState extends State<LibraryState> with SingleTickerProviderStat
                                          crossAxisAlignment: CrossAxisAlignment.start,
                                          children: [
                                            Row(
-                                               crossAxisAlignment: CrossAxisAlignment.start,
+                                               crossAxisAlignment: CrossAxisAlignment.center,
                                                children:[Icon(Icons.circle, color: bookColor[2],),
-                                                 Text(bookTypeList[bookController.books.where((p0) => p0.sort == 2).toList()[index].sort], style: TextStyle(fontSize: 12, fontWeight: FontWeight.w200),)]
+                                                 Text(bookTypeList[bookController.books.where((p0) => p0.sort == 2).toList()[index].sort], style: TextStyle(fontSize: 13, fontWeight: FontWeight.w200, fontFamily: 'Pretendard'),)]
                                            ),
                                            Padding(padding: EdgeInsets.only(bottom: 10)),
-                                           Text(bookController.books.where((p0) => p0.sort == 2).toList()[index].bookName, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),),
-                                           Text(bookController.books.where((p0) => p0.sort == 2).toList()[index].writer, style: TextStyle(fontSize: 14),)
+                                           Text(bookController.books.where((p0) => p0.sort == 2).toList()[index].bookName, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
+                                           Text(bookController.books.where((p0) => p0.sort == 2).toList()[index].writer, style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
                                          ],
                                        ),
                                      ],
