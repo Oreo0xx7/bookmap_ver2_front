@@ -1,12 +1,7 @@
-import 'package:bookmap_ver2/model/libraryModel.dart';
-import 'package:bookmap_ver2/view/startView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../asset.dart';
 import '../controller/bookController.dart';
-import '../searchDetailGet.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class Library extends StatelessWidget {
   @override
@@ -21,17 +16,16 @@ class LibraryState extends StatefulWidget{
 }
 
 class LibraryTabsState extends State<LibraryState> with SingleTickerProviderStateMixin{
-  //final BookController bookController = Get.find<BookController>();
+  final BookController bookController = Get.find<BookController>();
   late TabController libraryTapController;
-  final BookController bookController = Get.put(BookController());
   late Future<List<dynamic>> fetchData;
-  final List<String> bookTypeList = ['읽고 싶은', '읽는 중인', '읽은'];
+  final List<String> bookTypeList = ['읽고 싶은', '읽고 있는', '읽은'];
 
   @override
   void initState(){
     super.initState();
     libraryTapController = Get.put(TabController(length: 4, vsync: this));
-    fetchData = _fetchData();
+    // fetchData = _fetchData();
   }
 
   // 검색을 위한...
@@ -88,7 +82,7 @@ class LibraryTabsState extends State<LibraryState> with SingleTickerProviderStat
                                return true;
                              },
                              child: ListView.builder(
-                               itemCount: bookController.books!.length,
+                               itemCount: bookController.books.length,
                                itemBuilder: (context, index){
                                  return Card(
                                    surfaceTintColor: appColor,
@@ -113,13 +107,13 @@ class LibraryTabsState extends State<LibraryState> with SingleTickerProviderStat
                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                      children: [
                                                        Row(
-                                                         crossAxisAlignment: CrossAxisAlignment.start,
+                                                         crossAxisAlignment: CrossAxisAlignment.center,
                                                          children:[Icon(Icons.circle, color: bookColor[bookController.books[index].sort],),
-                                                         Text('${bookTypeList[bookController.books[index].sort]}', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w200),)]
+                                                         Text('${bookTypeList[bookController.books[index].sort]}', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w200, fontFamily: 'Pretendard'),)]
                                                        ),
                                                        Padding(padding: EdgeInsets.only(bottom: 10)),
-                                                       Text('${bookController.books[index].bookName}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),),
-                                                       Text('${bookController.books[index].writer}', style: TextStyle(fontSize: 14),)
+                                                       Text('${bookController.books[index].bookName}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
+                                                       Text('${bookController.books[index].writer}', style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
                                                  ],
                                                ),
                                              ],
@@ -337,21 +331,21 @@ class LibraryTabsState extends State<LibraryState> with SingleTickerProviderStat
     );
   }
 
-  //bookdata fetch 를 위한...
-  Future<List<Map<String, dynamic>>> _fetchData() async {
-    http.Client client = http.Client();
-
-    final response = await client.get(Uri.parse(server + '/bookshelf/allbooks'),
-        headers: <String, String>{
-          'Authorization': 'Bearer ${loginController.idToken}'
-        });
-    var data = jsonDecode(utf8.decode(response.bodyBytes));
-
-    List<dynamic> listData = data;
-    List<Map<String, dynamic>> mappedData = listData.map((item) => item as Map<String, dynamic>).toList();
-
-    return mappedData;
-  }
+  // //bookdata fetch 를 위한...
+  // Future<List<Map<String, dynamic>>> _fetchData() async {
+  //   http.Client client = http.Client();
+  //
+  //   final response = await client.get(Uri.parse(server + '/bookshelf/allbooks'),
+  //       headers: <String, String>{
+  //         'Authorization': 'Bearer ${loginController.idToken}'
+  //       });
+  //   var data = jsonDecode(utf8.decode(response.bodyBytes));
+  //
+  //   List<dynamic> listData = data;
+  //   List<Map<String, dynamic>> mappedData = listData.map((item) => item as Map<String, dynamic>).toList();
+  //
+  //   return mappedData;
+  // }
 }
 
 // TabBar indicator decoration
