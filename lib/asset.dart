@@ -6,7 +6,7 @@ const MaterialColor appColor = MaterialColor(
     50: Color(0xFFEBBCC9),
     100: Color(0xFF9E7782),
     200: Color(0xFFCABCEB),
-    300: Color(0xFFF4F5E9),
+    300: Color(0xFFf4f4f4),
     400: Color(0xFFF6F2C5),
     500: Color(_appColor),
     600: Color(0xFFEAFAD5),

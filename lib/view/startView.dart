@@ -15,8 +15,10 @@ void main() => runApp(MyApp());
 final GoogleSignIn googleSignIn = GoogleSignIn();
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Login',
@@ -26,6 +28,7 @@ class MyApp extends StatelessWidget {
 }
 
 class Login extends StatefulWidget {
+
   @override
   State<Login> createState() => _LoginState();
 }
@@ -34,6 +37,7 @@ class _LoginState extends State<Login> {
   String _msg = "";
   @override
   Widget build(BuildContext context) {
+
 
     return WillPopScope(
       onWillPop: ()async{

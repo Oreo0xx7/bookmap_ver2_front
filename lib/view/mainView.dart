@@ -1,5 +1,6 @@
 // Home + Search + bottom navigation bar
 
+import 'package:bookmap_ver2/controller/loginController.dart';
 import 'package:bookmap_ver2/view/startView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +9,14 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import '../asset.dart';
 import '../controller/bookController.dart';
 import '../controller/bookMapController.dart';
+import '../controller/memoController.dart';
 import 'bookMapView.dart';
 import 'libraryView.dart';
+import 'makeBookMapView.dart';
 import 'myView.dart';
-// import 'package:http/http.dart' as http;
 
 class MainView extends StatefulWidget{
+  LoginController loginController = Get.find<LoginController>();
   @override
   State<StatefulWidget> createState() => _MainView();
 }
@@ -51,13 +54,23 @@ class _MainView extends State<MainView>{
       body: SafeArea(
           child: areaOptions.elementAt(_selectedIndex)
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: appColor.shade200,
+        child: Icon(CupertinoIcons.bookmark),
+        splashColor: appColor,
+        shape: CircleBorder(), // 어떤 모양할 지 고민해보기
+        onPressed: (){
+          Get.to(MakeBookMapView());
+        },),
       bottomNavigationBar: BottomNavi(),
     );
   }
   // 하단 네비게이션바
   Container BottomNavi() {
+
     return Container(
       decoration: BoxDecoration(
+        color: Colors.white,
         border: Border(top: BorderSide(color: Colors.black12))
       ),
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
@@ -101,45 +114,10 @@ class Home extends StatefulWidget{
 }
 
 class HomeStateful extends State<Home> with SingleTickerProviderStateMixin{
-  // final FocusNode _focusNode = FocusNode();
+
   final BookController bookController = Get.put(BookController());
   final BookMapController bookMapController = Get.put(BookMapController());
-  // int homeStatus = 0;
-  //
-  // // 검색을 위한 컨트롤러
-  // late TabController _tabController;
-  // late TextEditingController? _editingController;
-  // ScrollController? _scrollController;
-  // static List? data;
-  // int page = 1;
-  // String? searchQuery;
-
-  // @override
-  // void initState() {
-  //   // _tabController = TabController(
-  //   //   length: 2,
-  //   //   vsync: this,  //vsync에 this 형태로 전달해야 애니메이션이 정상 처리됨
-  //   // );
-  //   super.initState();
-  //
-  //   if (data == null) {
-  //     data = new List.empty(growable: true);
-  //   }
-  //   //print(reData); //아직 아무것도 찍히지않음
-  //   _editingController = new TextEditingController();
-  //   _scrollController = new ScrollController();
-  //   _scrollController!.addListener(() {
-  //     if (_scrollController!.offset >=
-  //         _scrollController!.position.maxScrollExtent &&
-  //         !_scrollController!.position.outOfRange) {
-  //       page++;
-  //       getBookJSON();
-  //     }
-  //   }
-  //   );
-  // }
-
-  //bool _isLoading = false;
+  final MemoController memoController = Get.put(MemoController());
 
   @override
   Widget build(BuildContext context) {
@@ -163,15 +141,8 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin{
                       borderRadius: BorderRadius.all(Radius.circular(16))
                   ),
                   child: TextField(
-
-                    //focusNode: _focusNode,
                     cursorColor: appColor.shade800,
                     keyboardType: TextInputType.text,
-                    // onChanged: (text) {
-                    //   setState(() {
-                    //     searchQuery = text;
-                    //   });
-                    // },
                     onTap: (){
                     },
                     decoration: InputDecoration(
@@ -201,15 +172,6 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin{
                     textInputAction: TextInputAction.search,
                     onEditingComplete: () async {
                       FocusScope.of(context).unfocus();
-                      // setState(() {
-                      //   _isLoading = true;
-                      // });
-                      // page = 1;
-                      // data!.clear();
-                      // await getBookJSON();
-                      // setState(() {
-                      //   _isLoading = false;
-                      // });
                     },
                   ),
                 )
@@ -229,7 +191,7 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin{
               },
               child: Obx((){
                   return Container(
-                    color: appColor.shade300,
+                     //color: appColor.shade300,
                     height: 200,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
@@ -256,9 +218,11 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin{
                 }
               ),
             ),
-
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 10),
+              child: Divider(color: Colors.black38, thickness: 1,),
+            ),
             //c. 팔로우 중인 사용자의 북맵
-            const Padding(padding: EdgeInsets.all(10)),
             Padding(
               padding: const EdgeInsets.only(left: 12.0, bottom: 15),
               child: Text('팔로잉한 북맵', style: TextStyle(fontFamily: 'Pretendard', fontSize: 20, fontWeight: FontWeight.w700, color: appColor.shade900),),
@@ -272,14 +236,14 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin{
                 () {
                   return Container(
                     padding: EdgeInsets.only(bottom: 8),
-                    color: appColor.shade300,
+                    //color: appColor.shade300,
                     height: 360,
                     child: ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: bookMapController.bookMaps.length,
                       itemBuilder: (context, index){
                         return Container(
-                          padding: EdgeInsets.only(top: 10, left: 12),
+                          padding: EdgeInsets.only(top: 10, left: 15),
                           width: double.maxFinite,
                           height: 115,
                           child: Row(
@@ -302,8 +266,10 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin{
                 }
               ),
             ),
-
-            const Padding(padding: EdgeInsets.all(10)),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 10),
+              child: Divider(color: Colors.black38, thickness: 1,),
+            ),
             //d. 인기책 - 아직 dart에서 임의로 저장된 도서가 나오도록 해놓은 상태입니다.
             Padding(
               padding: const EdgeInsets.only(left: 12.0, bottom: 15),
@@ -316,7 +282,7 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin{
               },
               child: Obx((){
                 return Container(
-                  color: appColor.shade300,
+                  //color: appColor.shade300,
                   height: 200,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -349,39 +315,4 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin{
       ),
     );
   }
-  // //카카오 API
-  // Future<String> getBookJSON() async {
-  //   var url = Uri.parse('https://dapi.kakao.com/v3/search/book?target=title&query=doit');
-  //   var response = await http.get(url, headers: {"Authorization": "KakaoAK {kakao_rest_api_key}"});
-  //   return response.body;
-  // }
-
-  // SingleChildScrollView SearchResult() {
-  //   return SingleChildScrollView(
-  //     child: Column(
-  //       children: [
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // SingleChildScrollView HomeContent(){
-  //   return SingleChildScrollView(
-  //     child: Column(
-  //       children: [
-  //         TextButton(
-  //             onPressed: () async {
-  //               getBookJSON();
-  //               // var url = Uri.parse('http://www.google.com');
-  //               // var response = await http.get(url);
-  //               // setState(() {
-  //               //   result = response.body;
-  //               // });
-  //             },
-  //             child: Text("Test", style: TextStyle(color: Colors.black12),)),
-  //       ],
-  //     ),
-  //   );
-  //
-  // }
 }

@@ -1,13 +1,19 @@
 class BookMapModel{
-  final String mapName;
+  late final String mapName;
+  late final String description;
+  late final String keyword;
   final String makerName;
   final String makerEmail;
   final String img;
+  final int sort;
 
   BookMapModel({
     required this.mapName,
     required this.img,
     required this.makerName,
-    required this.makerEmail
+    required this.makerEmail,
+    required this.sort,
+    this.description = "",
+    this.keyword = ""
 });
 }

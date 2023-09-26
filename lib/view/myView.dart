@@ -1,9 +1,19 @@
 import 'package:bookmap_ver2/asset.dart';
+import 'package:bookmap_ver2/controller/memoController.dart';
+import 'package:bookmap_ver2/view/editProfileView.dart';
+import 'package:bookmap_ver2/view/exportDataView.dart';
+import 'package:bookmap_ver2/view/serviceInfoView.dart';
 import 'package:bookmap_ver2/view/startView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'calendarView.dart';
+import 'developerInfoView.dart';
+import 'memoVew.dart';
+import 'noticeView.dart';
+
 class My extends StatelessWidget{
+  MemoController memoController = Get.put(MemoController());
   @override
   Widget build(BuildContext context) {
     return NotificationListener(
@@ -20,31 +30,34 @@ class My extends StatelessWidget{
 
             //b. 사용자 수치 데이터 - 북맵, 완독, 팔로워, 팔로잉
             Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 10.0, bottom: 15.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 23.0, right: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  circleInfo('7', '북맵', appColor),
-                  circleInfo('54', '완독', appColor),
-                  circleInfo('361', '팔로워', appColor.shade200),
-                  circleInfo('7', '팔로잉', appColor.shade200),
+                  Text('${loginController.googleAccount.value?.displayName}',
+                    style: TextStyle(color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.bold, fontSize: 20),),
+                  Padding(padding: EdgeInsets.all(5)),
+                  Text('상태메시지 테스트 입니다.',
+                    style: TextStyle(color: Colors.black38, fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w500, fontSize: 16,),
+                  )
                 ],
               ),
             ),
             const Divider(thickness: 1,),
 
             //d. 독서 기록 (달력, 메모) -> 가능하면 아이콘 추가해보기
-            Padding(padding: EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 5),
+            Padding(padding: const EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 5),
             child: Text("독서 기록", style: TextStyle(fontFamily: 'Pretendard',
                 fontWeight: FontWeight.bold, fontSize: 16,
             color: appColor.shade800),),
             ),
             myButtons("독서 달력", 0),
             myButtons('독서 메모', 1),
-            const Divider(thickness: 1,),
+            memoPreview(),
 
             //e. 설정(프로필 편집, 독서기록 내보내기, 로그아웃)
-            Padding(padding: EdgeInsets.only(top: 10, left: 16, right: 16, bottom: 5),
+            Padding(padding: const EdgeInsets.only(top: 11, left: 16, right: 16, bottom: 5),
               child: Text("설정", style: TextStyle(fontFamily: 'Pretendard',
                   fontWeight: FontWeight.bold, fontSize: 16,
                   color: appColor.shade800),),
@@ -54,20 +67,20 @@ class My extends StatelessWidget{
             TextButton(onPressed: (){
               loginController.logout();
             },
-                child: Text("로그아웃",
-                    style: TextStyle(color: Colors.black, fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.normal, fontSize: 18)),
                 style: TextButton.styleFrom(
                     foregroundColor: appColor.shade600,
                     alignment: Alignment.centerLeft,
                     minimumSize: Size.fromHeight(50),
                     padding: EdgeInsets.only(left: 16)
-                )
+                ),
+                child: const Text("로그아웃",
+                    style: TextStyle(color: Colors.black, fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.normal, fontSize: 18))
             ),
             const Divider(thickness: 1,),
 
             //f. 도움말(문의, 공지사항, 개발자 소개, 서비스 이용약관)
-            Padding(padding: EdgeInsets.only(top: 10, left: 16, right: 16, bottom: 5),
+            Padding(padding: const EdgeInsets.only(top: 10, left: 16, right: 16, bottom: 5),
               child: Text("도움말", style: TextStyle(fontFamily: 'Pretendard',
                   fontWeight: FontWeight.bold, fontSize: 16,
                   color: appColor.shade800),),
@@ -78,6 +91,104 @@ class My extends StatelessWidget{
           ],
         ),
       ),
+    );
+  }
+
+  Container memoPreview() {
+    return Container(
+      padding: EdgeInsets.only(top: 10, bottom: 10),
+      color: appColor.shade300,
+      child: Column(
+              children: [
+              Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16)
+                ),
+                elevation: 8,
+              surfaceTintColor: appColor,
+              margin: const EdgeInsets.only(left: 12, right: 12),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                            flex: 3,
+                            child: Image.network(memoController.memos[0].bookImg, )),
+                        const Spacer(
+                          flex: 1,
+                        ),
+                        Expanded(
+                          flex: 11,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(memoController.memos[0].bookTitle, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
+                              Text(memoController.memos[0].bookWriter, style: const TextStyle(fontSize: 13, fontFamily: 'Pretendard'),),
+                              const Padding(padding: EdgeInsets.only(bottom: 10)),
+                              Text('${memoController.memos[0].startPage}~${memoController.memos[0].endPage}쪽을 읽고', style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Padding(padding: EdgeInsets.only(bottom: 20)),
+                    Text(memoController.memos[0].memoTitle, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
+                    Text(memoController.memos[0].memo.replaceRange(30, memoController.memos[0].memo.length, "..."), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, fontFamily: 'Pretendard'),),
+                    //메모가 30자 미만인 경우의 처리가 필요함
+                  ],
+                ),
+              ),
+            ),
+        Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16)
+          ),
+          elevation: 8,
+          surfaceTintColor: appColor,
+          margin: const EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 10),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                        flex: 3,
+                        child: Image.network(memoController.memos[1].bookImg, )),
+                    const Spacer(
+                      flex: 1,
+                    ),
+                    Expanded(
+                      flex: 11,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(memoController.memos[1].bookTitle, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
+                          Text(memoController.memos[1].bookWriter, style: const TextStyle(fontSize: 13, fontFamily: 'Pretendard'),),
+                          const Padding(padding: EdgeInsets.only(bottom: 10)),
+                          Text('${memoController.memos[1].startPage}~${memoController.memos[1].endPage}쪽을 읽고', style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(padding: EdgeInsets.only(bottom: 20)),
+                Text('${memoController.memos[1].memoTitle}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
+                Text('${memoController.memos[1].memo.replaceRange(30, memoController.memos[1].memo.length, "...")}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, fontFamily: 'Pretendard'),),
+              ],
+            ),
+          ),
+        )
+              ],
+            ),
     );
   }
 }
@@ -102,15 +213,13 @@ Padding userBasicInfo(){
         //Row 내부 2. 사용자 이름과 id
         Expanded(
           flex: 7,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text('${loginController.googleAccount.value?.displayName}',
-                style: TextStyle(color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.bold, fontSize: 20),),
-              Text('상태메시지 테스트 입니다.',
-                style: TextStyle(color: Colors.black38, fontFamily: 'Pretendard',
-                  fontWeight: FontWeight.w500, fontSize: 16,),
-              )
+              circleInfo('7', '북맵', appColor),
+              circleInfo('54', '완독', appColor),
+              circleInfo('361', '팔로워', appColor.shade200),
+              circleInfo('7', '팔로잉', appColor.shade200),
             ],
           ),
         )
@@ -123,10 +232,10 @@ Container circleInfo(String a, String b, Color c){
   return Container(
     width: 60.0,
     height: 60.0,
-    decoration: BoxDecoration(
-      border: Border.all(color: c, width: 1.5),
-      shape: BoxShape.circle,
-    ),
+    // decoration: BoxDecoration(
+    //   border: Border.all(color: c, width: 1.5),
+    //   shape: BoxShape.circle,
+    // ),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -139,7 +248,9 @@ Container circleInfo(String a, String b, Color c){
 
 TextButton myButtons(String title, int a){
   //각 페이지를 배열로 저장하여 a인덱스인 것 반환하기!
+  List<Widget> pages = [CalendarView(), MemoView(), EditProfileView(), ExportDataView(), NoticeView(), DeveloperInfoView(), ServiceInfoView()];
   return TextButton(onPressed: (){
+    Get.to(pages[a]);
   },
       child: Text(title,
           style: TextStyle(color: Colors.black, fontFamily: 'Pretendard',
