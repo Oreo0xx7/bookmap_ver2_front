@@ -1,5 +1,6 @@
 // Home + Search + bottom navigation bar
 
+import 'package:bookmap_ver2/view/mainSearchView.dart';
 import 'package:bookmap_ver2/controller/loginController.dart';
 import 'package:bookmap_ver2/view/startView.dart';
 import 'package:flutter/cupertino.dart';
@@ -140,39 +141,61 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin{
                       color: Colors.grey.shade100,
                       borderRadius: BorderRadius.all(Radius.circular(16))
                   ),
-                  child: TextField(
-                    cursorColor: appColor.shade800,
-                    keyboardType: TextInputType.text,
+                  child: GestureDetector(
                     onTap: (){
+                      Get.to(MainSearchView());
                     },
-                    decoration: InputDecoration(
-                      //검색바 클릭 전 border
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: const BorderRadius.all(Radius.circular(16)),
-                        borderSide: BorderSide(
-                            color: appColor.shade700,
-                            width: 1.2
-                        ),
-                      ),
+                    child: TextField(
+                      enabled: false,
 
-                      //검색바 클릭시 아래 border 출력
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: const BorderRadius.all(Radius.circular(16)),
-                        borderSide: BorderSide(
-                            color: appColor.shade700,
-                            width: 1.2
+                      //focusNode: _focusNode,
+                      cursorColor: appColor.shade800,
+                      keyboardType: TextInputType.text,
+                      // onChanged: (text) {
+                      //   setState(() {
+                      //     searchQuery = text;
+                      //   });
+                      // },
+                      onTap: (){
+                      },
+                      decoration: InputDecoration(
+                        //검색바 클릭 전 border
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(Radius.circular(16)),
+                          borderSide: BorderSide(
+                              color: appColor.shade700,
+                              width: 1.2
+                          ),
                         ),
+
+                        //검색바 클릭시 아래 border 출력
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(Radius.circular(16)),
+                          borderSide: BorderSide(
+                              color: appColor.shade700,
+                              width: 1.2
+                          ),
+                        ),
+                        contentPadding: const EdgeInsets.only(left: 15, top: 16),
+                        hintText: '책이름/저자/ISBN',
+                        hintStyle: TextStyle(color: appColor.shade800),
+                        // 검색 아이콘
+                        suffixIcon: Icon(Icons.search, color: appColor.shade900),
                       ),
-                      contentPadding: const EdgeInsets.only(left: 15, top: 16),
-                      hintText: '책이름/저자/ISBN',
-                      hintStyle: TextStyle(color: appColor.shade800),
-                      // 검색 아이콘
-                      suffixIcon: Icon(Icons.search, color: appColor.shade900),
+                      textInputAction: TextInputAction.search,
+                      onEditingComplete: () async {
+                        FocusScope.of(context).unfocus();
+                        // setState(() {
+                        //   _isLoading = true;
+                        // });
+                        // page = 1;
+                        // data!.clear();
+                        // await getBookJSON();
+                        // setState(() {
+                        //   _isLoading = false;
+                        // });
+                      },
                     ),
-                    textInputAction: TextInputAction.search,
-                    onEditingComplete: () async {
-                      FocusScope.of(context).unfocus();
-                    },
                   ),
                 )
 

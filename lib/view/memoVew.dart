@@ -100,6 +100,7 @@ class MemoView extends StatelessWidget{
       padding: EdgeInsets.all(16),
       color: Colors.white,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(

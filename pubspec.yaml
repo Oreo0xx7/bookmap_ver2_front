@@ -21,11 +21,14 @@ dependencies:
   flutter_rating_stars: ^1.0.3+4
   intl: ^0.18.1
   scroll_date_picker: ^3.7.3
+  provider:
+  flutter_rating_bar:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   image_picker: ^1.0.4
+
 
   flutter_lints: ^2.0.0
 
