@@ -28,11 +28,7 @@ class MainSearchViewTile extends StatelessWidget {
                 alignment: Alignment.center, // 이미지를 중앙으로 정렬
                 errorBuilder: (context, error, stackTrace) {
                   return Center(
-                      child: Text(
-                        '이미지 없음',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.grey),
-                      ));
+                      child: Image.asset('src/sampleBook.jpg'));
                 },
               ),
               // child: Image.network(
@@ -49,7 +45,7 @@ class MainSearchViewTile extends StatelessWidget {
                   Text(
                     '${book.title}',
                     maxLines: 2,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                   ),
@@ -57,9 +53,7 @@ class MainSearchViewTile extends StatelessWidget {
                   Text(
                     '${book.authors.toString().replaceAll('[', '').replaceAll(
                         ']', '')}',
-                    style: TextStyle(
-                      fontSize: 15,
-                    ),
+                    style: TextStyle(fontSize: 14, fontFamily: 'Pretendard'),
                     textAlign: TextAlign.left,
                   ),
                   SizedBox(height: 8),
@@ -67,9 +61,7 @@ class MainSearchViewTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 3,
                     '${book.contents}',
-                    style: TextStyle(
-                      fontSize: 13,
-                    ),
+                    style: TextStyle(fontSize: 14, fontFamily: 'Pretendard', fontWeight: FontWeight.w200, color: Colors.black87),
                   ),
                 ],
               ),

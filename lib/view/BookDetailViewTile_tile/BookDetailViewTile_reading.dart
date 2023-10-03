@@ -23,6 +23,7 @@ class BookDetailViewTileReading extends StatelessWidget {
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 16,
+                  fontFamily: 'Pretendard',
                   fontWeight: FontWeight.bold),
             ),
           ),
@@ -44,9 +45,9 @@ class BookDetailViewTileReading extends StatelessWidget {
                   child: Text(
                     '페이지 수',
                     style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                    ),
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontFamily: 'Pretendard'),
                   ),
                 ),
               ),
@@ -64,9 +65,9 @@ class BookDetailViewTileReading extends StatelessWidget {
                           border: InputBorder.none,
                         ),
                         style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontFamily: 'Pretendard'),
                         onChanged: (value) {
                           controller.readingBook.value?.totalPage =
                               int.parse(value);
@@ -79,9 +80,9 @@ class BookDetailViewTileReading extends StatelessWidget {
                       child: Text(
                         ' 쪽',
                         style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontFamily: 'Pretendard'),
                       ),
                     ),
                   ],
@@ -99,6 +100,7 @@ class BookDetailViewTileReading extends StatelessWidget {
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 16,
+                  fontFamily: 'Pretendard',
                   fontWeight: FontWeight.bold),
             ),
           ),
@@ -120,9 +122,9 @@ class BookDetailViewTileReading extends StatelessWidget {
                   child: Text(
                     '읽은 페이지',
                     style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                    ),
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontFamily: 'Pretendard'),
                   ),
                 ),
               ),
@@ -140,9 +142,9 @@ class BookDetailViewTileReading extends StatelessWidget {
                           border: InputBorder.none,
                         ),
                         style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontFamily: 'Pretendard'),
                         onChanged: (value) {
                           controller.readingBook.value?.readingPage =
                               int.parse(value);
@@ -155,9 +157,9 @@ class BookDetailViewTileReading extends StatelessWidget {
                       child: Text(
                         ' 쪽',
                         style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontFamily: 'Pretendard'),
                       ),
                     ),
                   ],
@@ -175,6 +177,7 @@ class BookDetailViewTileReading extends StatelessWidget {
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 16,
+                  fontFamily: 'Pretendard',
                   fontWeight: FontWeight.bold),
             ),
           ),
@@ -197,9 +200,9 @@ class BookDetailViewTileReading extends StatelessWidget {
                   child: Text(
                     '시작일',
                     style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                    ),
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontFamily: 'Pretendard'),
                   ),
                 ),
               ),
@@ -213,9 +216,9 @@ class BookDetailViewTileReading extends StatelessWidget {
                         child: Text(
                           '${controller.readingBook.value?.startDate.year}-${controller.readingBook.value?.startDate.month}-${controller.readingBook.value?.startDate.day}',
                           style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontFamily: 'Pretendard'),
                         ),
                       ),
                     ),

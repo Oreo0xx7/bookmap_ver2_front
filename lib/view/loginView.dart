@@ -7,8 +7,8 @@ Scaffold buildLoginButton() {
   return Scaffold(
     backgroundColor: Colors.white,
     body: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Padding(padding: EdgeInsets.only(top: 200)),
         const Center(
             child: Image(image: AssetImage('src/logo.png'), width: 280)),
         const Padding(padding: EdgeInsets.all(80)),
@@ -27,7 +27,6 @@ Scaffold buildLoginButton() {
               const Padding(padding: EdgeInsets.all(8)),
               Image.asset(
                 'src/btn_google_light.png',
-
                 height: 18,
                 width: 18,
                 fit: BoxFit.none, //로고 주변 그림자를 없애기 위함

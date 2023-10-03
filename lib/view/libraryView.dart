@@ -115,7 +115,7 @@ class LibraryTabsState extends State<LibraryState> with SingleTickerProviderStat
                                                          ),
                                                          Padding(padding: EdgeInsets.only(bottom: 10)),
                                                          Text('${bookController.books[index].bookName}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
-                                                         Text('${bookController.books[index].writer}', style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
+                                                         Text('${bookController.books[index].writer}', style: TextStyle(fontSize: 14, fontFamily: 'Pretendard'),)
                                                    ],
                                                  ),
                                                ],

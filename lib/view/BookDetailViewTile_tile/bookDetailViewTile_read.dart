@@ -29,6 +29,7 @@ class BookDetailViewTileRead extends StatelessWidget {
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 16,
+                    fontFamily: 'Pretendard',
                     fontWeight: FontWeight.bold),
               ),
             ),
@@ -54,6 +55,7 @@ class BookDetailViewTileRead extends StatelessWidget {
                       child: Text(
                         '시작일',
                         style: TextStyle(
+                          fontFamily: 'Pretendard',
                           color: Colors.black,
                           fontSize: 16,
                         ),
@@ -78,6 +80,7 @@ class BookDetailViewTileRead extends StatelessWidget {
                         child: Text(
                           formattedDate,
                           style: TextStyle(
+                            fontFamily: 'Pretendard',
                             color: Colors.black,
                             fontSize: 16,
                           ),
@@ -110,6 +113,7 @@ class BookDetailViewTileRead extends StatelessWidget {
                       child: Text(
                         '종료일',
                         style: TextStyle(
+                          fontFamily: 'Pretendard',
                           color: Colors.black,
                           fontSize: 16,
                         ),
@@ -128,10 +132,11 @@ class BookDetailViewTileRead extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 5),
                         child: Text(
                             style: TextStyle(
+                              fontFamily: 'Pretendard',
                               color: Colors.black,
                               fontSize: 16,
                             ),
-                            '${controller.readBook.value?.endDate?.year}-${controller.readBook.value?.endDate?.month}-${controller.readBook.value?.endDate?.day}'),
+                            '${controller.readBook.value?.endDate.year}-${controller.readBook.value?.endDate.month}-${controller.readBook.value?.endDate.day}'),
                       ),
                     ),
                   ),
@@ -146,6 +151,7 @@ class BookDetailViewTileRead extends StatelessWidget {
               child: Text(
                 '총 페이지 수',
                 style: TextStyle(
+                    fontFamily: 'Pretendard',
                     color: Colors.black,
                     fontSize: 16,
                     fontWeight: FontWeight.bold),
@@ -168,6 +174,7 @@ class BookDetailViewTileRead extends StatelessWidget {
                     child: Text(
                       '페이지 수',
                       style: TextStyle(
+                        fontFamily: 'Pretendard',
                         color: Colors.black,
                         fontSize: 16,
                       ),

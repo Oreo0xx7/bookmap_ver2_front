@@ -40,6 +40,7 @@ class _MainView extends State<MainView>{
     return Scaffold(
       backgroundColor: CupertinoColors.white,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0.0, // 그림자 없애기
         backgroundColor: CupertinoColors.white,
         title: Text(["홈", "서재", "북맵", "My"].elementAt(_selectedIndex),
@@ -159,22 +160,10 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin{
                       onTap: (){
                       },
                       decoration: InputDecoration(
-                        //검색바 클릭 전 border
-                        enabledBorder: OutlineInputBorder(
+                        disabledBorder: OutlineInputBorder(
                           borderRadius: const BorderRadius.all(Radius.circular(16)),
-                          borderSide: BorderSide(
-                              color: appColor.shade700,
-                              width: 1.2
-                          ),
-                        ),
-
-                        //검색바 클릭시 아래 border 출력
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: const BorderRadius.all(Radius.circular(16)),
-                          borderSide: BorderSide(
-                              color: appColor.shade700,
-                              width: 1.2
-                          ),
+                          borderSide:
+                          BorderSide(color: appColor.shade700, width: 1.2),
                         ),
                         contentPadding: const EdgeInsets.only(left: 15, top: 16),
                         hintText: '책이름/저자/ISBN',

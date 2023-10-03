@@ -7,16 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../asset.dart';
 
-
 class MakeBookMapView extends StatelessWidget {
   final LoginController loginController = Get.find<LoginController>();
   TextEditingController textEditingController = TextEditingController();
   BookMapController bookMapController = Get.find<BookMapController>();
   var bookMapKey = GlobalKey<FormState>();
-  late var title = Rx<String>("");
-  late var description = Rx<String>("");
-  late var keyword = Rx<String>("");
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,8 +44,10 @@ class MakeBookMapView extends StatelessWidget {
                   renderTextFormField(
                       label: '북맵 이름',
                       onSaved: (val){
-                        title = val;
-                      },
+                        bookMapController.newBookMap.value!.mapName = val;
+                        bookMapController.newBookMap.value!.makerName = loginController.googleAccount.value!.displayName!;
+                        bookMapController.newBookMap.value!.makerEmail = loginController.googleAccount.value!.email;
+                        },
                       onChanged: (val){},
                       validator: (val){
                         if(val.length < 1){
@@ -61,10 +58,10 @@ class MakeBookMapView extends StatelessWidget {
 
                       ),
                   renderTextFormField(label: '북맵 소개글', onSaved: (val){
-                    description = val;
+                    bookMapController.newBookMap.value!.description = val;
                   }, validator: (val){return null;}, onChanged: (val){}),
                   renderTextFormField(label: '키워드', onSaved: (val){
-                    keyword = val;
+                    bookMapController.newBookMap.value!.keyword = val;
                   }, validator: (val){return null;}, onChanged: (val){}),
                   const Padding(padding: EdgeInsets.only(bottom: 30)),
                   renderButton()
@@ -128,10 +125,7 @@ class MakeBookMapView extends StatelessWidget {
         Get.snackbar('저장완료', '북맵이 만들어졌어요!', backgroundColor: appColor.shade300,
           duration: const Duration(seconds: 1));
         bookMapKey.currentState!.save();
-        bookMapController.myBookMaps.add(BookMapModel(mapName: title.string, img: 'src/sampleBook.jpg',
-            makerName: loginController.googleAccount.value!.displayName.toString(),
-            makerEmail: loginController.googleAccount.value!.email.toString(), sort: 1));
-
+        bookMapController.myBookMaps.add(bookMapController.newBookMap.value.toString() as BookMapModel);
       }
     },
         style: ButtonStyle(

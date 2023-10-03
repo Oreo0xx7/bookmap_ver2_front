@@ -30,7 +30,7 @@ class My extends StatelessWidget{
 
             //b. 사용자 수치 데이터 - 북맵, 완독, 팔로워, 팔로잉
             Padding(
-              padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 23.0, right: 20.0),
+              padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

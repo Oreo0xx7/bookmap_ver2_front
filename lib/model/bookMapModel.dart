@@ -2,8 +2,8 @@ class BookMapModel{
   late final String mapName;
   late final String description;
   late final String keyword;
-  final String makerName;
-  final String makerEmail;
+  late final String makerName;
+  late final String makerEmail;
   final String img;
   final int sort;
 

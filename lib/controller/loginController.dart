@@ -1,10 +1,8 @@
-import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/io_client.dart';
 
-final String server = 'http://10.0.2.2:8080/';
+final String server = 'http://10.0.2.2:8080';
 
 class LoginController extends GetxController{
   String idToken ="";
@@ -31,40 +29,40 @@ class LoginController extends GetxController{
   }
 
   Future<String> sendIdTokenToServer(String idToken) async{
-    print(idToken);
+    print(idToken.toString());
     final httpClient = IOClient();
+
     final response = await httpClient.post(
-      Uri.parse('$server'),
+      Uri.parse('$server/login'),
       headers: <String, String>{
-        'idToken': idToken,
+        'idToken': idToken.toString(),
       },
-      body: jsonEncode(<String, String>{
-        'idToken': idToken,
-      }),
+      body: idToken.toString(),
     );
-    print("check!!");
+    print(response.body);
+    print("check!!!");
     httpClient.close();
     return response.body;
   }
 }
 
-//IdToken 전달
-Future<String> postIdToken(String idToken) async{
-  print(idToken);
-  final httpClient = IOClient();
-  final response = await httpClient.post(
-    Uri.parse('$server'),
-    headers: <String, String>{
-      'idToken': idToken,
-    },
-    body: jsonEncode(<String, String>{
-      'idToken': idToken,
-    }),
-  ).then((value){
-    print(value);
-  });
-
-  print("check!!");
-  httpClient.close();
-  return response.body;
-}
+// //IdToken 전달
+// Future<String> postIdToken(String idToken) async{
+//   print(idToken);
+//   final httpClient = IOClient();
+//   final response = await httpClient.post(
+//     Uri.parse('$server'),
+//     headers: <String, String>{
+//       'idToken': idToken,
+//     },
+//     body: jsonEncode(<String, String>{
+//       'idToken': idToken,
+//     }),
+//   ).then((value){
+//     print(value);
+//   });
+//
+//   print("check!!");
+//   httpClient.close();
+//   return response.body;
+// }

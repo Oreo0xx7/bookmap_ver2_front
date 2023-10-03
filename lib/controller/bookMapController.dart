@@ -7,7 +7,11 @@ class BookMapController extends GetxController{
 
   var bookMaps = <BookMapModel>[].obs;
   var myBookMaps = <BookMapModel>[].obs;
-  var newBookMap = <BookMapModel>[].obs;
+  var newBookMap = Rxn<BookMapModel>(BookMapModel(mapName: 'mapName',
+      img: 'https://postfiles.pstatic.net/MjAyMzA5MjZfMTk5/MDAxNjk1NzI2MTk2MDQ5.xEHD3pzbfqLadyAiKOAuHX1raR5IJrXvgtq6A-KQ-78g.gk-3skv_JIclcXe0Wkr5UggSwtMI7XV22D4SsKTgdckg.JPEG.odb1127/sampleBook.jpg?type=w773',
+      makerName: 'maker', makerEmail: 'email', sort: 0
+  ));
+
   @override
   void onInit(){
     super.onInit();
@@ -28,6 +32,7 @@ class BookMapController extends GetxController{
           makerName: '후라이', makerEmail: 'eggZzang@gmail.com', sort: 3)
     ];
     bookMaps.assignAll(bookMapData);
+
     var myBookMapData = [
       BookMapModel(mapName: '화성학 공부', img: 'https://image.yes24.com/momo/TopCate1087/MidCate003/108628791.jpg',
           makerName: '오다빈', makerEmail: 'thankfulalways1127@gmail.com', sort: 1),
@@ -46,11 +51,5 @@ class BookMapController extends GetxController{
           makerName: '후라이', makerEmail: 'eggZzang@gmail.com', sort: 2)
     ];
     myBookMaps.assignAll(myBookMapData);
-
-    var newBookMapData = BookMapModel(mapName: newBookMap.value[0].mapName,
-        img: 'src/sampleBook.jpg', makerName: loginController.googleAccount.value!.displayName.toString(), makerEmail: loginController.googleAccount.value!.email.toString(), sort: 1);
-    newBookMap.assign(newBookMapData);
-    myBookMaps.add(newBookMapData);
-
-  }
+      }
 }

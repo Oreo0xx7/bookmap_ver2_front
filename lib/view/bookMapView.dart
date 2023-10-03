@@ -89,7 +89,7 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
                                             children: [
                                               Padding(padding: EdgeInsets.only(bottom: 10)),
                                               Text('${bookMapController.myBookMaps[index].mapName}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
-                                              Text('${bookMapController.myBookMaps[index].makerName}', style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
+                                              Text('${bookMapController.myBookMaps[index].makerName}', style: TextStyle(fontSize: 14, fontFamily: 'Pretendard'),)
                                             ],
                                           ),
                                         ],
