@@ -1,6 +1,7 @@
 import 'package:bookmap_ver2/controller/bookMapController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'bookMapDetailView.dart';
 
 import '../asset.dart';
 
@@ -65,37 +66,44 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
                         child: ListView.builder(
                           itemCount: bookMapController.myBookMaps.length,
                           itemBuilder: (context, index){
-                            return Card(
-                              surfaceTintColor: appColor,
-                              margin: EdgeInsets.all(12),
-                              child: Padding(
-                                padding: EdgeInsets.all(16),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                        flex: 3,
-                                        child: Image.network(bookMapController.myBookMaps[index].img, fit: BoxFit.fitWidth, width: 50,)),
-                                    const Spacer(
-                                      flex: 1,
-                                    ),
-                                    Expanded(
-                                      flex: 11,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(padding: EdgeInsets.only(bottom: 10)),
-                                              Text('${bookMapController.myBookMaps[index].mapName}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
-                                              Text('${bookMapController.myBookMaps[index].makerName}', style: TextStyle(fontSize: 14, fontFamily: 'Pretendard'),)
-                                            ],
-                                          ),
-                                        ],
+                            return GestureDetector(
+                              onTap: (){
+                                Get.to(() =>
+                                    BookMapDetailView(),
+                                    arguments: index);
+                              },
+                              child: Card(
+                                surfaceTintColor: appColor,
+                                margin: EdgeInsets.all(12),
+                                child: Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                          flex: 3,
+                                          child: Image.network(bookMapController.myBookMaps[index].img, fit: BoxFit.fitWidth, width: 50,)),
+                                      const Spacer(
+                                        flex: 1,
                                       ),
-                                    ),
-                                  ],
+                                      Expanded(
+                                        flex: 11,
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Padding(padding: EdgeInsets.only(bottom: 10)),
+                                                Text('${bookMapController.myBookMaps[index].mapName}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
+                                                Text('${bookMapController.myBookMaps[index].makerName}', style: TextStyle(fontSize: 14, fontFamily: 'Pretendard'),)
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
@@ -111,37 +119,44 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
                         child: ListView.builder(
                           itemCount: bookMapController.myBookMaps.where((p0) => (p0.sort == 1)).length,
                           itemBuilder: (context, index){
-                            return Card(
-                              surfaceTintColor: appColor,
-                              margin: EdgeInsets.all(12),
-                              child: Padding(
-                                padding: EdgeInsets.all(16),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                        flex: 3,
-                                        child: Image.network(bookMapController.myBookMaps.where((p0) => (p0.sort == 1)).toList()[index].img, fit: BoxFit.fitWidth, width: 50,)),
-                                    const Spacer(
-                                      flex: 1,
-                                    ),
-                                    Expanded(
-                                      flex: 11,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(padding: EdgeInsets.only(bottom: 10)),
-                                              Text('${bookMapController.myBookMaps.where((p0) => (p0.sort == 1)).toList()[index].mapName}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
-                                              Text('${bookMapController.myBookMaps.where((p0) => (p0.sort == 1)).toList()[index].makerName}', style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
-                                            ],
-                                          ),
-                                        ],
+                            return GestureDetector(
+                              onTap: (){
+                                Get.to(() =>
+                                    BookMapDetailView(),
+                                    arguments: index);
+                              },
+                              child: Card(
+                                surfaceTintColor: appColor,
+                                margin: EdgeInsets.all(12),
+                                child: Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                          flex: 3,
+                                          child: Image.network(bookMapController.myBookMaps.where((p0) => (p0.sort == 1)).toList()[index].img, fit: BoxFit.fitWidth, width: 50,)),
+                                      const Spacer(
+                                        flex: 1,
                                       ),
-                                    ),
-                                  ],
+                                      Expanded(
+                                        flex: 11,
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Padding(padding: EdgeInsets.only(bottom: 10)),
+                                                Text('${bookMapController.myBookMaps.where((p0) => (p0.sort == 1)).toList()[index].mapName}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
+                                                Text('${bookMapController.myBookMaps.where((p0) => (p0.sort == 1)).toList()[index].makerName}', style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
@@ -157,37 +172,44 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
                         child: ListView.builder(
                           itemCount: bookMapController.myBookMaps.where((p0) => (p0.sort == 2)).length,
                           itemBuilder: (context, index){
-                            return Card(
-                              surfaceTintColor: appColor,
-                              margin: EdgeInsets.all(12),
-                              child: Padding(
-                                padding: EdgeInsets.all(16),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                        flex: 3,
-                                        child: Image.network(bookMapController.myBookMaps.where((p0) => (p0.sort == 2)).toList()[index].img, fit: BoxFit.fitWidth, width: 50,)),
-                                    const Spacer(
-                                      flex: 1,
-                                    ),
-                                    Expanded(
-                                      flex: 11,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(padding: EdgeInsets.only(bottom: 10)),
-                                              Text('${bookMapController.myBookMaps.where((p0) => (p0.sort == 2)).toList()[index].mapName}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
-                                              Text('${bookMapController.myBookMaps.where((p0) => (p0.sort == 2)).toList()[index].makerName}', style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
-                                            ],
-                                          ),
-                                        ],
+                            return GestureDetector(
+                              onTap: (){
+                                Get.to(() =>
+                                    BookMapDetailView(),
+                                    arguments: index);
+                              },
+                              child: Card(
+                                surfaceTintColor: appColor,
+                                margin: EdgeInsets.all(12),
+                                child: Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                          flex: 3,
+                                          child: Image.network(bookMapController.myBookMaps.where((p0) => (p0.sort == 2)).toList()[index].img, fit: BoxFit.fitWidth, width: 50,)),
+                                      const Spacer(
+                                        flex: 1,
                                       ),
-                                    ),
-                                  ],
+                                      Expanded(
+                                        flex: 11,
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Padding(padding: EdgeInsets.only(bottom: 10)),
+                                                Text('${bookMapController.myBookMaps.where((p0) => (p0.sort == 2)).toList()[index].mapName}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
+                                                Text('${bookMapController.myBookMaps.where((p0) => (p0.sort == 2)).toList()[index].makerName}', style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
