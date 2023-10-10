@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:bookmap_ver2/api_key.dart';
 import 'package:bookmap_ver2/model/bookDetailGetModel.dart';
+import 'package:bookmap_ver2/model/searchUserModel.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/bookDetailModel.dart';
 import '../model/mainSearchBookMapModel.dart';
 import '../model/mainSearchBookModel.dart';
+import '../model/mainViewModel.dart';
 
 class SearchServices {
   static var client = http.Client();
@@ -31,8 +33,9 @@ class SearchServices {
   }
 
   static Future<List<MainSearchBookMapModel>?> fetchBookmaps(searchText) async {
-    var response = await client
-        .get(Uri.parse('$url/bookmap/search/$searchText'),);
+    var response = await client.get(
+      Uri.parse('$url/bookmap/search/$searchText'),
+    );
     if (response.statusCode == 200) {
       var jsonData = utf8.decode(response.bodyBytes); // 바이트 데이터를 디코딩
       var documents = searchBookMapFromJson(jsonData);
@@ -47,8 +50,8 @@ class SearchServices {
   }
 
   static Future<BookDetailModel?> fetchBookDetail(searchText) async {
-    var response = await client.get(
-        Uri.parse('$url/bookdetail/4?isbn=$searchText'));
+    var response =
+        await client.get(Uri.parse('$url/bookdetail/4?isbn=$searchText'));
     if (response.statusCode == 200) {
       var jsonData = utf8.decode(response.bodyBytes); // 바이트 데이터를 디코딩
       var document = bookDetailModelFromJson(jsonData);
@@ -59,11 +62,34 @@ class SearchServices {
   }
 
   static Future<BookDetailGetModel?> fetchBookDetailGet(searchText) async {
-    var response = await client.get(
-        Uri.parse('$url/bookdetail/4?isbn=$searchText'));
+    var response =
+        await client.get(Uri.parse('$url/bookdetail/4?isbn=$searchText'));
     if (response.statusCode == 200) {
       var jsonData = utf8.decode(response.bodyBytes); // 바이트 데이터를 디코딩
       var document = bookDetailGetModelFromJson(jsonData);
+      return document;
+    } else {
+      return null;
+    }
+  }
+
+  static Future<List<SearchUserModel>?> fetchUsers(searchText) async {
+    var response =
+        await client.get(Uri.parse('$url/search/user/4?keyword=$searchText'));
+    if (response.statusCode == 200) {
+      var jsonData = utf8.decode(response.bodyBytes); // 바이트 데이터를 디코딩
+      var document = searchUserModelFromJson(jsonData);
+      return document;
+    } else {
+      return null;
+    }
+  }
+
+  static Future<MainViewModel?> fetchMainData() async {
+    var response = await client.get(Uri.parse('$url/main/4'));
+    if (response.statusCode == 200) {
+      var jsonData = utf8.decode(response.bodyBytes); // 바이트 데이터를 디코딩
+      var document = mainViewModelFromJson(jsonData);
       return document;
     } else {
       return null;

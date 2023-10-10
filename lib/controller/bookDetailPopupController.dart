@@ -27,6 +27,8 @@ class BookDetailPopupController extends GetxController{
   ));
 
 
+
+
   void toggleTabs(int index){
     for (int i = 0; i <3 ; i++) {tabs[i] = false;}
     tabs[index] = !tabs[index];
@@ -78,5 +80,6 @@ class BookDetailPopupController extends GetxController{
   void deleteBook(isbn){
     BookPostServices.deleteStoredBook(isbn);
   }
+
 
 }

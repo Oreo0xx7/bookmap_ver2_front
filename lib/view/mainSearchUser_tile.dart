@@ -1,55 +1,51 @@
-import 'package:bookmap_ver2/asset.dart';
+import 'package:bookmap_ver2/model/searchUserModel.dart';
 import 'package:flutter/material.dart';
 
 class MainSearchUserTile extends StatelessWidget {
-  const MainSearchUserTile({super.key});
+
+  final SearchUserModel searchUserModel;
+  MainSearchUserTile(this.searchUserModel);
 
   @override
   Widget build(BuildContext context) {
     return Card(
         elevation: 2,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(20.0),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                height: 130,
-                width: 100,
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: CircleAvatar(
-                  radius: 30,
-                  backgroundColor: appColor,
-                  backgroundImage: NetworkImage(
-                    'https://search.pstatic.net/sunny/?src=http%3A%2F%2Fimg.ssfshop.com%2Fcmd%2FLB_500x660%2Fsrc%2Fhttp%3A%2Fimg.ssfshop.com%2Fgoods%2FHMBR%2F19%2F04%2F08%2FGM0019040873391_7_ORGINL.jpg&type=sc960_832',
-                  ),
-                ),
-              ),
-              SizedBox(width: 8),
-              Expanded(child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+              Expanded(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '사용자',
+                    searchUserModel.nickname,
                     maxLines: 2,
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
                     overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.left,
                   ),
                   SizedBox(height: 8),
                   Text(
-                    '사용자 소개글',
+                    searchUserModel.status,
                     style: TextStyle(
                       fontSize: 15,
                     ),
                     textAlign: TextAlign.left,
                   ),
                 ],
-              ))
+              )),
+              SizedBox(width: 10),
+              TextButton(onPressed: (){
+
+              },
+                child: Text(
+                '팔로우',
+                maxLines: 2,
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+              ),)
             ],
           ),
         ));

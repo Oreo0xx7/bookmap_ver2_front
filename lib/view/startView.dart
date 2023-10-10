@@ -15,7 +15,6 @@ void main() => runApp(MyApp());
 final GoogleSignIn googleSignIn = GoogleSignIn();
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
 

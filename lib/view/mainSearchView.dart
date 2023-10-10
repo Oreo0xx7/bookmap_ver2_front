@@ -136,9 +136,9 @@ class MainSearchTabView extends State<MainSearchTabState>
                         return true;
                       },
                       child: ListView.builder(
-                        itemCount: 8,
+                        itemCount: controller.userList.length,
                         itemBuilder: (context, index) {
-                          return MainSearchUserTile();
+                          return MainSearchUserTile(controller.userList[index]);
                         },
                       ),
                     )

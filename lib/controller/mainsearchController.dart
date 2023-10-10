@@ -1,5 +1,6 @@
 import 'package:bookmap_ver2/data/searchServices.dart';
 import 'package:bookmap_ver2/model/mainSearchBookMapModel.dart';
+import 'package:bookmap_ver2/model/searchUserModel.dart';
 import 'package:get/get.dart';
 
 import '../model/mainSearchBookModel.dart';
@@ -7,6 +8,7 @@ import '../model/mainSearchBookModel.dart';
 class MainSearchController extends GetxController{
   var bookList = <Document>[].obs;
   var bookMapList  = <MainSearchBookMapModel>[].obs;
+  var userList = <SearchUserModel>[].obs;
   var searchText = ''.obs;
   var tabs = <bool>[true, false, false].obs;
   var tabStatus = true.obs;
@@ -36,6 +38,7 @@ class MainSearchController extends GetxController{
   void fetchData() async {
     var books = await SearchServices.fetchBooks(searchText);
     var searchBookmaps = await SearchServices.fetchBookmaps(searchText);
+    var users = await SearchServices.fetchUsers(searchText);
     if (books != null) {
       bookList.value = books;
       print(books);
@@ -45,6 +48,9 @@ class MainSearchController extends GetxController{
       print(searchBookmaps);
     }else{
       bookMapList.value = [];
+    }
+    if(users != null){
+      userList.value = users;
     }
   }
 
