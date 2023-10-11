@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bookmap_ver2/controller/bookMapDetailController.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:http/io_client.dart';
@@ -76,6 +77,7 @@ class BookMapEditView extends StatelessWidget {
                 child: Obx(() {
                   final bookMap = editController.bookMap.value;
                   return Container(
+
                     margin: EdgeInsets.all(1),
                     child: Padding(
                       padding: EdgeInsets.all(6),
@@ -128,18 +130,6 @@ class BookMapEditView extends StatelessWidget {
                               ),
                             ),
                             myIndex(bookMap.bookMapIndex),
-                            ElevatedButton(
-                                onPressed: (){
-
-                                },
-                                child: Text("+")
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-
-                              ],
-                            ),
                           ],
                         ),
                       ),
@@ -154,41 +144,78 @@ class BookMapEditView extends StatelessWidget {
     );
   }
 
+  void openDialog(){
+    Get.dialog(
+      AlertDialog(
+        actions: [
+          Center(
+            child: TextButton(
+              child: const Text('도서', style: TextStyle(fontSize: 14, color: Colors.black),),
+              onPressed: () {
+                editController.addIndex("Book");
+                // editController.addImage();
+                Get.back();
+              },
+            ),
+          ),
+          Center(
+            child: TextButton(
+              child: const Text('메모', style: TextStyle(fontSize: 14, color: Colors.black),),
+              onPressed: () {
+                editController.addIndex("Memo");
+                Get.back();
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-  Widget myBook(List<dynamic> books, int booksIndex){
-    editController.addImage();
+  Widget myBook(List<dynamic>? books, int booksIndex){
     return Row(
       children: [
-        Container(
-          padding: const EdgeInsets.all(2.0),
-          height: 100,
-          width: 300,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: books.length,
-              itemBuilder: (context, index){
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () async {
-                      (books[index].id == -10)
-                          ? books.add(await Get.to(() => BookMapEditSearchView())) //나중에 데이터 값 맞추기
-                          : editController.bookMap.value.bookMapIndex?[booksIndex].map?.removeAt(index);
-                      editController.updateBooks(booksIndex, editController.bookMap.value.bookMapIndex?[booksIndex].map);
-                    },
-                    child: Image.network(
-                      books[index].image,
-                      // height: 130,
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(2.0),
+            height: 100,
+            width: double.infinity,
+            child: ListView.builder(
+              
+                scrollDirection: Axis.horizontal,
+                itemCount: books?.length,
+                itemBuilder: (context, index){
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () async {
+                        if(books != null) {
+                          (books?[index].id == -10)
+                              ? editController.addBook(booksIndex, index, await Get.to(() => BookMapEditSearchView()))
+                              : editController.bookMap.value.bookMapIndex?[booksIndex].map?.removeAt(index);
+                          editController.updateBooks(booksIndex, editController.bookMap.value.bookMapIndex?[booksIndex].map);
+                        }
+                        else {
+                          editController.addBook(booksIndex, index, MapElement(id: -10, isbn: '',
+                              image: 'https://postfiles.pstatic.net/MjAyMzA2MDlfMTUz/MDAxNjg2MzA5MTk2Njc1.e0lBE1zzXGIZIg03GQ6c-J2E6ahezLFCWsZMZWpolYAg.nomA0xkMNBmkhgZ8q84XIbwer4nE9_KxtBojTb_vYTMg.PNG.odb1127/image.png?type=w773'
+                          ));
+                        }
+                      },
+                      child: Image.network(
+                        books?[index].image,
+                        // height: 130,
+                      ),
                     ),
-                  ),
-                );
-              }),
+                  );
+                }),
+          ),
         )
       ],
     );
   }
 
   Widget myMemo(String memo){
+    memo ??= "";
     return Container(
       padding: const EdgeInsets.all(6.0),
       child: TextField(
@@ -200,32 +227,57 @@ class BookMapEditView extends StatelessWidget {
   }
 
   Widget myIndex(List<dynamic>? bookMapIndex) {
+    editController.addImage();
     return Container(
       padding: const EdgeInsets.all(2.0),
       margin: const EdgeInsets.all(2.0),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        // mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            height: 500,
             child: ListView.builder(
                 scrollDirection: Axis.vertical,
+                physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: bookMapIndex?.length,
                 itemBuilder: (context, index){
-                  bookMapIndex ?? Container();
-                  if("Book".compareTo(bookMapIndex?[index].type) == 0){
-                    return myBook(bookMapIndex?[index].map, index);
-                  }else if("Memo".compareTo(bookMapIndex?[index].type) == 0){
-                    return myMemo(bookMapIndex?[index].memo);
-                  }
-                  else{
-                    return Container();
+                  if(bookMapIndex != null) {
+                    if ("Book".compareTo(bookMapIndex[index].type) == 0) {
+                      if(bookMapIndex[index].map == null) {
+                        bookMapIndex[index].map.insert(0, MapElement(
+                            id: -10, isbn: '',
+                            image: 'https://postfiles.pstatic.net/MjAyMzA2MDlfMTUz/MDAxNjg2MzA5MTk2Njc1.e0lBE1zzXGIZIg03GQ6c-J2E6ahezLFCWsZMZWpolYAg.nomA0xkMNBmkhgZ8q84XIbwer4nE9_KxtBojTb_vYTMg.PNG.odb1127/image.png?type=w773'
+                        ));
+                      }
+                      return myBook(bookMapIndex[index].map, index);
+                    } else if ("Memo".compareTo(bookMapIndex[index].type) == 0) {
+                      var memo = bookMapIndex[index].memo ??= "";
+                      return myMemo(memo);
+                    } else {
+                      return Container();
+                    }
                   }
                 }
             ),
           ),
-
+          ElevatedButton(
+            onPressed: (){
+              openDialog();
+            },
+            child: Text(
+              "+",
+              style: TextStyle(
+                  color: Colors.white,
+                fontSize: 20,
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white24,
+              padding: EdgeInsets.fromLTRB(4, 10, 4, 10),
+              alignment: Alignment.center,
+              minimumSize: Size(double.infinity, 0),
+            ),
+          ),
         ],
       ),
     );

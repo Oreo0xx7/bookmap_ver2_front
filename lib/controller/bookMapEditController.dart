@@ -32,27 +32,68 @@ class BookMapEditController extends GetxController {
     });
   }
 
+  void addIndex(String type){
+    if (type == "Book"){
+      bookMap.update((val) {
+        val?.bookMapIndex?.add(BookMapIndex(type: type,
+            map: [
+              MapElement(
+                id: -10, isbn: '',
+                image: 'https://postfiles.pstatic.net/MjAyMzA2MDlfMTUz/MDAxNjg2MzA5MTk2Njc1.e0lBE1zzXGIZIg03GQ6c-J2E6ahezLFCWsZMZWpolYAg.nomA0xkMNBmkhgZ8q84XIbwer4nE9_KxtBojTb_vYTMg.PNG.odb1127/image.png?type=w773'
+            ),
+            ],
+        ));
+      });
+    } else if (type == "Memo"){
+      bookMap.update((val) {
+        val?.bookMapIndex?.add(BookMapIndex(type: type));
+      });
+    }
+  }
+
+  void addBook(booksIndex, index, book){
+    bookMap.update((val) {
+      val!.bookMapIndex?[booksIndex].map?.insert(index, book);
+    });
+  }
+
   void addImage() {
     bookMap.value.bookMapIndex?.forEach((index) {
       if (index.type == "Book") {
-        var books = index.map;
-        if((books!.length <= 3) ? ((books[books.length - 1].id != -10) ? true : false) : false)
-          books.add(MapElement(
+        if(index.map?.length != 0){
+          var books = index.map;
+          int len = books!.length;
+          if((len <= 3) ? ((books[len-1].id != -10) ? true : false) : false) {
+            books.add(MapElement(
+                id: -10, isbn: '',
+                image: 'https://postfiles.pstatic.net/MjAyMzA2MDlfMTUz/MDAxNjg2MzA5MTk2Njc1.e0lBE1zzXGIZIg03GQ6c-J2E6ahezLFCWsZMZWpolYAg.nomA0xkMNBmkhgZ8q84XIbwer4nE9_KxtBojTb_vYTMg.PNG.odb1127/image.png?type=w773'
+            ));
+          }
+        }
+        else{
+          index.map?.add(MapElement(
               id: -10, isbn: '',
               image: 'https://postfiles.pstatic.net/MjAyMzA2MDlfMTUz/MDAxNjg2MzA5MTk2Njc1.e0lBE1zzXGIZIg03GQ6c-J2E6ahezLFCWsZMZWpolYAg.nomA0xkMNBmkhgZ8q84XIbwer4nE9_KxtBojTb_vYTMg.PNG.odb1127/image.png?type=w773'
           ));
+        }
       }
     });
   }
 
   void removeImage() {
+    var nullCheck = [];
     bookMap.value.bookMapIndex?.forEach((index) {
       if (index.type == "Book") {
         var books = index.map;
-        if(books?[books.length - 1].id == -10)
-          books?.removeAt(books.length - 1);
+        if(books?[books.length - 1].id == -10) books?.removeAt(books.length - 1);
+        if(index.map?.length == 0) nullCheck.add(index);
       }
     });
+    if (nullCheck.length != 0) {
+      print("널체크");
+      bookMap.value.bookMapIndex?.removeWhere( (index) => nullCheck.contains(index));
+    }
+    // bookMap.update;
   }
 
   void resetData() async {
@@ -99,6 +140,7 @@ class BookMapEditController extends GetxController {
                     "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F6356276%3Ftimestamp%3D20230526190904"),
               ],
               memo: null),
+
         ]);
     bookMap(bookMapData);
   }
@@ -147,6 +189,13 @@ class BookMapEditController extends GetxController {
                     "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F6356276%3Ftimestamp%3D20230526190904"),
               ],
               memo: null),
+          BookMapIndex(
+            type: "Book",
+            map: [
+
+            ],
+            memo: null,
+          ),
         ]);
     bookMap(bookMapData);
   }

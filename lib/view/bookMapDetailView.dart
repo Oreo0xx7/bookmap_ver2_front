@@ -69,21 +69,22 @@ class BookMapDetailView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Text(
-                            '${bookMap.bookMapTitle}',
-                            style: TextStyle(fontSize: 18),
+                        if(bookMap.bookMapTitle != null)
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Text(
+                              '${bookMap.bookMapTitle}',
+                              style: TextStyle(fontSize: 18),
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Text(
-                            '${bookMap.bookMapContent}',
-                            style: TextStyle(fontSize: 14),
+                        if(bookMap.bookMapContent != null)
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Text(
+                              '${bookMap.bookMapContent}',
+                              style: TextStyle(fontSize: 14),
+                            ),
                           ),
-                        ),
                         Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Text(
@@ -91,7 +92,8 @@ class BookMapDetailView extends StatelessWidget {
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
-                        myIndex(bookMap.bookMapIndex),
+                        if(bookMap.bookMapIndex != null)
+                          myIndex(bookMap.bookMapIndex),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                         )
@@ -132,43 +134,28 @@ InputDecoration myDecoration(String label) {
   );
 }
 
-// Padding myTextField(String label, String? text){
-//   return Padding(
-//     padding: const EdgeInsets.all(5.0),
-//     child: TextField(
-//       style: TextStyle(fontSize: 14),
-//       controller: TextEditingController(text: text),
-//       decoration: myDecoration(label),
-//       onChanged: (value) {
-//       },
-//     ),
-//   );
-// }
-
 Widget myBook(List<dynamic> books) {
   return Row(
     children: [
-      Container(
-        padding: const EdgeInsets.all(2.0),
-        height: 100,
-        width: 300,
-        child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: books.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  onTap: () {
-                    print("클릭 확인 id: ${books[index].id}");
-                  },
+      Expanded(
+        child: Container(
+          // padding: const EdgeInsets.all(2.0),
+          height: 100,
+          width: double.infinity,
+          child: ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: books.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Image.network(
-                    books[index].image,
-                    // height: 130,
+                      books[index].image,
+                      // height: 130,
                   ),
-                ),
-              );
-            }),
+                );
+              }),
+        ),
       )
     ],
   );
@@ -191,16 +178,20 @@ Widget myIndex(List<dynamic>? bookMapIndex) {
     child: Column(
       children: [
         Container(
-          height: 500,
           child: ListView.builder(
               scrollDirection: Axis.vertical,
+              physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: bookMapIndex?.length,
               itemBuilder: (context, index) {
                 if ("Book".compareTo(bookMapIndex?[index].type) == 0) {
-                  return myBook(bookMapIndex?[index].map);
+                  if (bookMapIndex?[index].map != null) {
+                    return myBook(bookMapIndex?[index].map);
+                  }
                 } else if ("Memo".compareTo(bookMapIndex?[index].type) == 0) {
-                  return myMemo(bookMapIndex?[index].memo);
+                  if (bookMapIndex?[index].memo != null) {
+                    return myMemo(bookMapIndex?[index].memo);
+                  }
                 } else {
                   return Container();
                 }

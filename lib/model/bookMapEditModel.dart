@@ -70,12 +70,12 @@ class BookMapIndex {
 }
 
 class MapElement {
-  int id;
+  int? id;
   String isbn;
   String? image;
 
   MapElement({
-    required this.id,
+    this.id,
     required this.isbn,
     this.image,
   });

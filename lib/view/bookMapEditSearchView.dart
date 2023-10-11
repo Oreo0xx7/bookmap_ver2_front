@@ -24,13 +24,11 @@ class MainSearchTabState extends StatefulWidget {
 class MainSearchTabView extends State<MainSearchTabState>
     with SingleTickerProviderStateMixin {
   final controller = Get.put(MainSearchController());
-  late TabController searchTapController;
 
   @override
   void initState() {
     super.initState();
-    searchTapController =
-        TabController(initialIndex: 0, length: 3, vsync: this);
+
   }
 
   @override
@@ -66,48 +64,30 @@ class MainSearchTabView extends State<MainSearchTabState>
           children: [
             MainSearchField(context),
             Padding(padding: EdgeInsets.all(5)),
-            TabBar(
-                  tabs: const [
-                    Tab(text: "도서"),
-                  ],
-                  controller: searchTapController,
-                  isScrollable: false,
-                  labelStyle: const TextStyle(
-                      fontFamily: 'Pretendard',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600),
-                  labelColor: appColor.shade900,
-                  unselectedLabelColor: appColor.shade800,
-                  indicatorColor: appColor.shade900,
-            ),
+
             Expanded(child: GetX<MainSearchController>(builder: (controller) {
               return SizedBox(
                 width: double.maxFinite,
                 height: (MediaQuery.of(context).size.height * 0.6),
-                child: TabBarView(
-                  controller: searchTapController,
-                  children: [
-                    //도서
-                    NotificationListener(
-                      onNotification: (OverscrollIndicatorNotification overscroll) {
-                        overscroll.disallowIndicator();
-                        return true;
-                      },
-                      child: ListView.builder(
-                        itemCount: controller.bookList.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            child: MainSearchViewTile(controller.bookList[index]),
-                            onTap: () {
-                              Get.back(
-                                  result: controller.bookList[index].isbn,);
-                            },
-                          );
+                child: NotificationListener(
+                  onNotification: (OverscrollIndicatorNotification overscroll) {
+                    overscroll.disallowIndicator();
+                    return true;
+                  },
+                  child: ListView.builder(
+                    itemCount: controller.bookList.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        child: MainSearchViewTile(controller.bookList[index]),
+                        onTap: () {
+                          Get.back(
+                            result: MapElement(
+                                isbn: controller.bookList[index].isbn,
+                                image: controller.bookList[index].thumbnail),);
                         },
-                      ),
-                    ),
-
-                  ],
+                      );
+                    },
+                  ),
                 ),
               );
             }))
