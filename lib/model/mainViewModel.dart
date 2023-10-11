@@ -34,7 +34,7 @@ class MainViewModel {
 
 class BookEDto {
   int id;
-  String? isbn;
+  String isbn;
   String image;
   String title;
   String author;
@@ -42,7 +42,7 @@ class BookEDto {
 
   BookEDto({
     required this.id,
-    this.isbn,
+    required this.isbn,
     required this.image,
     required this.title,
     required this.author,

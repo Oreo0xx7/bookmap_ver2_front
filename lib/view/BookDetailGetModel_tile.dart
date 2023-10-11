@@ -6,8 +6,12 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:provider/provider.dart';
 
 import '../controller/bookDetailPopupController.dart';
+import '../controller/mainController.dart';
+import 'BookDetailGetMemoView_tile.dart';
+import 'BookDetailView.dart';
 import 'BookDetailViewTile_tile/BookDetailViewTile_reading.dart';
 import 'BookDetailViewTile_tile/bookDetailViewTile_read.dart';
 import 'BookDetailViewTile_tile/bookDetailViewTile_want.dart';
@@ -16,9 +20,16 @@ import 'mainView.dart';
 class BookDetailGetViewTile extends StatelessWidget {
   final BookDetailGetModel bookDetailGetModel;
 
+
+
   BookDetailGetViewTile(this.bookDetailGetModel);
 
   final controller = Get.put(BookDetailPopupController());
+  final mainController = Get.put(MainController());
+
+  dynamic memoContent;
+  dynamic memoTitle;
+  dynamic memoPage;
 
   @override
   Widget build(BuildContext context) {
@@ -112,14 +123,17 @@ class BookDetailGetViewTile extends StatelessWidget {
                                               controller.tabs[0] == true ? controller.fetchChangedData(controller.readBook, bookDetailGetModel.bookResponseDto.isbn) :
                                               controller.tabs[1] == true ? controller.fetchChangedData(controller.readingBook, bookDetailGetModel.bookResponseDto.isbn) :
                                               controller.fetchChangedData(null, bookDetailGetModel.bookResponseDto.isbn);
-                                              Navigator.pushNamedAndRemoveUntil(
-                                                  context, '/', (_) => false);
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        MainView()),
-                                              );
+                                              // Navigator.pushNamedAndRemoveUntil(
+                                              //     context, '/', (_) => false);
+                                              // Navigator.push(
+                                              //   context,
+                                              //   MaterialPageRoute(
+                                              //       builder: (context) =>
+                                              //           MainView()),
+                                              // );
+                                              Get.to(() => MainView());
+
+                                              mainController.fetchData();
                                             },
                                             child: Text(
                                               '저장',
@@ -413,108 +427,112 @@ class BookDetailGetViewTile extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.all(16),
                           alignment: Alignment.topLeft,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text('줄거리',
-                                          style: TextStyle(
-                                            fontFamily: 'Pretendard',
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                            fontStyle: FontStyle.normal,
-                                            fontWeight: FontWeight.bold,
-                                          )),
-                              Padding(padding: EdgeInsets.all(5)),
-                              Text(
-                                    bookDetailGetModel
-                                        .bookResponseDto.description != '' ? bookDetailGetModel.bookResponseDto.description: "제공되는 줄거리 정보가 없습니다.",
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 4,
-                                style: TextStyle(
-                                  fontFamily: 'Pretendard',
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.w300,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text('줄거리',
+                                            style: TextStyle(
+                                              fontFamily: 'Pretendard',
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: FontWeight.bold,
+                                            )),
+                                Padding(padding: EdgeInsets.all(5)),
+                                Text(
+                                      bookDetailGetModel
+                                          .bookResponseDto.description != '' ? bookDetailGetModel.bookResponseDto.description: "제공되는 줄거리 정보가 없습니다.",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 4,
+                                  style: TextStyle(
+                                    fontFamily: 'Pretendard',
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w300,
+                                  ),
                                 ),
-                              ),
-                              Padding(padding: EdgeInsets.all(10)),
-                              Text('출판사',
-                                          style: TextStyle(
-                                            fontFamily: 'Pretendard',
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                            fontStyle: FontStyle.normal,
-                                            fontWeight: FontWeight.bold,
-                                          )),
-                              Padding(padding: EdgeInsets.all(5)),
-                             Text(
-                                        bookDetailGetModel
-                                            .bookResponseDto.publisher,
-                               style: TextStyle(
-                                 fontFamily: 'Pretendard',
-                                 color: Colors.black,
-                                 fontSize: 15,
-                                 fontStyle: FontStyle.normal,
-                                 fontWeight: FontWeight.w300,
-                               ),
-                                      ),
-                              Padding(padding: EdgeInsets.all(10)),
-                              Text('출판일',
-                                          style: TextStyle(
-                                            fontFamily: 'Pretendard',
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                            fontStyle: FontStyle.normal,
-                                            fontWeight: FontWeight.bold,
-                                          )),
-                              Padding(padding: EdgeInsets.all(5)),
-                              Text(
-                                        DateFormat('yyyy년 MM월 dd일').format(
-                                            bookDetailGetModel
-                                                .bookResponseDto.publishedDay),
-                                style: TextStyle(
-                                  fontFamily: 'Pretendard',
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.w300,
+                                Padding(padding: EdgeInsets.all(10)),
+                                Text('출판사',
+                                            style: TextStyle(
+                                              fontFamily: 'Pretendard',
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: FontWeight.bold,
+                                            )),
+                                Padding(padding: EdgeInsets.all(5)),
+                               Text(
+                                          bookDetailGetModel
+                                              .bookResponseDto.publisher,
+                                 style: TextStyle(
+                                   fontFamily: 'Pretendard',
+                                   color: Colors.black,
+                                   fontSize: 15,
+                                   fontStyle: FontStyle.normal,
+                                   fontWeight: FontWeight.w300,
+                                 ),
+                                        ),
+                                Padding(padding: EdgeInsets.all(10)),
+                                Text('출판일',
+                                            style: TextStyle(
+                                              fontFamily: 'Pretendard',
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: FontWeight.bold,
+                                            )),
+                                Padding(padding: EdgeInsets.all(5)),
+                                Text(
+                                          DateFormat('yyyy년 MM월 dd일').format(
+                                              bookDetailGetModel
+                                                  .bookResponseDto.publishedDay),
+                                  style: TextStyle(
+                                    fontFamily: 'Pretendard',
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w300,
+                                  ),
                                 ),
-                              ),
-                              Padding(padding: EdgeInsets.all(10)),
-                              Text('ISBN',
-                                          style: TextStyle(
-                                            fontFamily: 'Pretendard',
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                            fontStyle: FontStyle.normal,
-                                            fontWeight: FontWeight.bold,
-                                          )),
-                              Padding(padding: EdgeInsets.all(5)),
-                              Text(
-                                        bookDetailGetModel.bookResponseDto.isbn,
-                                style: TextStyle(
-                                  fontFamily: 'Pretendard',
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.w300,
+                                Padding(padding: EdgeInsets.all(10)),
+                                Text('ISBN',
+                                            style: TextStyle(
+                                              fontFamily: 'Pretendard',
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: FontWeight.bold,
+                                            )),
+                                Padding(padding: EdgeInsets.all(5)),
+                                Text(
+                                          bookDetailGetModel.bookResponseDto.isbn,
+                                  style: TextStyle(
+                                    fontFamily: 'Pretendard',
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w300,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                         //여기까지 책정보 탭
                         //여기서부터 나의메모 탭
-                        Container(
-                          margin: EdgeInsets.only(top: 10),
-                          child: Column(
-                            children: [
-                              // _buildMemoListView(homeData),
-                            ],
-                          ),
-                        ),
+                            ListView.builder(
+                              shrinkWrap: true,
+                              itemCount:
+                              bookDetailGetModel.bookMemoResponseDtos.length,
+                              // physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return BookDetailGetMemoViewTile(
+                                    bookDetailGetModel.bookMemoResponseDtos[index]);
+                              },
+                            ),
                       ]),
                     )
                   ],
@@ -790,7 +808,7 @@ class BookDetailGetViewTile extends StatelessWidget {
     );
   }
 
-  addMemo(BuildContext context){
+  addMemo(BuildContext context) {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -801,51 +819,93 @@ class BookDetailGetViewTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Text('메모 추가하기',
-                  style: TextStyle(
-                    fontSize: 25
-                  ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 20, right: 150), // 여백 설정
+                    child: Text(
+                      '메모 추가하기',
+                      style: TextStyle(fontSize: 25),
                     ),
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        print("메모 : ${controller.addMemo.value?.title}");
+                        controller.fetchMemoData(
+                            memoTitle ?? '',
+                            memoContent ?? '',
+                            memoPage ?? 0,
+                            bookDetailGetModel.bookResponseDto.isbn);
+
+                        Navigator.of(context).pop();
+                        // Provider.of<BookProvider>(context, listen: false)
+                        //     .fetchBook(); // BookProvider를 통해 상태 업데이트
+
+                        // Get.off(
+                        //         () => ChangeNotifierProvider(
+                        //         create: (_) => BookProvider(),
+                        //         child: BookDetailView()),
+                        //     arguments: bookDetailGetModel.bookResponseDto.isbn);
+
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, '/', (_) => false);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  MainView()),
+                        );
+                      },
+                      child: Text("저장"))
+                ],
               ),
               SizedBox(
                 height: 8.0,
               ),
-        SingleChildScrollView(
-          child: Column(
-            children: [
-              TextField(
-                maxLines: null, // 여러 줄 입력을 가능하게 합니다.
-                keyboardType: TextInputType.multiline,
-                decoration: InputDecoration(hintText: '메모'),
-                onChanged: (value) {
-
-                },
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.only(left: 50, right: 50),
-                      child: TextField(
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(hintText: '쪽수 입력'),
-                        onChanged: (value) {
-
-                        },
-                      ),
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    TextField(
+                      maxLines: null, // 여러 줄 입력을 가능하게 합니다.
+                      keyboardType: TextInputType.multiline,
+                      decoration: InputDecoration(hintText: '메모 제목'),
+                      onChanged: (value) {
+                        memoTitle = value;
+                        print("memo title is ${memoTitle}");
+                      },
                     ),
-                  ),
-                  Container(
-                    child: Text('쪽'),
-                  ),
-                ],
+                    TextField(
+                      maxLines: null, // 여러 줄 입력을 가능하게 합니다.
+                      keyboardType: TextInputType.multiline,
+                      decoration: InputDecoration(hintText: '메모'),
+                      onChanged: (value) {
+                        memoContent = value;
+                      },
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.only(left: 50, right: 50),
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              decoration:
+                              InputDecoration(hintText: '쪽수 입력'),
+                              onChanged: (value) {
+                                memoPage = int.parse(value);
+                              },
+                            ),
+                          ),
+                        ),
+                        Container(
+                          child: Text('쪽'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
-
             ],
           ),
         ));

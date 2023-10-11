@@ -8,17 +8,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:provider/provider.dart';
 import '../asset.dart';
 import '../controller/bookController.dart';
 import '../controller/bookMapController.dart';
 import '../controller/memoController.dart';
+import 'BookDetailView.dart';
 import 'bookMapView.dart';
 import 'libraryView.dart';
 import 'makeBookMapView.dart';
 import 'myView.dart';
 
 class MainView extends StatefulWidget {
-  LoginController loginController = Get.find<LoginController>();
+  final LoginController loginController = Get.find();
 
   @override
   State<StatefulWidget> createState() => _MainView();
@@ -39,6 +41,7 @@ class _MainView extends State<MainView> {
   Widget build(BuildContext context) {
     //final sessionProvider = Provider.of<SessionProvider>(context);
     //String? sessionId = sessionProvider.sessionId;
+
     return Scaffold(
       backgroundColor: CupertinoColors.white,
       appBar: AppBar(
@@ -127,9 +130,14 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
   final MemoController memoController = Get.put(MemoController());
   final mainController = Get.put(MainController());
 
+
+
   @override
   Widget build(BuildContext context) {
+    mainController.fetchData();
     //Get.put(HomeController());
+
+    print("mainView's seesion id : ${loginController.sessionId}");
     return NotificationListener(
       onNotification: (OverscrollIndicatorNotification overscroll) {
         overscroll.disallowIndicator();
@@ -224,41 +232,50 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                       itemCount:
                           mainController.mainData.value?.bookImageDto.length,
                       itemBuilder: (context, index) {
-                        return Container(
-                          padding: EdgeInsets.only(top: 12, bottom: 12),
-                          //decoration: BoxDecoration(color: appColor.shade500, border: Border.all(), borderRadius: BorderRadius.all(Radius.circular(16))),
-                          width: 150,
-                          height: 150,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Image.network(
+                        return GestureDetector(
+                          onTap: (){
+                            Get.to(
+                                    () => ChangeNotifierProvider(
+                                    create: (_) => BookProvider(),
+                                    child: BookDetailView()),
+                                arguments: mainController.mainData.value?.bookImageDto[index].isbn);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.only(top: 12, bottom: 12),
+                            //decoration: BoxDecoration(color: appColor.shade500, border: Border.all(), borderRadius: BorderRadius.all(Radius.circular(16))),
+                            width: 150,
+                            height: 150,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Image.network(
+                                    mainController.mainData.value
+                                            ?.bookImageDto[index].image ??
+                                        '',
+                                    fit: BoxFit.fitHeight,
+                                    height: 120),
+                                const Padding(
+                                    padding: EdgeInsets.only(bottom: 10)),
+                                Text(
                                   mainController.mainData.value
-                                          ?.bookImageDto[index].image ??
+                                          ?.bookImageDto[index].title ??
                                       '',
-                                  fit: BoxFit.fitHeight,
-                                  height: 120),
-                              const Padding(
-                                  padding: EdgeInsets.only(bottom: 10)),
-                              Text(
-                                mainController.mainData.value
-                                        ?.bookImageDto[index].title ??
-                                    '',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'Pretendard'),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Text(
-                                mainController.mainData.value
-                                        ?.bookImageDto[index].author ??
-                                    '',
-                                style: TextStyle(
-                                    fontSize: 13, fontFamily: 'Pretendard'),
-                                overflow: TextOverflow.ellipsis,
-                              )
-                            ],
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'Pretendard'),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  mainController.mainData.value
+                                          ?.bookImageDto[index].author ??
+                                      '',
+                                  style: TextStyle(
+                                      fontSize: 13, fontFamily: 'Pretendard'),
+                                  overflow: TextOverflow.ellipsis,
+                                )
+                              ],
+                            ),
                           ),
                         );
                       },
@@ -381,35 +398,40 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                     scrollDirection: Axis.horizontal,
                     itemCount: mainController.mainData.value?.bookTopResponseDtos.length,
                     itemBuilder: (context, index) {
-                      return Container(
-                        padding: EdgeInsets.only(top: 12, bottom: 12),
-                        //decoration: BoxDecoration(color: appColor.shade500, border: Border.all(), borderRadius: BorderRadius.all(Radius.circular(16))),
-                        width: 150,
-                        height: 150,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Image.network(mainController.mainData.value?.bookTopResponseDtos[index].image??'',
-                                fit: BoxFit.fitHeight, height: 120),
-                            const Padding(padding: EdgeInsets.only(bottom: 10)),
-                            Text(
-                              bookController.books[index].bookName.replaceRange(
-                                  8,
-                                  bookController.books[index].bookName
-                                      .toString()
-                                      .length,
-                                  "..."),
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'Pretendard'),
-                            ),
-                            Text(
-                              bookController.books[index].writer,
-                              style: TextStyle(
-                                  fontSize: 13, fontFamily: 'Pretendard'),
-                            )
-                          ],
+                      return GestureDetector(
+                        onTap: (){
+                          Get.to(
+                                  () => ChangeNotifierProvider(
+                                  create: (_) => BookProvider(),
+                                  child: BookDetailView()),
+                              arguments: mainController.mainData.value?.bookTopResponseDtos[index].isbn);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(top: 12, bottom: 12),
+                          //decoration: BoxDecoration(color: appColor.shade500, border: Border.all(), borderRadius: BorderRadius.all(Radius.circular(16))),
+                          width: 150,
+                          height: 150,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Image.network(mainController.mainData.value?.bookTopResponseDtos[index].image??'',
+                                  fit: BoxFit.fitHeight, height: 120),
+                              const Padding(padding: EdgeInsets.only(bottom: 10)),
+                              Text(mainController.mainData.value?.bookTopResponseDtos[index].title??''
+                                  ,overflow: TextOverflow.ellipsis
+                                ,style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Pretendard'),
+                              ),
+                              Text(
+                                mainController.mainData.value?.bookTopResponseDtos[index].author??'',
+                                  overflow: TextOverflow.ellipsis
+                                ,style: TextStyle(
+                                    fontSize: 13, fontFamily: 'Pretendard'),
+                              )
+                            ],
+                          ),
                         ),
                       );
                     },

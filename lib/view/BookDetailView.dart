@@ -64,6 +64,7 @@ class BookProvider extends ChangeNotifier{
 
   dynamic get book => _book;
 
+
   Future<void> fetchBook() async{
     print("체크 value: " + value);
     var response = await client.get(
@@ -84,5 +85,9 @@ class BookProvider extends ChangeNotifier{
   notifyListners() {
     // TODO: implement notifyListners
     throw UnimplementedError();
+  }
+
+  void memo(){
+    notifyListeners();
   }
 }

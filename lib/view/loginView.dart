@@ -13,8 +13,8 @@ Scaffold buildLoginButton() {
             child: Image(image: AssetImage('src/logo.png'), width: 280)),
         const Padding(padding: EdgeInsets.all(80)),
         ElevatedButton(
-          onPressed: () {
-            loginController.login();
+          onPressed: () async {
+            await loginController.login();
           },
           style: ButtonStyle(
               padding: MaterialStateProperty.all<EdgeInsets>(

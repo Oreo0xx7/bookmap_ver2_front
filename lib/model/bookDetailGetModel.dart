@@ -16,7 +16,7 @@ class BookDetailGetModel {
   int? totalPage;
   int? readingPage;
   int? readingPercentage;
-  List<dynamic> bookMemoResponseDtos;
+  List<BookMemoResponseDto> bookMemoResponseDtos;
   double? grade;
   DateTime? endDate;
 
@@ -41,7 +41,7 @@ class BookDetailGetModel {
     totalPage: json["totalPage"],
     readingPage: json["readingPage"],
     readingPercentage: json["readingPercentage"],
-    bookMemoResponseDtos: List<dynamic>.from(json["bookMemoResponseDtos"].map((x) => x)),
+    bookMemoResponseDtos: List<BookMemoResponseDto>.from(json["bookMemoResponseDtos"].map((x) => BookMemoResponseDto.fromJson(x))),
     grade: json["grade"]?.toDouble(),
     endDate: json["endDate"] == null ? null : DateTime.parse(json["endDate"]),
   );
@@ -54,9 +54,41 @@ class BookDetailGetModel {
     "readingPage": readingPage,
     "grade": grade,
     "endDate": "${endDate!.year.toString().padLeft(4, '0')}-${endDate!.month.toString().padLeft(2, '0')}-${endDate!.day.toString().padLeft(2, '0')}",
+    "bookMemoResponseDtos": List<dynamic>.from(bookMemoResponseDtos.map((x) => x.toJson())),
   };
 
 
+}
+class BookMemoResponseDto {
+  int id;
+  String content;
+  DateTime saved;
+  int page;
+  String title;
+
+  BookMemoResponseDto({
+    required this.id,
+    required this.content,
+    required this.saved,
+    required this.page,
+    required this.title,
+  });
+
+  factory BookMemoResponseDto.fromJson(Map<String, dynamic> json) => BookMemoResponseDto(
+    id: json["id"],
+    content: json["content"],
+    saved: DateTime.parse(json["saved"]),
+    page: json["page"],
+    title: json["title"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "content": content,
+    "saved": saved.toIso8601String(),
+    "page": page,
+    "title": title,
+  };
 }
 
 class BookResponseDto {

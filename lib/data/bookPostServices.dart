@@ -52,4 +52,31 @@ class BookPostServices {
       },
     );
   }
+
+  static void postBookMemoData(title, content, page, isbn) async {
+    var data = {'content': content,  'title': title, 'page': page};
+    await client.post(Uri.parse('$url/bookmemo/save/4?isbn=$isbn'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(data));
+  }
+
+  static void modifyBookMemoData(title, content, page, id) async{
+    var data = {'content': content,  'title': title, 'page': page};
+    await client.post(Uri.parse('$url/bookmemo/update/$id'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(data));
+  }
+
+  static void deleteMemo(memoId) async{
+    await client.delete(
+      Uri.parse('$url/bookmemo/delete/$memoId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+    );
+  }
 }

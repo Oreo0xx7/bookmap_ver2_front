@@ -85,8 +85,13 @@ class SearchServices {
     }
   }
 
-  static Future<MainViewModel?> fetchMainData() async {
-    var response = await client.get(Uri.parse('$url/main/4'));
+  static Future<MainViewModel?> fetchMainData(sessionId) async {
+
+    var data = {'sessionId': sessionId.toString()};
+
+    var response = await client.post(Uri.parse('$url/main'),
+      body: jsonEncode(data)
+    );
     if (response.statusCode == 200) {
       var jsonData = utf8.decode(response.bodyBytes); // 바이트 데이터를 디코딩
       var document = mainViewModelFromJson(jsonData);

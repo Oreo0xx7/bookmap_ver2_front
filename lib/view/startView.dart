@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Login',
-      home: Login(),
+      home:  Login(),
     );
   }
 }
@@ -91,7 +91,7 @@ Builder buildFutureBuilder() {
       );
     }
     else{
-      return buildMainView();
+        return buildMainView();
     }
   },);
 }

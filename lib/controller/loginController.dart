@@ -1,4 +1,4 @@
-import 'dart:convert';
+
 
 import 'package:bookmap_ver2/api_key.dart';
 import 'package:get/get.dart';
@@ -18,6 +18,8 @@ class LoginController extends GetxController{
   var googleAuthentication = Rx<GoogleSignInAuthentication?>(null);
   var googleFormerUser = Rx<GoogleSignInAccount?>(null);
 
+  var sessionId;
+
   //final sessionProvider = SessionProvider();
 
   login() async{
@@ -26,7 +28,8 @@ class LoginController extends GetxController{
     if (googleAccount.value != null){
       googleAuthentication.value = await googleAccount.value!.authentication;
       idToken = googleAuthentication.value?.idToken ?? "";
-      sendIdTokenToServer(idToken);
+      sessionId = await sendIdTokenToServer(idToken);
+      print("login()안의 $sessionId");
     }
   }
 
@@ -46,11 +49,15 @@ class LoginController extends GetxController{
       body: idToken.toString(),
     );
     print(response.body);
-    Map<String, dynamic> responseJson = json.decode(response.body);
-    //sessionProvider.setSessionId(responseJson['sessionId']);
-    print("check!!!");
+    try {
+
+      sessionId = response.body.toString();
+      print("세션 Id: $sessionId");
+    } catch (e) {
+    print("JSON 디코딩 오류: $e");
+    }
     httpClient.close();
-    return response.body;
+    return response.body.toString();
   }
 }
 

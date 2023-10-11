@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 
 import '../controller/bookDetailPopupController.dart';
+import '../controller/mainController.dart';
 import 'BookDetailViewTile_tile/bookDetailViewTile_read.dart';
 import 'mainView.dart';
 
@@ -16,6 +17,7 @@ class BookDetailViewTile extends StatelessWidget {
   BookDetailViewTile(this.bookDetailModel);
 
   final controller = Get.put(BookDetailPopupController());
+  final mainController = Get.put(MainController());
 
   @override
   Widget build(BuildContext context) {
@@ -343,7 +345,7 @@ class BookDetailViewTile extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         TextButton(
-                                          onPressed: () {
+                                          onPressed: () async {
                                             print(controller.tabs);
                                             controller.tabs[0] == true
                                                 ? controller.fetchData(
@@ -358,14 +360,20 @@ class BookDetailViewTile extends StatelessWidget {
                                                         .fetchWantData(
                                                             bookDetailModel
                                                                 .isbn);
-                                            Navigator.pushNamedAndRemoveUntil(
-                                                context, '/', (_) => false);
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      MainView()),
-                                            );
+                                            // Navigator.pushNamedAndRemoveUntil(
+                                            //     context, '/', (_) => false);
+                                            // Navigator.push(
+                                            //   context,
+                                            //   MaterialPageRoute(
+                                            //       builder: (context) =>
+                                            //           MainView()),
+                                            // );
+                                            await mainController.fetchData();
+                                            Get.offAll(() => MainView()); // GetX의 Get.offAll을 사용하여 화면 이동
+                                            // Get.put(mainController); // mainController를 전역으로 공유
+                                            // mainController.fetchData();
+                                            // Get.off(() => MainView());
+
                                           },
                                           child: Text(
                                             '저장',

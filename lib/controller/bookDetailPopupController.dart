@@ -4,11 +4,15 @@ import 'package:bookmap_ver2/model/bookDetailReadPostModel.dart';
 import 'package:bookmap_ver2/model/bookDetailReadingPostModel.dart';
 import 'package:get/get.dart';
 
+import '../model/bookDetailGetModel.dart';
+
 
 class BookDetailPopupController extends GetxController{
   var tabs = <bool>[false, false, false].obs;
   var status = ''.obs;
   var isbn = ''.obs;
+
+  var addMemo = BookMemoResponseDto(id: 0, content: '', saved: DateTime.now(), page: 0, title: '').obs;
 
 
   var readBook = Rxn<BookDetailReadPostModel>(BookDetailReadPostModel(
@@ -79,6 +83,18 @@ class BookDetailPopupController extends GetxController{
 
   void deleteBook(isbn){
     BookPostServices.deleteStoredBook(isbn);
+  }
+
+  void fetchMemoData(title, content, page, isbn){
+    BookPostServices.postBookMemoData(title, content, page, isbn);
+  }
+
+  void deleteMemo(memoId){
+    BookPostServices.deleteMemo(memoId);
+  }
+
+  void modify(title, content, page, id){
+    BookPostServices.modifyBookMemoData(title, content, page, id);
   }
 
 
