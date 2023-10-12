@@ -38,7 +38,7 @@ class MainSearchController extends GetxController{
   void fetchData() async {
     var books = await SearchServices.fetchBooks(searchText);
     var searchBookmaps = await SearchServices.fetchBookmaps(searchText);
-    var users = await SearchServices.fetchUsers(searchText);
+    //var users = await SearchServices.fetchUsers(searchText);
     if (books != null) {
       bookList.value = books;
       print(books);
@@ -49,9 +49,12 @@ class MainSearchController extends GetxController{
     }else{
       bookMapList.value = [];
     }
+    /*
     if(users != null){
       userList.value = users;
     }
+
+     */
   }
 
   void onSearchTextChanged(String text) {

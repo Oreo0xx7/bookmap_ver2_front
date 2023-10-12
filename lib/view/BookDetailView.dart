@@ -4,6 +4,7 @@ import 'package:bookmap_ver2/model/bookDetailGetModel.dart';
 import 'package:bookmap_ver2/model/bookDetailModel.dart';
 import 'package:bookmap_ver2/view/BookDetailGetModel_tile.dart';
 import 'package:bookmap_ver2/view/BookDetailView_tile.dart';
+import 'package:bookmap_ver2/view/startView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -68,7 +69,12 @@ class BookProvider extends ChangeNotifier{
   Future<void> fetchBook() async{
     print("체크 value: " + value);
     var response = await client.get(
-        Uri.parse('$url/bookdetail/4?isbn=$value'));
+        Uri.parse('$url/book/detail?isbn=$value'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'sessionId' : loginController.sessionId.toString()
+      },
+    );
     if (response.statusCode == 200) {
       var jsonData = utf8.decode(response.bodyBytes); // 바이트 데이터를 디코딩
       try {

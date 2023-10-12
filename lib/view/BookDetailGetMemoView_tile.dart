@@ -93,7 +93,7 @@ class BookDetailGetMemoViewTile extends StatelessWidget {
 
     TextEditingController titleController = TextEditingController();
     TextEditingController contentController = TextEditingController();
-    TextEditingController pageController = TextEditingController();
+    TextEditingController pageController = TextEditingController(text: "");
 
 
 // 기존 데이터를 설정
@@ -101,9 +101,9 @@ class BookDetailGetMemoViewTile extends StatelessWidget {
     contentController.text = bookMemoResponseDto.content;
     pageController.text = bookMemoResponseDto.page.toString();
 
-    var memoTitle;
-    var memoContent;
-    var memoPage;
+    var memoTitle = bookMemoResponseDto.title;
+    var memoContent = bookMemoResponseDto.content;
+    var memoPage = bookMemoResponseDto.page;
 
     showModalBottomSheet(
         context: context,

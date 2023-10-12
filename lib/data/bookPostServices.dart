@@ -8,11 +8,12 @@ import 'package:http/http.dart' as http;
 class BookPostServices {
   static var client = http.Client();
 
-  static void postBook(bookInfo, isbn) async {
+  static void postBook(bookInfo, isbn, sessionId) async {
     await client.post(
-      Uri.parse('$url/book/save/4?isbn=$isbn'),
+      Uri.parse('$url/book/save?isbn=$isbn'),
       headers: <String, String>{
         'Content-Type': 'application/json',
+        'sessionId' : sessionId.toString()
       },
       body: bookInfo is BookDetailReadPostModel
           ? bookDetailReadPostModelToJson(bookInfo)
@@ -20,23 +21,26 @@ class BookPostServices {
     );
   }
 
-  static void postWantBook(isbn) async {
+  static void postWantBook(isbn, sessionId) async {
     var data = {'bookState': '읽고싶은'};
     var response = await client.post(
-      Uri.parse('$url/book/save/4?isbn=$isbn'),
+      Uri.parse('$url/book/save?isbn=$isbn'),
       headers: <String, String>{
         'Content-Type': 'application/json',
+        'sessionId' : sessionId.toString()
       },
       body: jsonEncode(data),
     );
   }
 
-  static void postChangeState(bookInfo, isbn) async {
+  static void postChangeState(bookInfo, isbn, sessionId) async {
     var data = {'bookState': '읽고싶은'};
     var response =
-        await client.post(Uri.parse('$url/book/changeall/4?isbn=$isbn'),
+        await client.post(Uri.parse('$url/book/changeall?isbn=$isbn'),
             headers: <String, String>{
               'Content-Type': 'application/json',
+              'sessionId' : sessionId.toString()
+
             },
             body: bookInfo is BookDetailReadPostModel
                 ? bookDetailReadPostModelToJson(bookInfo)
@@ -45,19 +49,21 @@ class BookPostServices {
                     : jsonEncode(data));
   }
   
-  static void deleteStoredBook(isbn) async {
-    await client.delete(Uri.parse('$url/book/delete/4?isbn=$isbn'),
+  static void deleteStoredBook(isbn, sessionId) async {
+    await client.delete(Uri.parse('$url/book/delete?isbn=$isbn'),
       headers: <String, String>{
         'Content-Type': 'application/json',
+        'sessionId' : sessionId.toString()
       },
     );
   }
 
-  static void postBookMemoData(title, content, page, isbn) async {
+  static void postBookMemoData(title, content, page, isbn, sessionId) async {
     var data = {'content': content,  'title': title, 'page': page};
-    await client.post(Uri.parse('$url/bookmemo/save/4?isbn=$isbn'),
+    await client.post(Uri.parse('$url/bookmemo/save?isbn=$isbn'),
         headers: <String, String>{
           'Content-Type': 'application/json',
+          'sessionId' : sessionId.toString()
         },
         body: jsonEncode(data));
   }

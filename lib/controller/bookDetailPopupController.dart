@@ -1,7 +1,9 @@
+
 import 'package:bookmap_ver2/data/bookPostServices.dart';
 import 'package:bookmap_ver2/data/searchServices.dart';
 import 'package:bookmap_ver2/model/bookDetailReadPostModel.dart';
 import 'package:bookmap_ver2/model/bookDetailReadingPostModel.dart';
+import 'package:bookmap_ver2/view/startView.dart';
 import 'package:get/get.dart';
 
 import '../model/bookDetailGetModel.dart';
@@ -44,7 +46,7 @@ class BookDetailPopupController extends GetxController{
   }
 
   void initializeState(String isbn) async {
-    final data = await SearchServices.fetchBookDetailGet(isbn);
+    final data = await SearchServices.fetchBookDetailGet(isbn, loginController.sessionId.toString());
     print("상태:   " + data!.bookState);
     if( data?.bookState == '읽는중인'){
       //status = '읽는중인' as RxString;
@@ -66,11 +68,11 @@ class BookDetailPopupController extends GetxController{
   }
 
   void fetchData(book, isbn){
-    BookPostServices.postBook(book.value, isbn);
+    BookPostServices.postBook(book.value, isbn, loginController.sessionId);
   }
 
   void fetchWantData(isbn){
-    BookPostServices.postWantBook(isbn);
+    BookPostServices.postWantBook(isbn, loginController.sessionId);
   }
   void updateTotalPage(String value){
     final int parsedValue = int.tryParse(value) ?? 0;
@@ -78,15 +80,20 @@ class BookDetailPopupController extends GetxController{
     readBook.value?.totalPage = parsedValue;
   }
   void fetchChangedData(book, isbn){
-    BookPostServices.postChangeState(book.value, isbn);
+    if(book != null){
+      BookPostServices.postChangeState(book.value, isbn, loginController.sessionId);
+    }else{
+      BookPostServices.postChangeState(null, isbn, loginController.sessionId);
+    }
+
   }
 
   void deleteBook(isbn){
-    BookPostServices.deleteStoredBook(isbn);
+    BookPostServices.deleteStoredBook(isbn, loginController.sessionId);
   }
 
   void fetchMemoData(title, content, page, isbn){
-    BookPostServices.postBookMemoData(title, content, page, isbn);
+    BookPostServices.postBookMemoData(title, content, page, isbn, loginController.sessionId);
   }
 
   void deleteMemo(memoId){

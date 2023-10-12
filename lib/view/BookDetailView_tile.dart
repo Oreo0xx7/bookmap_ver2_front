@@ -170,96 +170,98 @@ class BookDetailViewTile extends StatelessWidget {
                     Expanded(
                       child: TabBarView(
                           children: [
-                        Container(
-                          padding: EdgeInsets.all(16),
-                          alignment: Alignment.topLeft,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text('줄거리',
-                                  style: TextStyle(
-                                    fontFamily: 'Pretendard',
-                                    color: Colors.black,
-                                    fontSize: 15,
-                                    fontStyle: FontStyle.normal,
-                                    fontWeight: FontWeight.bold,
-                                  )),
-                              Padding(padding: EdgeInsets.all(5)),
-                              Text(
-                                bookDetailModel.description != "" ? bookDetailModel.description : "제공되는 줄거리 정보가 없습니다.",
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 4,
-                                style: TextStyle(
-                                  fontFamily: 'Pretendard',
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.w300,
-                                ),
-                              ),
-                              Padding(padding: EdgeInsets.all(10)),
-                              Text('출판사',
-                                  style: TextStyle(
-                                    fontFamily: 'Pretendard',
-                                    color: Colors.black,
-                                    fontSize: 15,
-                                    fontStyle: FontStyle.normal,
-                                    fontWeight: FontWeight.bold,
-                                  )),
-                              Padding(padding: EdgeInsets.all(5)),
-                              Text(
-                                  bookDetailModel.publisher,
+                        SingleChildScrollView(
+                          child: Container(
+                            padding: EdgeInsets.all(16),
+                            alignment: Alignment.topLeft,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text('줄거리',
+                                    style: TextStyle(
+                                      fontFamily: 'Pretendard',
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                Padding(padding: EdgeInsets.all(5)),
+                                Text(
+                                  bookDetailModel.description != "" ? bookDetailModel.description : "제공되는 줄거리 정보가 없습니다.",
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 4,
                                   style: TextStyle(
                                     fontFamily: 'Pretendard',
                                     color: Colors.black,
                                     fontSize: 15,
                                     fontStyle: FontStyle.normal,
                                     fontWeight: FontWeight.w300,
-                                  )
-                              ),
-                              Padding(padding: EdgeInsets.all(10)),
-                              Text('출판일',
+                                  ),
+                                ),
+                                Padding(padding: EdgeInsets.all(10)),
+                                Text('출판사',
+                                    style: TextStyle(
+                                      fontFamily: 'Pretendard',
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                Padding(padding: EdgeInsets.all(5)),
+                                Text(
+                                    bookDetailModel.publisher,
+                                    style: TextStyle(
+                                      fontFamily: 'Pretendard',
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.w300,
+                                    )
+                                ),
+                                Padding(padding: EdgeInsets.all(10)),
+                                Text('출판일',
+                                    style: TextStyle(
+                                      fontFamily: 'Pretendard',
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                Padding(padding: EdgeInsets.all(5)),
+                                Text(
+                                  DateFormat('yyyy년 MM월 dd일')
+                                      .format(bookDetailModel.publishedDay),
                                   style: TextStyle(
                                     fontFamily: 'Pretendard',
                                     color: Colors.black,
                                     fontSize: 15,
                                     fontStyle: FontStyle.normal,
-                                    fontWeight: FontWeight.bold,
-                                  )),
-                              Padding(padding: EdgeInsets.all(5)),
-                              Text(
-                                DateFormat('yyyy년 MM월 dd일')
-                                    .format(bookDetailModel.publishedDay),
-                                style: TextStyle(
-                                  fontFamily: 'Pretendard',
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.w300,
+                                    fontWeight: FontWeight.w300,
+                                  ),
                                 ),
-                              ),
-                              Padding(padding: EdgeInsets.all(10)),
-                              Text('ISBN',
+                                Padding(padding: EdgeInsets.all(10)),
+                                Text('ISBN',
+                                    style: TextStyle(
+                                      fontFamily: 'Pretendard',
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                Padding(padding: EdgeInsets.all(5)),
+                                Text(
+                                  bookDetailModel.isbn,
                                   style: TextStyle(
                                     fontFamily: 'Pretendard',
                                     color: Colors.black,
                                     fontSize: 15,
                                     fontStyle: FontStyle.normal,
-                                    fontWeight: FontWeight.bold,
-                                  )),
-                              Padding(padding: EdgeInsets.all(5)),
-                              Text(
-                                bookDetailModel.isbn,
-                                style: TextStyle(
-                                  fontFamily: 'Pretendard',
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.w300,
+                                    fontWeight: FontWeight.w300,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                         //여기까지 책정보 탭

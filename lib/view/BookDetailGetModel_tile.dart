@@ -793,12 +793,9 @@ class BookDetailGetViewTile extends StatelessWidget {
             TextButton(
               onPressed: () {
                 controller.deleteBook(homeIsbn);
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => MainView(),
-                  ),
-                );
+                Get.to(() => MainView());
+
+                mainController.fetchData();
               },
               child: Text('확인', style: TextStyle(color: appColor.shade700)),
             ),
