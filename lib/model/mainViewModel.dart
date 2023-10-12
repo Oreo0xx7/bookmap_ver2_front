@@ -10,7 +10,7 @@ String mainViewModelToJson(MainViewModel data) => json.encode(data.toJson());
 
 class MainViewModel {
   List<BookEDto> bookImageDto;
-  List<dynamic> bookMapResponseDtos;
+  List<BookMapResponseDto> bookMapResponseDtos;
   List<BookEDto> bookTopResponseDtos;
 
   MainViewModel({
@@ -21,13 +21,13 @@ class MainViewModel {
 
   factory MainViewModel.fromJson(Map<String, dynamic> json) => MainViewModel(
     bookImageDto: List<BookEDto>.from(json["bookImageDto"].map((x) => BookEDto.fromJson(x))),
-    bookMapResponseDtos: List<dynamic>.from(json["bookMapResponseDtos"].map((x) => x)),
+    bookMapResponseDtos: List<BookMapResponseDto>.from(json["bookMapResponseDtos"].map((x) => BookMapResponseDto.fromJson(x))),
     bookTopResponseDtos: List<BookEDto>.from(json["bookTopResponseDtos"].map((x) => BookEDto.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "bookImageDto": List<dynamic>.from(bookImageDto.map((x) => x.toJson())),
-    "bookMapResponseDtos": List<dynamic>.from(bookMapResponseDtos.map((x) => x)),
+    "bookMapResponseDtos": List<dynamic>.from(bookMapResponseDtos.map((x) => x.toJson())),
     "bookTopResponseDtos": List<dynamic>.from(bookTopResponseDtos.map((x) => x.toJson())),
   };
 }
@@ -65,5 +65,41 @@ class BookEDto {
     "title": title,
     "author": author,
     "publisher": publisher,
+  };
+}
+
+class BookMapResponseDto {
+  int bookMapId;
+  String bookMapTitle;
+  String bookMapContent;
+  String? bookMapImage;
+  dynamic hashTag;
+  bool share;
+
+  BookMapResponseDto({
+    required this.bookMapId,
+    required this.bookMapTitle,
+    required this.bookMapContent,
+    this.bookMapImage,
+    required this.hashTag,
+    required this.share,
+  });
+
+  factory BookMapResponseDto.fromJson(Map<String, dynamic> json) => BookMapResponseDto(
+    bookMapId: json["bookMapId"],
+    bookMapTitle: json["bookMapTitle"],
+    bookMapContent: json["bookMapContent"],
+    bookMapImage: json["bookMapImage"],
+    hashTag: json["hashTag"],
+    share: json["share"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "bookMapId": bookMapId,
+    "bookMapTitle": bookMapTitle,
+    "bookMapContent": bookMapContent,
+    "bookMapImage": bookMapImage,
+    "hashTag": hashTag,
+    "share": share,
   };
 }

@@ -300,7 +300,7 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
             Padding(
               padding: const EdgeInsets.only(left: 12.0, bottom: 15),
               child: Text(
-                '팔로잉한 북맵',
+                '북맵',
                 style: TextStyle(
                     fontFamily: 'Pretendard',
                     fontSize: 20,
@@ -317,48 +317,61 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                 return Container(
                   padding: EdgeInsets.only(bottom: 8),
                   //color: appColor.shade300,
-                  height: 360,
+                  //height: 360,
                   child: ListView.builder(
+                    shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: bookMapController.bookMaps.length,
+                    itemCount: mainController.mainData.value.bookMapResponseDtos.length,
                     itemBuilder: (context, index) {
-                      return Container(
-                        padding: EdgeInsets.only(top: 10, left: 15),
-                        width: double.maxFinite,
-                        height: 115,
-                        child: Row(
-                          children: [
-                            Image.network(bookMapController.bookMaps[index].img,
-                                fit: BoxFit.fitHeight, height: 115),
-                            Padding(padding: EdgeInsets.only(left: 15)),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  bookMapController.bookMaps[index].mapName,
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: 'Pretendard'),
-                                ),
-                                Text(
-                                  bookMapController.bookMaps[index].makerName,
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: 'Pretendard'),
-                                ),
-                                Text(
-                                  bookMapController.bookMaps[index].makerEmail,
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: 'Pretendard'),
-                                )
-                              ],
-                            ),
-                          ],
+                      return GestureDetector(
+                        onTap: (){
+                          
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(top: 10, left: 15),
+                          width: double.maxFinite,
+                          height: 115,
+                          child: Row(
+                            children: [
+                              Image.network(mainController.mainData.value.bookMapResponseDtos[index].bookMapImage ?? "",
+                                  fit: BoxFit.fitHeight, height: 115,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Center(
+                                      child: Image.asset('src/sampleBook.jpg'));
+                                },),
+                              Padding(padding: EdgeInsets.only(left: 15)),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    mainController.mainData.value.bookMapResponseDtos[index].bookMapTitle,
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: 'Pretendard'),
+                                  ),
+                                  Text(
+                                    mainController.mainData.value.bookMapResponseDtos[index].bookMapContent,
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: 'Pretendard'),
+                                  ),
+                                  /*
+                                  Text(
+                                    mainController.mainData.value.bookMapResponseDtos[index].,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: 'Pretendard'),
+                                  )
+
+                                   */
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
