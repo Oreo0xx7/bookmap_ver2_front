@@ -18,7 +18,7 @@ class LoginController extends GetxController{
   var googleAuthentication = Rx<GoogleSignInAuthentication?>(null);
   var googleFormerUser = Rx<GoogleSignInAccount?>(null);
 
-  var sessionId;
+  var sessionId = ''.obs;
 
   //final sessionProvider = SessionProvider();
 
@@ -28,7 +28,7 @@ class LoginController extends GetxController{
     if (googleAccount.value != null){
       googleAuthentication.value = await googleAccount.value!.authentication;
       idToken = googleAuthentication.value?.idToken ?? "";
-      sessionId = await sendIdTokenToServer(idToken);
+      sendIdTokenToServer(idToken);
       print("login()안의 $sessionId");
     }
   }
@@ -51,7 +51,7 @@ class LoginController extends GetxController{
     print(response.body);
     try {
 
-      sessionId = response.body.toString();
+      sessionId.value = response.body.toString();
       print("세션 Id: $sessionId");
     } catch (e) {
     print("JSON 디코딩 오류: $e");

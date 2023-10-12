@@ -70,8 +70,17 @@ class _LoginState extends State<Login> {
               // 로그아웃 상태
               return buildLoginButton();
             } else{
+              if(loginController.sessionId != ''){
+                return buildFutureBuilder();
+              }
               // 로그인 상태
-              return buildFutureBuilder();
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const [
+                  Center(child: CircularProgressIndicator(color: Colors.green,)),
+                ],
+              );
             }
           })
       ),
