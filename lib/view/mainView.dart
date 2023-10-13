@@ -321,7 +321,7 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: bookMapController.myBookMaps.length,
+                    itemCount: bookMapController.myBookMaps.length >= 3 ? 3 : bookMapController.myBookMaps.length,
                     itemBuilder: (context, index) {
                       return Container(
                         padding: EdgeInsets.only(top: 10, left: 15),
@@ -329,9 +329,9 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                         height: 115,
                         child: Row(
                           children: [
-                            (bookMapController.myBookMaps[index].bookMapImage == null)
+                            (bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapImage == null)
                                 ? Image.asset('src/sampleBook.jpg')
-                                : Image.network(bookMapController.myBookMaps[index].bookMapImage ?? "",
+                                : Image.network(bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapImage ?? "",
                                 fit: BoxFit.fitHeight, height: 115),
                             Padding(padding: EdgeInsets.only(left: 15)),
                             Column(
@@ -339,14 +339,14 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  bookMapController.myBookMaps[index].bookMapTitle ?? "",
+                                  bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapTitle ?? "",
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
                                       fontFamily: 'Pretendard'),
                                 ),
                                 Text(
-                                  bookMapController.myBookMaps[index].nickname ?? "",
+                                  bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].nickname ?? "",
                                   style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w600,
