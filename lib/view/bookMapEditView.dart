@@ -29,7 +29,8 @@ class BookMapEditView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    editController.fetchData(bookMapId);
+    // editController.fetchData(bookMapId);
+    print("출력");
     return WillPopScope(
       onWillPop: () async {
         return await showDialog(
@@ -67,7 +68,7 @@ class BookMapEditView extends StatelessWidget {
               onPressed: () async{
                 editController.removeImage();
                 editController.updateBookMap(bookMapId);
-                detailController.updateData(editController.bookMap.value);
+                // detailController.updateData(editController.bookMap.value);
                 Get.to(() => MainView());
                 bookMapController.fetchData();
 
@@ -246,6 +247,10 @@ class BookMapEditView extends StatelessWidget {
               style: TextStyle(fontSize: 14),
               controller: TextEditingController(text: memo),
               decoration: myDecoration("메모 입력"),
+              onChanged: (value) {
+                editController.bookMap.value.bookMapIndex?[booksIndex].memo = value;
+                // editController.updateMemo(booksIndex, value);
+              },
             ),
           ),
         ),

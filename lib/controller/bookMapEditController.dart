@@ -9,17 +9,11 @@ class BookMapEditController extends GetxController {
   var bookMap = BookMap().obs;
 
 
-  @override
-  void onInit() {
-    super.onInit();
-    fetchData(bookMap.value.bookMapId);
-  }
-
-  @override
-  void onClose(){
-    fetchData(bookMap.value.bookMapId);
-    super.onClose();
-  }
+  // @override
+  // void onClose(){
+  //   fetchData(bookMap.value.bookMapId);
+  //   super.onClose();
+  // }
 
   void fetchData(bookMapId) async {
     var bookMapData = await BookMapServices.getBookMapDetail(bookMapId);
@@ -36,6 +30,12 @@ class BookMapEditController extends GetxController {
     });
   }
 
+  void updateMemo(int booksIndex, newMemo){
+    bookMap.update((val) {
+      val?.bookMapIndex?[booksIndex].memo = newMemo;
+    });
+  }
+
   void updateBooks(int booksIndex, newBooks){
     bookMap.update((val) {
       val?.bookMapIndex?[booksIndex].map = newBooks;
@@ -49,7 +49,7 @@ class BookMapEditController extends GetxController {
   }
 
   void updateBookMap(bookMapId){
-    BookMapServices.postBookMapUpdate(loginController.sessionId, bookMapId, bookMap);
+    BookMapServices.postBookMapUpdate(loginController.sessionId, bookMapId, bookMap.value);
   }
 
   void addIndex(String type){

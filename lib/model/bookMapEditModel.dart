@@ -44,10 +44,10 @@ class BookMap {
     "bookMapTitle": bookMapTitle,
     "bookMapContent": bookMapContent,
     "bookMapImage": bookMapImage,
-    "hashTag": List<dynamic>.from(hashTag!.map((x) => x)),
+    "hashTag": hashTag == null ? [] : List<dynamic>.from(hashTag!.map((x) => x)),
     "share": share,
     "nickname": nickname,
-    "bookMapIndex": List<dynamic>.from(bookMapIndex!.map((x) => x.toJson())),
+    "bookMapIndex": bookMapIndex == null ? [] : List<dynamic>.from(bookMapIndex!.map((x) => x.toJson())),
   };
 }
 
@@ -70,7 +70,7 @@ class BookMapIndex {
 
   Map<String, dynamic> toJson() => {
     "type": type,
-    "map": List<dynamic>.from(map!.map((x) => x.toJson())),
+    "map": map == null ? [] : List<dynamic>.from(map!.map((x) => x.toJson())),
     "memo": memo,
   };
 }

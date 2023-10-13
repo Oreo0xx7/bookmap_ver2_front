@@ -105,7 +105,7 @@ class BookMapServices{
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
-      body: jsonEncode(bookMap),
+      body: bookMapToJson(bookMap),
     );
   }
 
@@ -116,7 +116,7 @@ class BookMapServices{
         'sessionId': sessionId.toString(),
         'Content-Type': 'application/json',
       },
-      body: jsonEncode(bookMap),
+      body: bookMapToJson(bookMap),
     );
   }
 

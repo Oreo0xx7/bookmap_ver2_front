@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../asset.dart';
 import '../controller/bookMapDetailController.dart';
+import '../controller/bookMapEditController.dart';
 
 
 class BookMapDetailView extends StatelessWidget {
@@ -16,6 +17,7 @@ class BookMapDetailView extends StatelessWidget {
   // final controller = Get.find<BookMapController>();
   // final controller = Get.put(BookMapDetailController(), tag: Get.parameters['bookMapId']);
   final controller = Get.put(BookMapDetailController());
+  final editController = Get.put(BookMapEditController());
   final bookMapController = Get.put(BookMapController());
   var bookMapId = Get.arguments[0];
   int myOrScrap = Get.arguments[1];
@@ -43,6 +45,7 @@ class BookMapDetailView extends StatelessWidget {
                   TextButton(
                     child: Text("편집"),
                     onPressed: () {
+                      editController.fetchData(bookMapId);
                       Get.to(() => BookMapEditView(),
                           arguments: [bookMapId, myOrScrap]);
                       },
