@@ -58,7 +58,6 @@ class BookMapServices{
     if (response.statusCode == 200) {
       var jsonData = utf8.decode(response.bodyBytes);
       var bookMapScrapList = bookMapModelFromJson(jsonData);
-      print("${bookMapScrapList[0].bookMapTitle}");
       return bookMapScrapList;
     }
     else {

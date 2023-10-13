@@ -1,5 +1,6 @@
 import 'package:bookmap_ver2/controller/mainsearchController.dart';
 import 'package:bookmap_ver2/view/BookDetailView.dart';
+import 'package:bookmap_ver2/view/bookMapDetailInSearchView.dart';
 import 'package:bookmap_ver2/view/mainSearchBookMapView_tile.dart';
 import 'package:bookmap_ver2/view/mainSearchBookView_tile.dart';
 import 'package:bookmap_ver2/view/mainSearchUser_tile.dart';
@@ -124,8 +125,13 @@ class MainSearchTabView extends State<MainSearchTabState>
                       child: ListView.builder(
                         itemCount: controller.bookMapList.length,
                         itemBuilder: (context, index) {
-                          return MainSearchBookMapViewTile(
-                              controller.bookMapList[index]);
+                          return GestureDetector(
+                            child: MainSearchBookMapViewTile(
+                                controller.bookMapList[index]),
+                            onTap: () {
+                              Get.to(() => BookMapDetailInSearchView(), arguments: controller.bookMapList[index].bookMapId);
+                            },
+                          );
                         },
                       ),
                     ),

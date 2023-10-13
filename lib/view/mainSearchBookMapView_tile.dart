@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 
 class MainSearchBookMapViewTile extends StatelessWidget{
 
-  final MainSearchBookMapModel bookmap;
+  final MainSearchBookMapModel bookMap;
 
-  MainSearchBookMapViewTile(this.bookmap);
+  MainSearchBookMapViewTile(this.bookMap);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class MainSearchBookMapViewTile extends StatelessWidget{
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Image.network(
-                bookmap.bookMapImage != null ? bookmap.bookMapImage.toString() : 'https://search.pstatic.net/sunny/?src=http%3A%2F%2Fimg.ssfshop.com%2Fcmd%2FLB_500x660%2Fsrc%2Fhttp%3A%2Fimg.ssfshop.com%2Fgoods%2FHMBR%2F19%2F04%2F08%2FGM0019040873391_7_ORGINL.jpg&type=sc960_832',
+                bookMap.bookMapImage != null ? bookMap.bookMapImage.toString() : 'https://search.pstatic.net/sunny/?src=http%3A%2F%2Fimg.ssfshop.com%2Fcmd%2FLB_500x660%2Fsrc%2Fhttp%3A%2Fimg.ssfshop.com%2Fgoods%2FHMBR%2F19%2F04%2F08%2FGM0019040873391_7_ORGINL.jpg&type=sc960_832',
                 fit: BoxFit.fill,
               ),
             ),
@@ -35,19 +35,41 @@ class MainSearchBookMapViewTile extends StatelessWidget{
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  '${bookmap.bookMapTitle}',
+                  bookMap.bookMapTitle ?? "",
                   maxLines: 2,
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
                 ),
+                SizedBox(height: 8),
+                Text(
+                  makeHash(bookMap.hashTag).join(" ") ?? "",
+                  style: TextStyle(fontSize: 14, fontFamily: 'Pretendard'),
+                  textAlign: TextAlign.left,
+                ),
+                SizedBox(height: 8),
+                Text(
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+                  bookMap.bookMapContent ?? "",
+                  style: TextStyle(fontSize: 14, fontFamily: 'Pretendard', fontWeight: FontWeight.w200, color: Colors.black87),
+                ),
               ],
-            ))
+            )
+            ),
           ],
         ),
       ),
     );
   }
+}
+
+List<String> makeHash(List<String>? tags) {
+  List<String> newHash = [];
+  tags?.forEach((tag) {
+    if (tag.trim().isNotEmpty){
+      newHash.add("#" + tag);
+    }
+  });
+  return newHash;
 }

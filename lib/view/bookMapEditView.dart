@@ -13,6 +13,7 @@ import '../asset.dart';
 import '../controller/bookMapEditController.dart';
 import 'package:bookmap_ver2/model/bookMapEditModel.dart';
 import 'bookMapEditSearchView.dart';
+import 'package:flutter/material.dart';
 
 class BookMapEditView extends StatelessWidget {
   BookMapEditView({Key? key}) : super(key: key);
@@ -210,20 +211,50 @@ class BookMapEditView extends StatelessWidget {
                   );
                 }),
           ),
-        )
+        ),
+        SizedBox(
+          width: 40,
+          child: GestureDetector(
+            child: Icon(
+              Icons.delete, size: 30,
+            ),
+            onTap: (){
+              editController.bookMap.value.bookMapIndex?.removeAt(booksIndex);
+              editController.updateIndex(editController.bookMap.value.bookMapIndex);
+            },
+          ),
+        ),
       ],
     );
   }
 
-  Widget myMemo(String memo){
+  Widget myMemo(String memo, int booksIndex){
     memo ??= "";
-    return Container(
-      padding: const EdgeInsets.all(6.0),
-      child: TextField(
-        style: TextStyle(fontSize: 14),
-        controller: TextEditingController(text: memo),
-        decoration: myDecoration("메모 입력"),
-      ),
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(6.0),
+            child: TextField(
+              style: TextStyle(fontSize: 14),
+              controller: TextEditingController(text: memo),
+              decoration: myDecoration("메모 입력"),
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 40,
+          child: GestureDetector(
+            child: Icon(
+              Icons.delete, size: 30,
+            ),
+            onTap: (){
+              editController.bookMap.value.bookMapIndex?.removeAt(booksIndex);
+              editController.updateIndex(editController.bookMap.value.bookMapIndex);
+            },
+          ),
+        ),
+      ]
     );
   }
 
@@ -253,7 +284,7 @@ class BookMapEditView extends StatelessWidget {
                       return myBook(bookMapIndex[index].map, index);
                     } else if ("Memo".compareTo(bookMapIndex[index].type) == 0) {
                       var memo = bookMapIndex[index].memo ??= "";
-                      return myMemo(memo);
+                      return myMemo(memo, index);
                     } else {
                       return Container();
                     }

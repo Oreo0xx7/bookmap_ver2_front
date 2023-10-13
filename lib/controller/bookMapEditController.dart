@@ -8,6 +8,13 @@ class BookMapEditController extends GetxController {
   LoginController loginController = Get.find<LoginController>();
   var bookMap = BookMap().obs;
 
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchData(bookMap.value.bookMapId);
+  }
+
   @override
   void onClose(){
     fetchData(bookMap.value.bookMapId);
@@ -32,6 +39,12 @@ class BookMapEditController extends GetxController {
   void updateBooks(int booksIndex, newBooks){
     bookMap.update((val) {
       val?.bookMapIndex?[booksIndex].map = newBooks;
+    });
+  }
+
+  void updateIndex(newIndex){
+    bookMap.update((val) {
+      val?.bookMapIndex = newIndex;
     });
   }
 
