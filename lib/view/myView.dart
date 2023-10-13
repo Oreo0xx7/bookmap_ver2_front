@@ -23,22 +23,18 @@ class My extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     profileController.fetchData();
-    return NotificationListener(
-      // scroll 시 생기는 glow 없애기 위함
-      onNotification: (OverscrollIndicatorNotification overscroll) {
-        overscroll.disallowIndicator();
-        return true;
-      },
+    profileController.update();
+    return Container(
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            userBasicInfo(), //a. 사용자 정보
+            Obx(() => userBasicInfo(),), //a. 사용자 정보
 
             //b. 사용자 수치 데이터 - 북맵, 완독, 팔로워, 팔로잉
             Padding(
               padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
-              child: Column(
+              child: Obx(() => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('${profileController.userData.value.nickName}',
@@ -49,7 +45,7 @@ class My extends StatelessWidget{
                       fontWeight: FontWeight.w500, fontSize: 16,),
                   )
                 ],
-              ),
+              ),),
             ),
             const Divider(thickness: 1,),
 

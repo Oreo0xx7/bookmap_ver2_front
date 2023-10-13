@@ -5,6 +5,7 @@ import '../asset.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../controller/profileController.dart';
+import 'mainView.dart';
 import 'myView.dart';
 
 class EditProfileView extends StatelessWidget {
@@ -15,17 +16,17 @@ class EditProfileView extends StatelessWidget {
 
   final ImagePicker picker = ImagePicker();
   var userInfoKey = GlobalKey<FormState>();
-  late var name = Rx<String>("");
-  late var status = Rx<String>("");
-  late var imgLink = Rx<String>("");
+  // late var name = Rx<String>("");
+  // late var status = Rx<String>("");
+  // late var imgLink = Rx<String>("");
 
   @override
   Widget build(BuildContext context) {
     nickNameController.text = profileController.userData.value.nickName;
     statusController.text = profileController.userData.value.status;
 
-    var nickName = profileController.userData.value.nickName;
-    var status = profileController.userData.value.status;
+    var nickName = nickNameController.text;
+    var status = statusController.text;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -100,6 +101,7 @@ class EditProfileView extends StatelessWidget {
                           controller: nickNameController,
                           onChanged: (value) {
                             nickName = value;
+                            print(nickName);
                             //print("memo title is ${bookMemoResponseDto.title}");
                           },
                           cursorColor: appColor.shade900,
@@ -196,7 +198,43 @@ class EditProfileView extends StatelessWidget {
                   //     fontSize: 14, fontWeight: FontWeight.w500, color: appColor.shade800)),
                   // const Padding(padding: EdgeInsets.only(bottom: 60)),
                   Center(
-                    child: renderButton(nickName, status),
+                    child: TextButton(
+                        onPressed: () async {
+                          // if (userInfoKey.currentState!.validate()) {
+                          //   Get.snackbar('저장완료', '프로필 정보가 수정되었어요!',
+                          //       backgroundColor: appColor.shade300,
+                          //       duration: const Duration(seconds: 1));
+                          //   userInfoKey.currentState!.save();
+                          //   Get.back(); //왜 동작이 안될까..??
+                          //   //프로필 정보 저장 관련
+                          // }
+
+                          print(nickName);
+                          print(status);
+                          profileController.modifyData(nickName, status);
+                          profileController.fetchData();
+                          Get.to(() => MainView());
+
+                          // Navigator.pushNamedAndRemoveUntil(
+                          //     context, '/', (_) => false);
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) =>
+                          //           My()),
+                          //);
+
+
+                        },
+                        style: ButtonStyle(
+                            fixedSize: MaterialStateProperty.all(Size(100, 60)),
+                            backgroundColor: MaterialStateProperty.all(appColor)),
+                        child: Text("저장",
+                            style: TextStyle(
+                                fontFamily: 'Pretendard',
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: appColor.shade900)))
                   )
                 ],
               ),
