@@ -80,80 +80,80 @@ class BookDetailViewTile extends StatelessWidget {
               ),
               const Padding(padding: EdgeInsets.all(10)),
               // 북맵 정보
-              Container(
-                //북맵 알려주는 컨테이너
-                padding: const EdgeInsets.only(
-                  left: 10,
-                  right: 10,
-                  top: 5,
-                ),
-                height: 30,
-                child: Row(
-                  children: const [
-                    Expanded(
-                        flex: 10,
-                        child: Text(
-                          '이 책은 "여행가고 싶은 곳들"에 담긴 책이에요.',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
-                        )),
-                    Text('더보기',
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black38,
-                            decoration: TextDecoration.underline)),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8),
-                child: Container(
-                  color: const Color(0x7FD8D8D8),
-                  width: MediaQuery.of(context).size.width,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(left: 10, right: 10),
-                          child: Image.network(
-                              'https://shopping-phinf.pstatic.net/main_3839015/38390159619.20230502161943.jpg?type=w300',
-                              width: 90,
-                              height: 120,
-                              fit: BoxFit.fill),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 10, right: 10),
-                          child: Image.network(
-                              'https://shopping-phinf.pstatic.net/main_3249189/32491898723.20221019101316.jpg?type=w300',
-                              width: 90,
-                              height: 120,
-                              fit: BoxFit.fill),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 10, right: 10),
-                          child: Image.network(
-                              'https://shopping-phinf.pstatic.net/main_3246667/32466672176.20221229074149.jpg?type=w300',
-                              width: 90,
-                              height: 120,
-                              fit: BoxFit.fill),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 10, right: 10),
-                          child: Image.network(
-                              'https://shopping-phinf.pstatic.net/main_3818761/38187614626.20230404162233.jpg?type=w300',
-                              width: 90,
-                              height: 120,
-                              fit: BoxFit.fill),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Container(
+              // Container(
+              //   //북맵 알려주는 컨테이너
+              //   padding: const EdgeInsets.only(
+              //     left: 10,
+              //     right: 10,
+              //     top: 5,
+              //   ),
+              //   height: 30,
+              //   child: Row(
+              //     children: const [
+              //       Expanded(
+              //           flex: 10,
+              //           child: Text(
+              //             '이 책은 "여행가고 싶은 곳들"에 담긴 책이에요.',
+              //             style: TextStyle(
+              //                 fontSize: 14,
+              //                 fontWeight: FontWeight.bold,
+              //                 color: Colors.black),
+              //           )),
+              //       Text('더보기',
+              //           style: TextStyle(
+              //               fontSize: 14,
+              //               color: Colors.black38,
+              //               decoration: TextDecoration.underline)),
+              //     ],
+              //   ),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+              //   child: Container(
+              //     color: const Color(0x7FD8D8D8),
+              //     width: MediaQuery.of(context).size.width,
+              //     child: SingleChildScrollView(
+              //       scrollDirection: Axis.horizontal,
+              //       child: Row(
+              //         children: [
+              //           Container(
+              //             margin: EdgeInsets.only(left: 10, right: 10),
+              //             child: Image.network(
+              //                 'https://shopping-phinf.pstatic.net/main_3839015/38390159619.20230502161943.jpg?type=w300',
+              //                 width: 90,
+              //                 height: 120,
+              //                 fit: BoxFit.fill),
+              //           ),
+              //           Container(
+              //             margin: EdgeInsets.only(left: 10, right: 10),
+              //             child: Image.network(
+              //                 'https://shopping-phinf.pstatic.net/main_3249189/32491898723.20221019101316.jpg?type=w300',
+              //                 width: 90,
+              //                 height: 120,
+              //                 fit: BoxFit.fill),
+              //           ),
+              //           Container(
+              //             margin: EdgeInsets.only(left: 10, right: 10),
+              //             child: Image.network(
+              //                 'https://shopping-phinf.pstatic.net/main_3246667/32466672176.20221229074149.jpg?type=w300',
+              //                 width: 90,
+              //                 height: 120,
+              //                 fit: BoxFit.fill),
+              //           ),
+              //           Container(
+              //             margin: EdgeInsets.only(left: 10, right: 10),
+              //             child: Image.network(
+              //                 'https://shopping-phinf.pstatic.net/main_3818761/38187614626.20230404162233.jpg?type=w300',
+              //                 width: 90,
+              //                 height: 120,
+              //                 fit: BoxFit.fill),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
+               Container(
                 color: appColor.shade300,
                 margin: EdgeInsets.only(top: 10),
                 width: MediaQuery.of(context).size.width,

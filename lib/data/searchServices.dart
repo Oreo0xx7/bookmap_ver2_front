@@ -4,6 +4,7 @@ import 'package:bookmap_ver2/model/bookDetailGetModel.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/bookDetailModel.dart';
+import '../model/bookShelfAllModel.dart';
 import '../model/mainSearchBookMapModel.dart';
 import '../model/mainSearchBookModel.dart';
 import '../model/mainViewModel.dart';
@@ -109,6 +110,23 @@ class SearchServices {
     if (response.statusCode == 200) {
       var jsonData = utf8.decode(response.bodyBytes); // 바이트 데이터를 디코딩
       var document = mainViewModelFromJson(jsonData);
+      return document;
+    } else {
+      return null;
+    }
+  }
+
+  static Future<List<BookShelfAllModel>?> fetchShelf(sessionId) async{
+    var response =
+    await client.get(Uri.parse('$url/bookshelf/allbooks'),
+      headers: <String, String>{
+          'Content-Type': 'application/json',
+          'sessionId' : sessionId.toString()
+      },);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      var jsonData = utf8.decode(response.bodyBytes); // 바이트 데이터를 디코딩
+      var document = bookShelfAllModelFromJson(jsonData);
       return document;
     } else {
       return null;

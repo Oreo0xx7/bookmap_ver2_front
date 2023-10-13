@@ -1,8 +1,11 @@
+import 'package:bookmap_ver2/controller/bookShelfModelController.dart';
 import 'package:bookmap_ver2/view/librarySearchView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import '../asset.dart';
 import '../controller/bookController.dart';
+import 'BookDetailView.dart';
 
 class Library extends StatelessWidget {
   @override
@@ -18,6 +21,7 @@ class LibraryState extends StatefulWidget{
 
 class LibraryTabsState extends State<LibraryState> with SingleTickerProviderStateMixin{
   final BookController bookController = Get.find<BookController>();
+  final shelfController = Get.put(BookShelfModelController());
   late TabController libraryTapController;
   //late Future<List<dynamic>> fetchData;
   final List<String> bookTypeList = ['읽고 싶은', '읽고 있는', '읽은'];
@@ -84,44 +88,53 @@ class LibraryTabsState extends State<LibraryState> with SingleTickerProviderStat
                                  return true;
                                },
                                child: ListView.builder(
-                                 itemCount: bookController.books.length,
+                                 itemCount: shelfController.shelfBooks.length,
                                  itemBuilder: (context, index){
-                                   return Card(
-                                     surfaceTintColor: appColor,
-                                     margin: EdgeInsets.all(12),
-                                     child: Padding(
-                                       padding: EdgeInsets.all(16),
-                                       child: Row(
-                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                         children: [
-                                           Expanded(
-                                               flex: 3,
-                                               child: Image.network(bookController.books[index].img, fit: BoxFit.fitWidth, width: 50,)),
-                                           const Spacer(
-                                             flex: 1,
-                                           ),
-                                           Expanded(
-                                             flex: 11,
-                                             child: Column(
-                                               crossAxisAlignment: CrossAxisAlignment.end,
-                                               children: [
-                                                     Column(
-                                                       crossAxisAlignment: CrossAxisAlignment.start,
-                                                       children: [
-                                                         Row(
-                                                           crossAxisAlignment: CrossAxisAlignment.center,
-                                                           children:[Icon(Icons.circle, color: bookColor[bookController.books[index].sort],),
-                                                           Text('${bookTypeList[bookController.books[index].sort]}', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w200, fontFamily: 'Pretendard'),)]
-                                                         ),
-                                                         Padding(padding: EdgeInsets.only(bottom: 10)),
-                                                         Text('${bookController.books[index].bookName}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
-                                                         Text('${bookController.books[index].writer}', style: TextStyle(fontSize: 14, fontFamily: 'Pretendard'),)
-                                                   ],
-                                                 ),
-                                               ],
+                                   return GestureDetector(
+                                     onTap: (){
+                                       Get.to(
+                                               () => ChangeNotifierProvider(
+                                               create: (_) => BookProvider(),
+                                               child: BookDetailView()),
+                                           arguments: shelfController.shelfBooks[index].isbn);
+                                     },
+                                     child: Card(
+                                       surfaceTintColor: appColor,
+                                       margin: EdgeInsets.all(12),
+                                       child: Padding(
+                                         padding: EdgeInsets.all(16),
+                                         child: Row(
+                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                           children: [
+                                             Expanded(
+                                                 flex: 3,
+                                                 child: Image.network(shelfController.shelfBooks[index].image, fit: BoxFit.fitWidth, width: 50,)),
+                                             const Spacer(
+                                               flex: 1,
                                              ),
-                                           ),
-                                         ],
+                                             Expanded(
+                                               flex: 11,
+                                               child: Column(
+                                                 crossAxisAlignment: CrossAxisAlignment.end,
+                                                 children: [
+                                                       Column(
+                                                         crossAxisAlignment: CrossAxisAlignment.start,
+                                                         children: [
+                                                           Row(
+                                                             crossAxisAlignment: CrossAxisAlignment.center,
+                                                             children:[Icon(Icons.circle, color: bookColor[shelfController.shelfBooks[index].bookState == "읽고싶은" ? 0 : shelfController.shelfBooks[index].bookState == '읽는중인' ? 1 : 2] ,),
+                                                             Text('${shelfController.shelfBooks[index].bookState}', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w200, fontFamily: 'Pretendard'),)]
+                                                           ),
+                                                           Padding(padding: EdgeInsets.only(bottom: 10)),
+                                                           Text('${shelfController.shelfBooks[index].title}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
+                                                           Text('${shelfController.shelfBooks[index].author}', style: TextStyle(fontSize: 14, fontFamily: 'Pretendard'),)
+                                                     ],
+                                                   ),
+                                                 ],
+                                               ),
+                                             ),
+                                           ],
+                                         ),
                                        ),
                                      ),
                                    );
@@ -135,44 +148,53 @@ class LibraryTabsState extends State<LibraryState> with SingleTickerProviderStat
                          return true;
                        },
                        child: ListView.builder(
-                         itemCount: bookController.books.where((p0) => p0.sort == 0).toList().length,
+                         itemCount: shelfController.shelfBooks.where((p0) => p0.bookState == '읽고싶은').toList().length,
                          itemBuilder: (context, index){
-                           return Card(
-                             surfaceTintColor: appColor,
-                             margin: EdgeInsets.all(12),
-                             child: Padding(
-                               padding: EdgeInsets.all(16),
-                               child: Row(
-                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                 children: [
-                                   Expanded(
-                                       flex: 3,
-                                       child: Image.network(bookController.books.where((p0) => p0.sort == 0).toList()[index].img, fit: BoxFit.fitWidth, width: 50,)),
-                                   const Spacer(
-                                     flex: 1,
-                                   ),
-                                   Expanded(
-                                     flex: 11,
-                                     child: Column(
-                                       crossAxisAlignment: CrossAxisAlignment.end,
-                                       children: [
-                                         Column(
-                                           crossAxisAlignment: CrossAxisAlignment.start,
-                                           children: [
-                                             Row(
-                                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                                 children:[Icon(Icons.circle, color: bookColor[0],),
-                                                   Text(bookTypeList[bookController.books.where((p0) => p0.sort == 0).toList()[index].sort], style: TextStyle(fontSize: 13, fontWeight: FontWeight.w200, fontFamily: 'Pretendard'),)]
-                                             ),
-                                             Padding(padding: EdgeInsets.only(bottom: 10)),
-                                             Text(bookController.books.where((p0) => p0.sort == 0).toList()[index].bookName, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
-                                             Text(bookController.books.where((p0) => p0.sort == 0).toList()[index].writer, style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
-                                           ],
-                                         ),
-                                       ],
+                           return GestureDetector(
+                             onTap: (){
+                               Get.to(
+                                       () => ChangeNotifierProvider(
+                                       create: (_) => BookProvider(),
+                                       child: BookDetailView()),
+                                   arguments: shelfController.shelfBooks[index].isbn);
+                             },
+                             child: Card(
+                               surfaceTintColor: appColor,
+                               margin: EdgeInsets.all(12),
+                               child: Padding(
+                                 padding: EdgeInsets.all(16),
+                                 child: Row(
+                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                   children: [
+                                     Expanded(
+                                         flex: 3,
+                                         child: Image.network(shelfController.shelfBooks.where((p0) => p0.bookState == '읽고싶은').toList()[index].image, fit: BoxFit.fitWidth, width: 50,)),
+                                     const Spacer(
+                                       flex: 1,
                                      ),
-                                   ),
-                                 ],
+                                     Expanded(
+                                       flex: 11,
+                                       child: Column(
+                                         crossAxisAlignment: CrossAxisAlignment.end,
+                                         children: [
+                                           Column(
+                                             crossAxisAlignment: CrossAxisAlignment.start,
+                                             children: [
+                                               Row(
+                                                   crossAxisAlignment: CrossAxisAlignment.center,
+                                                   children:[Icon(Icons.circle, color: bookColor[0],),
+                                                     Text(shelfController.shelfBooks.where((p0) => p0.bookState == '읽고싶은').toList()[index].bookState, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w200, fontFamily: 'Pretendard'),)]
+                                               ),
+                                               Padding(padding: EdgeInsets.only(bottom: 10)),
+                                               Text(shelfController.shelfBooks.where((p0) => p0.bookState == '읽고싶은').toList()[index].title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
+                                               Text(shelfController.shelfBooks.where((p0) => p0.bookState == '읽고싶은').toList()[index].author, style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
+                                             ],
+                                           ),
+                                         ],
+                                       ),
+                                     ),
+                                   ],
+                                 ),
                                ),
                              ),
                            );
@@ -186,44 +208,53 @@ class LibraryTabsState extends State<LibraryState> with SingleTickerProviderStat
                          return true;
                        },
                        child: ListView.builder(
-                         itemCount: bookController.books.where((p0) => p0.sort == 1).toList().length,
+                         itemCount: shelfController.shelfBooks.where((p0) => p0.bookState == '읽는중인').toList().length,
                          itemBuilder: (context, index){
-                           return Card(
-                             surfaceTintColor: appColor,
-                             margin: EdgeInsets.all(12),
-                             child: Padding(
-                               padding: EdgeInsets.all(16),
-                               child: Row(
-                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                 children: [
-                                   Expanded(
-                                       flex: 3,
-                                       child: Image.network(bookController.books.where((p0) => p0.sort == 1).toList()[index].img, fit: BoxFit.fitWidth, width: 50,)),
-                                   const Spacer(
-                                     flex: 1,
-                                   ),
-                                   Expanded(
-                                     flex: 11,
-                                     child: Column(
-                                       crossAxisAlignment: CrossAxisAlignment.end,
-                                       children: [
-                                         Column(
-                                           crossAxisAlignment: CrossAxisAlignment.start,
-                                           children: [
-                                             Row(
-                                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                                 children:[Icon(Icons.circle, color: bookColor[1],),
-                                                   Text(bookTypeList[bookController.books.where((p0) => p0.sort == 1).toList()[index].sort], style: TextStyle(fontSize: 13, fontWeight: FontWeight.w200, fontFamily: 'Pretendard'),)]
-                                             ),
-                                             const Padding(padding: EdgeInsets.only(bottom: 10)),
-                                             Text(bookController.books.where((p0) => p0.sort == 1).toList()[index].bookName, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
-                                             Text(bookController.books.where((p0) => p0.sort == 1).toList()[index].writer, style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
-                                           ],
-                                         ),
-                                       ],
+                           return GestureDetector(
+                             onTap: (){
+                               Get.to(
+                                       () => ChangeNotifierProvider(
+                                       create: (_) => BookProvider(),
+                                       child: BookDetailView()),
+                                   arguments: shelfController.shelfBooks[index].isbn);
+                             },
+                             child: Card(
+                               surfaceTintColor: appColor,
+                               margin: EdgeInsets.all(12),
+                               child: Padding(
+                                 padding: EdgeInsets.all(16),
+                                 child: Row(
+                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                   children: [
+                                     Expanded(
+                                         flex: 3,
+                                         child: Image.network(shelfController.shelfBooks.where((p0) => p0.bookState == '읽는중인').toList()[index].image, fit: BoxFit.fitWidth, width: 50,)),
+                                     const Spacer(
+                                       flex: 1,
                                      ),
-                                   ),
-                                 ],
+                                     Expanded(
+                                       flex: 11,
+                                       child: Column(
+                                         crossAxisAlignment: CrossAxisAlignment.end,
+                                         children: [
+                                           Column(
+                                             crossAxisAlignment: CrossAxisAlignment.start,
+                                             children: [
+                                               Row(
+                                                   crossAxisAlignment: CrossAxisAlignment.center,
+                                                   children:[Icon(Icons.circle, color: bookColor[1],),
+                                                     Text(shelfController.shelfBooks.where((p0) => p0.bookState == '읽는중인').toList()[index].bookState, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w200, fontFamily: 'Pretendard'),)]
+                                               ),
+                                               const Padding(padding: EdgeInsets.only(bottom: 10)),
+                                               Text(shelfController.shelfBooks.where((p0) => p0.bookState == '읽는중인').toList()[index].title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
+                                               Text(shelfController.shelfBooks.where((p0) => p0.bookState == '읽는중인').toList()[index].author, style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
+                                             ],
+                                           ),
+                                         ],
+                                       ),
+                                     ),
+                                   ],
+                                 ),
                                ),
                              ),
                            );
@@ -237,44 +268,53 @@ class LibraryTabsState extends State<LibraryState> with SingleTickerProviderStat
                          return true;
                        },
                        child: ListView.builder(
-                         itemCount: bookController.books.where((p0) => p0.sort == 2).toList().length,
+                         itemCount: shelfController.shelfBooks.where((p0) => p0.bookState == '읽은').toList().length,
                          itemBuilder: (context, index){
-                           return Card(
-                             surfaceTintColor: appColor,
-                             margin: EdgeInsets.all(12),
-                             child: Padding(
-                               padding: EdgeInsets.all(16),
-                               child: Row(
-                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                 children: [
-                                   Expanded(
-                                       flex: 3,
-                                       child: Image.network(bookController.books.where((p0) => p0.sort == 2).toList()[index].img, fit: BoxFit.fitWidth, width: 50,)),
-                                   const Spacer(
-                                     flex: 1,
-                                   ),
-                                   Expanded(
-                                     flex: 11,
-                                     child: Column(
-                                       crossAxisAlignment: CrossAxisAlignment.end,
-                                       children: [
-                                         Column(
-                                           crossAxisAlignment: CrossAxisAlignment.start,
-                                           children: [
-                                             Row(
-                                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                                 children:[Icon(Icons.circle, color: bookColor[2],),
-                                                   Text(bookTypeList[bookController.books.where((p0) => p0.sort == 2).toList()[index].sort], style: TextStyle(fontSize: 13, fontWeight: FontWeight.w200, fontFamily: 'Pretendard'),)]
-                                             ),
-                                             Padding(padding: EdgeInsets.only(bottom: 10)),
-                                             Text(bookController.books.where((p0) => p0.sort == 2).toList()[index].bookName, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
-                                             Text(bookController.books.where((p0) => p0.sort == 2).toList()[index].writer, style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
-                                           ],
-                                         ),
-                                       ],
+                           return GestureDetector(
+                             onTap: (){
+                               Get.to(
+                                       () => ChangeNotifierProvider(
+                                       create: (_) => BookProvider(),
+                                       child: BookDetailView()),
+                                   arguments: shelfController.shelfBooks[index].isbn);
+                             },
+                             child: Card(
+                               surfaceTintColor: appColor,
+                               margin: EdgeInsets.all(12),
+                               child: Padding(
+                                 padding: EdgeInsets.all(16),
+                                 child: Row(
+                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                   children: [
+                                     Expanded(
+                                         flex: 3,
+                                         child: Image.network(shelfController.shelfBooks.where((p0) => p0.bookState == '읽은').toList()[index].image, fit: BoxFit.fitWidth, width: 50,)),
+                                     const Spacer(
+                                       flex: 1,
                                      ),
-                                   ),
-                                 ],
+                                     Expanded(
+                                       flex: 11,
+                                       child: Column(
+                                         crossAxisAlignment: CrossAxisAlignment.end,
+                                         children: [
+                                           Column(
+                                             crossAxisAlignment: CrossAxisAlignment.start,
+                                             children: [
+                                               Row(
+                                                   crossAxisAlignment: CrossAxisAlignment.center,
+                                                   children:[Icon(Icons.circle, color: bookColor[2],),
+                                                     Text(shelfController.shelfBooks.where((p0) => p0.bookState == '읽은').toList()[index].bookState, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w200, fontFamily: 'Pretendard'),)]
+                                               ),
+                                               Padding(padding: EdgeInsets.only(bottom: 10)),
+                                               Text(shelfController.shelfBooks.where((p0) => p0.bookState == '읽은').toList()[index].title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
+                                               Text(shelfController.shelfBooks.where((p0) => p0.bookState == '읽은').toList()[index].author, style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
+                                             ],
+                                           ),
+                                         ],
+                                       ),
+                                     ),
+                                   ],
+                                 ),
                                ),
                              ),
                            );
