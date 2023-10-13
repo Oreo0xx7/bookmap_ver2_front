@@ -28,6 +28,7 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
+    //bookMapController.fetchData();
     return Column(
       children: [
         Align(

@@ -10,16 +10,20 @@ import 'package:http/io_client.dart';
 import '../api_key.dart';
 import 'package:get/get.dart';
 import '../asset.dart';
+import '../controller/bookMapController.dart';
 import '../controller/bookMapEditController.dart';
 import 'package:bookmap_ver2/model/bookMapEditModel.dart';
+import '../controller/mainController.dart';
 import 'bookMapEditSearchView.dart';
 import 'package:flutter/material.dart';
+import 'mainView.dart';
 
 class BookMapEditView extends StatelessWidget {
   BookMapEditView({Key? key}) : super(key: key);
   final editController = Get.put(BookMapEditController());
   final detailController = Get.put(BookMapDetailController());
-
+  final bookMapController = Get.put(BookMapController());
+  final mainController = Get.put(MainController());
   var bookMapId = Get.arguments[0];
   int myOrScrap = Get.arguments[1];
 
@@ -60,12 +64,15 @@ class BookMapEditView extends StatelessWidget {
                     fontWeight: FontWeight.bold)),
             actions: [TextButton(
               child: Text("저장"),
-              onPressed: () {
+              onPressed: () async{
                 editController.removeImage();
                 editController.updateBookMap(bookMapId);
                 detailController.updateData(editController.bookMap.value);
-                Get.off(() => BookMapDetailView(),arguments: [bookMapId, myOrScrap]);
-                Get.back();
+                Get.to(() => MainView());
+                bookMapController.fetchData();
+
+                // Get.off(() => BookMapDetailView(),arguments: [bookMapId, myOrScrap]);
+                // Get.back();
               },
             ),],
         ),
