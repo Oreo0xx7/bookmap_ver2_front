@@ -1,24 +1,28 @@
 import 'dart:convert';
 
+import 'package:bookmap_ver2/controller/bookMapController.dart';
 import 'package:bookmap_ver2/view/bookMapEditView.dart';
+import 'package:bookmap_ver2/view/bookMapView.dart';
+import 'package:bookmap_ver2/view/mainView.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:http/io_client.dart';
-import '../api_key.dart';
 import 'package:get/get.dart';
 import '../asset.dart';
 import '../controller/bookMapDetailController.dart';
-import 'bookMapEditView.dart';
-import 'package:bookmap_ver2/model/bookMapModel.dart';
+
 
 class BookMapDetailView extends StatelessWidget {
   BookMapDetailView({Key? key}) : super(key: key);
   // final controller = Get.find<BookMapController>();
-  final controller = Get.put(BookMapDetailController(), tag: Get.parameters['id']);
+  // final controller = Get.put(BookMapDetailController(), tag: Get.parameters['bookMapId']);
+  final controller = Get.put(BookMapDetailController());
+  final bookMapController = Get.put(BookMapController());
+  var bookMapId = Get.arguments[0];
+  int myOrScrap = Get.arguments[1];
 
   @override
   Widget build(BuildContext context) {
+    controller.fetchData(bookMapId);
     return Scaffold(
       appBar: AppBar(
       automaticallyImplyLeading: false,
@@ -33,21 +37,31 @@ class BookMapDetailView extends StatelessWidget {
         actions: [
           //유저 북맵이면 편집, 검색 북맵이면 스크랩 뜨도록
           //(북맵 유저 id == 로그인 유저 id) ? 편집 : 스크랩
-          TextButton(
-            child: Text("스크랩"),
+          (myOrScrap == 0)
+              ? ButtonBar(
+                children: [
+                  TextButton(
+                    child: Text("편집"),
+                    onPressed: () {
+                      Get.to(() => BookMapEditView(),
+                          arguments: [bookMapId, myOrScrap]);
+                      },
+                  ),
+                  TextButton(
+                    child: Text("삭제"),
+                    onPressed: () {
+                      controller.deleteBookMap(bookMapId);
+                      bookMapController.fetchData();
+                      Get.offUntil(MaterialPageRoute(builder: (context) => MainView()), (route) => route.isFirst);
+                    },
+                  ),
+                ]
+              ) : TextButton(
+            child: Text("스크랩 삭제"),
             onPressed: () {
-              Get.snackbar(
-                '저장 완료','\'${controller.bookMap.value.bookMapTitle}\' 북맵을 내 북맵에 저장했습니다.'
-              );
-              Get.back();
-            },
-          ),
-          TextButton(
-          child: Text("편집"),
-          onPressed: () {
-            Get.to(() =>
-                BookMapEditView(),
-                arguments: controller.bookMap.value.bookMapId);
+              controller.deleteScrap(bookMapId);
+              bookMapController.fetchData();
+              Get.offUntil(MaterialPageRoute(builder: (context) => MainView()), (route) => route.isFirst);
             },
           ),
         ],
@@ -113,7 +127,9 @@ class BookMapDetailView extends StatelessWidget {
 List<String> makeHash(List<String>? tags) {
   List<String> newHash = [];
   tags?.forEach((tag) {
-    newHash.add("#" + tag);
+    if (tag.trim().isNotEmpty){
+      newHash.add("#" + tag);
+    }
   });
   return newHash;
 }

@@ -23,7 +23,7 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
   @override
   void initState(){
     super.initState();
-    bookMapTapController = TabController(initialIndex: 0, length: 3, vsync: this);
+    bookMapTapController = TabController(initialIndex: 0, length: 2, vsync: this);
   }
 
   @override
@@ -41,7 +41,7 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
               indicator: CircleTabIndicator(color: appColor.shade900, radius: 4),
               indicatorColor: appColor.shade700,
               tabs: const [
-                Tab(text: "All"),
+                // Tab(text: "All"),
                 Tab(text: "내가 만든"),
                 Tab(text: "스크랩"),
               ],
@@ -49,15 +49,69 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
           ),
         const Padding(padding: EdgeInsets.only(bottom: 10)),
         Expanded(
-          child: GetX<BookMapController>(
-              builder: (bookMapController) {
-                return SizedBox(
-                  width: double.maxFinite,
-                  height: (MediaQuery.of(context).size.height - 240),
-                  child: TabBarView(
-                    controller: bookMapTapController,
-                    children: [
+          child: Obx((){
+            return SizedBox(
+              width: double.maxFinite,
+              height: (MediaQuery.of(context).size.height - 240),
+              child: TabBarView(
+                controller: bookMapTapController,
+                children: [
                       //전체
+                  // NotificationListener(
+                  //   onNotification: (OverscrollIndicatorNotification overscroll) {
+                  //     overscroll.disallowIndicator();
+                  //     return true;
+                  //     },
+                  //   child: ListView.builder(
+                  //     itemCount: bookMapController.allBookMaps.length,
+                  //     itemBuilder: (context, index){
+                  //       return GestureDetector(
+                  //         onTap: (){
+                  //           Get.to(() =>
+                  //               BookMapDetailView(),
+                  //               arguments: bookMapController.allBookMaps[index].bookMapId
+                  //           );},
+                  //         child: Card(
+                  //           surfaceTintColor: appColor,
+                  //               margin: EdgeInsets.all(12),
+                  //               child: Padding(
+                  //                 padding: EdgeInsets.all(16),
+                  //                 child: Row(
+                  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //                   children: [
+                  //                     Expanded(
+                  //                         flex: 3,
+                  //                         child: (bookMapController.allBookMaps[index].bookMapImage == null)
+                  //                             ? Image.asset('src/sampleBook.jpg')
+                  //                             : Image.network(bookMapController.allBookMaps[index].bookMapImage ?? "", fit: BoxFit.fitWidth, width: 50,)),
+                  //                     const Spacer(
+                  //                       flex: 1,
+                  //                     ),
+                  //                     Expanded(
+                  //                       flex: 11,
+                  //                       child: Column(
+                  //                         crossAxisAlignment: CrossAxisAlignment.start,
+                  //                         children: [
+                  //                           Column(
+                  //                             crossAxisAlignment: CrossAxisAlignment.start,
+                  //                             children: [
+                  //                               Padding(padding: EdgeInsets.only(bottom: 10)),
+                  //                               Text('${bookMapController.allBookMaps[index].bookMapTitle}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
+                  //                               Text('${bookMapController.allBookMaps[index].nickname}', style: TextStyle(fontSize: 14, fontFamily: 'Pretendard'),)
+                  //                             ],
+                  //                           ),
+                  //                         ],
+                  //                       ),
+                  //                     ),
+                  //                   ],
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           );
+                  //         },
+                  //       ),
+                  //     ),
+                      //내가 만든 sort:1
                       NotificationListener(
                         onNotification: (OverscrollIndicatorNotification overscroll) {
                           overscroll.disallowIndicator();
@@ -70,7 +124,7 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
                               onTap: (){
                                 Get.to(() =>
                                     BookMapDetailView(),
-                                    arguments: index);
+                                    arguments: [bookMapController.myBookMaps[index].bookMapId, 0]);
                               },
                               child: Card(
                                 surfaceTintColor: appColor,
@@ -82,7 +136,9 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
                                     children: [
                                       Expanded(
                                           flex: 3,
-                                          child: Image.network(bookMapController.myBookMaps[index].img, fit: BoxFit.fitWidth, width: 50,)),
+                                          child: (bookMapController.myBookMaps[index].bookMapImage == null)
+                                              ? Image.asset('src/sampleBook.jpg')
+                                              : Image.network(bookMapController.myBookMaps[index].bookMapImage ?? "", fit: BoxFit.fitWidth, width: 50,)),
                                       const Spacer(
                                         flex: 1,
                                       ),
@@ -95,61 +151,8 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Padding(padding: EdgeInsets.only(bottom: 10)),
-                                                Text('${bookMapController.myBookMaps[index].mapName}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
-                                                Text('${bookMapController.myBookMaps[index].makerName}', style: TextStyle(fontSize: 14, fontFamily: 'Pretendard'),)
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      //내가 만든 sort:1
-                      NotificationListener(
-                        onNotification: (OverscrollIndicatorNotification overscroll) {
-                          overscroll.disallowIndicator();
-                          return true;
-                        },
-                        child: ListView.builder(
-                          itemCount: bookMapController.myBookMaps.where((p0) => (p0.sort == 1)).length,
-                          itemBuilder: (context, index){
-                            return GestureDetector(
-                              onTap: (){
-                                Get.to(() =>
-                                    BookMapDetailView(),
-                                    arguments: index);
-                              },
-                              child: Card(
-                                surfaceTintColor: appColor,
-                                margin: EdgeInsets.all(12),
-                                child: Padding(
-                                  padding: EdgeInsets.all(16),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                          flex: 3,
-                                          child: Image.network(bookMapController.myBookMaps.where((p0) => (p0.sort == 1)).toList()[index].img, fit: BoxFit.fitWidth, width: 50,)),
-                                      const Spacer(
-                                        flex: 1,
-                                      ),
-                                      Expanded(
-                                        flex: 11,
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(padding: EdgeInsets.only(bottom: 10)),
-                                                Text('${bookMapController.myBookMaps.where((p0) => (p0.sort == 1)).toList()[index].mapName}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
-                                                Text('${bookMapController.myBookMaps.where((p0) => (p0.sort == 1)).toList()[index].makerName}', style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
+                                                Text('${bookMapController.myBookMaps[index].bookMapTitle}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
+                                                Text('${bookMapController.myBookMaps[index].nickname}', style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
                                               ],
                                             ),
                                           ],
@@ -170,13 +173,13 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
                           return true;
                         },
                         child: ListView.builder(
-                          itemCount: bookMapController.myBookMaps.where((p0) => (p0.sort == 2)).length,
+                          itemCount: bookMapController.scrapBookMaps.length,
                           itemBuilder: (context, index){
                             return GestureDetector(
                               onTap: (){
                                 Get.to(() =>
                                     BookMapDetailView(),
-                                    arguments: index);
+                                    arguments: [bookMapController.scrapBookMaps[index].bookMapId, 1]);
                               },
                               child: Card(
                                 surfaceTintColor: appColor,
@@ -188,7 +191,9 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
                                     children: [
                                       Expanded(
                                           flex: 3,
-                                          child: Image.network(bookMapController.myBookMaps.where((p0) => (p0.sort == 2)).toList()[index].img, fit: BoxFit.fitWidth, width: 50,)),
+                                          child: (bookMapController.scrapBookMaps[index].bookMapImage == null)
+                                              ? Image.asset('src/sampleBook.jpg')
+                                              : Image.network(bookMapController.scrapBookMaps[index].bookMapImage ?? "", fit: BoxFit.fitWidth, width: 50,)),
                                       const Spacer(
                                         flex: 1,
                                       ),
@@ -201,8 +206,8 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Padding(padding: EdgeInsets.only(bottom: 10)),
-                                                Text('${bookMapController.myBookMaps.where((p0) => (p0.sort == 2)).toList()[index].mapName}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
-                                                Text('${bookMapController.myBookMaps.where((p0) => (p0.sort == 2)).toList()[index].makerName}', style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
+                                                Text('${bookMapController.scrapBookMaps[index].bookMapTitle}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
+                                                Text('${bookMapController.scrapBookMaps[index].nickname}', style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
                                               ],
                                             ),
                                           ],
@@ -218,9 +223,8 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
                       ),
                     ],),
                 );
-              }
+              }),
           ),
-        ),
       ],
     );
   }

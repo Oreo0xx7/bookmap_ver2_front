@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bookmap_ver2/controller/bookMapDetailController.dart';
+import 'package:bookmap_ver2/view/bookMapDetailView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
@@ -15,14 +16,15 @@ import 'bookMapEditSearchView.dart';
 
 class BookMapEditView extends StatelessWidget {
   BookMapEditView({Key? key}) : super(key: key);
-  // final controller = Get.find<BookMapEditController>();
-  final editController = Get.put(BookMapEditController(), tag: Get.parameters['id']);
-  // final editController = Get.put(BookMapEditController());
-  // final viewController = Get.find<BookMapDetailController>();
-  final viewController = Get.put(BookMapDetailController(), tag: Get.parameters['id']);
+  final editController = Get.put(BookMapEditController());
+  final detailController = Get.put(BookMapDetailController());
+
+  var bookMapId = Get.arguments[0];
+  int myOrScrap = Get.arguments[1];
 
   @override
   Widget build(BuildContext context) {
+    editController.fetchData(bookMapId);
     return WillPopScope(
       onWillPop: () async {
         return await showDialog(
@@ -37,10 +39,8 @@ class BookMapEditView extends StatelessWidget {
               ),
               TextButton(
                 child: Text("종료"),
-                onPressed: () {
-                  editController.resetData();
-                  Navigator.pop(context, true);
-                },
+                onPressed: () =>
+                  Navigator.pop(context, true),
               ),
             ],
           ),
@@ -61,9 +61,10 @@ class BookMapEditView extends StatelessWidget {
               child: Text("저장"),
               onPressed: () {
                 editController.removeImage();
-                viewController.updateData(editController.bookMap.value);
+                editController.updateBookMap(bookMapId);
+                detailController.updateData(editController.bookMap.value);
+                Get.off(() => BookMapDetailView(),arguments: [bookMapId, myOrScrap]);
                 Get.back();
-                // _postMapDetail(controller.bookMap.value.bookMapId, controller.bookMap.value);
               },
             ),],
         ),
@@ -285,20 +286,6 @@ class BookMapEditView extends StatelessWidget {
 
 
 }
-
-
-// void _postMapDetail(bookMapId, myBookMapDetail) async {
-//   final response = await http.post(
-//     Uri.parse('$bookmapKey/bookmap/update/$bookMapId'),
-//     headers: <String, String>{
-//       'Content-Type': 'application/json',
-//     },
-//     body: jsonEncode(myBookMapDetail),
-//   );
-// }
-
-
-
 
 InputDecoration myDecoration(String label){
   return InputDecoration(

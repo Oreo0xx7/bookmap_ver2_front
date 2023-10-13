@@ -12,6 +12,7 @@ class BookMap {
   String? bookMapImage;
   List<String>? hashTag;
   bool share = true;
+  String? nickname;
   List<BookMapIndex>? bookMapIndex;
 
   BookMap({
@@ -21,6 +22,7 @@ class BookMap {
     this.bookMapImage,
     this.hashTag,
     this.share = true,
+    this.nickname,
     this.bookMapIndex,
   });
 
@@ -29,9 +31,12 @@ class BookMap {
     bookMapTitle: json["bookMapTitle"],
     bookMapContent: json["bookMapContent"],
     bookMapImage: json["bookMapImage"],
-    hashTag: List<String>.from(json["hashTag"].map((x) => x)),
+    hashTag: (json["hashTag"] ?? [] as List<dynamic>).cast<String>(),
     share: json["share"],
-    bookMapIndex: List<BookMapIndex>.from(json["bookMapIndex"].map((x) => BookMapIndex.fromJson(x))),
+    nickname: json["nickname"],
+    bookMapIndex: (json["bookMapIndex"] as List<dynamic>?)?.map((x) => BookMapIndex.fromJson(x)).toList() ?? [],
+
+    // bookMapIndex: List<BookMapIndex>.from(json["bookMapIndex"].map((x) => BookMapIndex.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -41,6 +46,7 @@ class BookMap {
     "bookMapImage": bookMapImage,
     "hashTag": List<dynamic>.from(hashTag!.map((x) => x)),
     "share": share,
+    "nickname": nickname,
     "bookMapIndex": List<dynamic>.from(bookMapIndex!.map((x) => x.toJson())),
   };
 }
@@ -58,7 +64,7 @@ class BookMapIndex {
 
   factory BookMapIndex.fromJson(Map<String, dynamic> json) => BookMapIndex(
     type: json["type"],
-    map: List<MapElement>.from(json["map"].map((x) => MapElement.fromJson(x))),
+    map: (json["map"] as List<dynamic>?)?.map((x) => MapElement.fromJson(x)).toList() ?? [],
     memo: json["memo"],
   );
 

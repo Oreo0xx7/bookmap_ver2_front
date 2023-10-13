@@ -33,42 +33,43 @@ class MakeBookMapView extends StatelessWidget {
       ),
       body: Form(
         key: bookMapKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: [
-                  renderTextFormField(
-                      label: '북맵 이름',
-                      onSaved: (val){
-                        bookMapController.newBookMap.value!.mapName = val;
-                        bookMapController.newBookMap.value!.makerName = loginController.googleAccount.value!.displayName!;
-                        bookMapController.newBookMap.value!.makerEmail = loginController.googleAccount.value!.email;
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    renderTextFormField(
+                        label: '북맵 이름',
+                        onSaved: (val){
+                          bookMapController.newBookMap.value!.bookMapTitle = val;
+                          bookMapController.newBookMap.value!.nickname = loginController.googleAccount.value!.displayName!;
+                          },
+                        onChanged: (val){},
+                        validator: (val){
+                          if(val.length < 1){
+                            return '북맵 이름을 작성해주세요.';
+                          }
+                          return null;
                         },
-                      onChanged: (val){},
-                      validator: (val){
-                        if(val.length < 1){
-                          return '북맵 이름을 작성해주세요.';
-                        }
-                        return null;
-                      },
 
-                      ),
-                  renderTextFormField(label: '북맵 소개글', onSaved: (val){
-                    bookMapController.newBookMap.value!.description = val;
-                  }, validator: (val){return null;}, onChanged: (val){}),
-                  renderTextFormField(label: '키워드', onSaved: (val){
-                    bookMapController.newBookMap.value!.keyword = val;
-                  }, validator: (val){return null;}, onChanged: (val){}),
-                  const Padding(padding: EdgeInsets.only(bottom: 30)),
-                  renderButton()
-                ],
-              ),
-            )
-          ],
+                        ),
+                    renderTextFormField(label: '북맵 소개글', onSaved: (val){
+                      bookMapController.newBookMap.value!.bookMapContent = val;
+                    }, validator: (val){return null;}, onChanged: (val){}),
+                    renderTextFormField(label: '키워드', onSaved: (val){
+                      bookMapController.newBookMap.value!.hashTag = val.split(" ") ?? [];
+                    }, validator: (val){return null;}, onChanged: (val){}),
+                    const Padding(padding: EdgeInsets.only(bottom: 30)),
+                    renderButton()
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -122,10 +123,12 @@ class MakeBookMapView extends StatelessWidget {
     return TextButton(
         onPressed: ( ) async{
       if(bookMapKey.currentState!.validate()){
-        Get.snackbar('저장완료', '북맵이 만들어졌어요!', backgroundColor: appColor.shade300,
-          duration: const Duration(seconds: 1));
         bookMapKey.currentState!.save();
-        bookMapController.myBookMaps.add(bookMapController.newBookMap.value.toString() as BookMapModel);
+        bookMapController.saveNew();
+
+        Get.back();
+        Get.snackbar('저장완료', '북맵이 만들어졌어요!', backgroundColor: appColor.shade300,
+            duration: const Duration(seconds: 1));
       }
     },
         style: ButtonStyle(

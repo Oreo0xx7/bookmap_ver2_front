@@ -230,7 +230,7 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount:
-                          mainController.mainData.value?.bookImageDto.length,
+                          mainController.mainData.value.bookImageDto.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: (){
@@ -238,7 +238,7 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                                     () => ChangeNotifierProvider(
                                     create: (_) => BookProvider(),
                                     child: BookDetailView()),
-                                arguments: mainController.mainData.value?.bookImageDto[index].isbn);
+                                arguments: mainController.mainData.value.bookImageDto[index].isbn);
                           },
                           child: Container(
                             padding: EdgeInsets.only(top: 12, bottom: 12),
@@ -250,7 +250,7 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                               children: [
                                 Image.network(
                                     mainController.mainData.value
-                                            ?.bookImageDto[index].image ??
+                                            .bookImageDto[index].image ??
                                         '',
                                     fit: BoxFit.fitHeight,
                                     height: 120),
@@ -258,7 +258,7 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                                     padding: EdgeInsets.only(bottom: 10)),
                                 Text(
                                   mainController.mainData.value
-                                          ?.bookImageDto[index].title ??
+                                          .bookImageDto[index].title ??
                                       '',
                                   style: TextStyle(
                                       fontSize: 16,
@@ -268,7 +268,7 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                                 ),
                                 Text(
                                   mainController.mainData.value
-                                          ?.bookImageDto[index].author ??
+                                          .bookImageDto[index].author ??
                                       '',
                                   style: TextStyle(
                                       fontSize: 13, fontFamily: 'Pretendard'),
@@ -300,7 +300,7 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
             Padding(
               padding: const EdgeInsets.only(left: 12.0, bottom: 15),
               child: Text(
-                '북맵',
+                '팔로잉한 북맵',
                 style: TextStyle(
                     fontFamily: 'Pretendard',
                     fontSize: 20,
@@ -321,57 +321,47 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: mainController.mainData.value.bookMapResponseDtos.length,
+                    itemCount: bookMapController.myBookMaps.length,
                     itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: (){
-                          
-                        },
-                        child: Container(
-                          padding: EdgeInsets.only(top: 10, left: 15),
-                          width: double.maxFinite,
-                          height: 115,
-                          child: Row(
-                            children: [
-                              Image.network(mainController.mainData.value.bookMapResponseDtos[index].bookMapImage ?? "",
-                                  fit: BoxFit.fitHeight, height: 115,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Center(
-                                      child: Image.asset('src/sampleBook.jpg'));
-                                },),
-                              Padding(padding: EdgeInsets.only(left: 15)),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    mainController.mainData.value.bookMapResponseDtos[index].bookMapTitle,
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'Pretendard'),
-                                  ),
-                                  Text(
-                                    mainController.mainData.value.bookMapResponseDtos[index].bookMapContent,
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'Pretendard'),
-                                  ),
-                                  /*
-                                  Text(
-                                    mainController.mainData.value.bookMapResponseDtos[index].,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: 'Pretendard'),
-                                  )
-
-                                   */
-                                ],
-                              ),
-                            ],
-                          ),
+                      return Container(
+                        padding: EdgeInsets.only(top: 10, left: 15),
+                        width: double.maxFinite,
+                        height: 115,
+                        child: Row(
+                          children: [
+                            (bookMapController.myBookMaps[index].bookMapImage == null)
+                                ? Image.asset('src/sampleBook.jpg')
+                                : Image.network(bookMapController.myBookMaps[index].bookMapImage ?? "",
+                                fit: BoxFit.fitHeight, height: 115),
+                            Padding(padding: EdgeInsets.only(left: 15)),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  bookMapController.myBookMaps[index].bookMapTitle ?? "",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'Pretendard'),
+                                ),
+                                Text(
+                                  bookMapController.myBookMaps[index].nickname ?? "",
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'Pretendard'),
+                                ),
+                                // Text(
+                                //   bookMapController.bookMaps[index].makerEmail,
+                                //   style: TextStyle(
+                                //       fontSize: 12,
+                                //       fontWeight: FontWeight.w400,
+                                //       fontFamily: 'Pretendard'),
+                                // )
+                              ],
+                            ),
+                          ],
                         ),
                       );
                     },
@@ -409,7 +399,7 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                   height: 200,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: mainController.mainData.value?.bookTopResponseDtos.length,
+                    itemCount: mainController.mainData.value.bookTopResponseDtos.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: (){
@@ -417,7 +407,7 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                                   () => ChangeNotifierProvider(
                                   create: (_) => BookProvider(),
                                   child: BookDetailView()),
-                              arguments: mainController.mainData.value?.bookTopResponseDtos[index].isbn);
+                              arguments: mainController.mainData.value.bookTopResponseDtos[index].isbn);
                         },
                         child: Container(
                           padding: EdgeInsets.only(top: 12, bottom: 12),
@@ -427,10 +417,10 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Image.network(mainController.mainData.value?.bookTopResponseDtos[index].image??'',
+                              Image.network(mainController.mainData.value.bookTopResponseDtos[index].image??'',
                                   fit: BoxFit.fitHeight, height: 120),
                               const Padding(padding: EdgeInsets.only(bottom: 10)),
-                              Text(mainController.mainData.value?.bookTopResponseDtos[index].title??''
+                              Text(mainController.mainData.value.bookTopResponseDtos[index].title??''
                                   ,overflow: TextOverflow.ellipsis
                                 ,style: TextStyle(
                                     fontSize: 16,
@@ -438,7 +428,7 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                                     fontFamily: 'Pretendard'),
                               ),
                               Text(
-                                mainController.mainData.value?.bookTopResponseDtos[index].author??'',
+                                mainController.mainData.value.bookTopResponseDtos[index].author??'',
                                   overflow: TextOverflow.ellipsis
                                 ,style: TextStyle(
                                     fontSize: 13, fontFamily: 'Pretendard'),
