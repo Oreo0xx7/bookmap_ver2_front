@@ -13,12 +13,14 @@ class SearchUserModel {
   String nickname;
   String status;
   bool followOrNot;
+  String image;
 
   SearchUserModel({
     required this.id,
     required this.nickname,
     required this.status,
     required this.followOrNot,
+    required this.image
   });
 
   factory SearchUserModel.fromJson(Map<String, dynamic> json) => SearchUserModel(
@@ -26,6 +28,7 @@ class SearchUserModel {
     nickname: json["nickname"],
     status: json["status"],
     followOrNot: json["followOrNot"],
+    image: json["image"]
   );
 
   Map<String, dynamic> toJson() => {
@@ -33,5 +36,6 @@ class SearchUserModel {
     "nickname": nickname,
     "status": status,
     "followOrNot": followOrNot,
+    "image": image
   };
 }

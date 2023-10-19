@@ -8,6 +8,7 @@ import '../model/bookShelfAllModel.dart';
 import '../model/mainSearchBookMapModel.dart';
 import '../model/mainSearchBookModel.dart';
 import '../model/mainViewModel.dart';
+import '../model/searchUserModel.dart';
 
 class SearchServices {
   static var client = http.Client();
@@ -81,10 +82,13 @@ class SearchServices {
     }
   }
 
-  /*
-  static Future<List<SearchUserModel>?> fetchUsers(searchText) async {
+  static Future<List<SearchUserModel>?> fetchUsers(searchText, sessionId) async {
     var response =
-        await client.get(Uri.parse('$url/search/user/4?keyword=$searchText'));
+        await client.get(Uri.parse('$url/search/users?keyword=$searchText'),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+            'sessionId' : sessionId
+          },);
     if (response.statusCode == 200) {
       var jsonData = utf8.decode(response.bodyBytes); // 바이트 데이터를 디코딩
       var document = searchUserModelFromJson(jsonData);
@@ -94,7 +98,6 @@ class SearchServices {
     }
   }
 
-   */
 
   static Future<MainViewModel?> fetchMainData(sessionId) async {
     print("fetchMainData's sessionId : ${sessionId}");

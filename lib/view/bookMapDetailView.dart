@@ -189,9 +189,8 @@ class BookMapDetailView extends StatelessWidget {
               child: Text(
                 '${bookMap.bookMapContent}',
                 style: TextStyle(fontSize: 20,
-                  fontFamily: 'Pretendard',
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.w300,),
+                  color: Colors.black38, fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w500,),
               ),
             ),
           Padding(
