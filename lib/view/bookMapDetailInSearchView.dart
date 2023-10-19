@@ -38,6 +38,7 @@ class BookMapDetailInSearchView extends StatelessWidget {
               Get.snackbar(
                   '저장 완료','\'${controller.bookMap.value.bookMapTitle}\' 북맵을 내 북맵에 스크랩했습니다.'
               );
+              Get.find<BookMapController>().refresh();
               Get.offUntil(MaterialPageRoute(builder: (context) => MainView()), (route) => route.isFirst);
               },
           ),

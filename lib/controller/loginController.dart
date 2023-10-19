@@ -4,9 +4,9 @@ import 'package:bookmap_ver2/api_key.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/io_client.dart';
+import 'package:bookmap_ver2/api_key.dart';
 
-
-//final String server = 'http://172.21.13.94:8080';
+final String server = url;
 
 class LoginController extends GetxController{
   String idToken ="";
@@ -42,7 +42,7 @@ class LoginController extends GetxController{
     final httpClient = IOClient();
 
     final response = await httpClient.post(
-      Uri.parse('$url/login'),
+      Uri.parse('$server/login'),
       headers: <String, String>{
         'idToken': idToken.toString(),
       },

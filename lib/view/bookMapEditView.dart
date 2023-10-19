@@ -68,12 +68,16 @@ class BookMapEditView extends StatelessWidget {
               onPressed: () async{
                 editController.removeImage();
                 editController.updateBookMap(bookMapId);
-                // detailController.updateData(editController.bookMap.value);
-                Get.to(() => MainView());
+                detailController.updateData(editController.bookMap.value);
+                detailController.refresh();
                 bookMapController.fetchData();
+                bookMapController.refresh();
 
+                // detailController.updateData(editController.bookMap.value);
+                // Get.off(() => BookMapDetailView(),
+                //     arguments: [editController.bookMap.value.bookMapId, 0]);
                 // Get.off(() => BookMapDetailView(),arguments: [bookMapId, myOrScrap]);
-                // Get.back();
+                Get.back();
               },
             ),],
         ),

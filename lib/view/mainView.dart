@@ -300,7 +300,7 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
             Padding(
               padding: const EdgeInsets.only(left: 12.0, bottom: 15),
               child: Text(
-                '팔로잉한 북맵',
+                '나의 북맵',
                 style: TextStyle(
                     fontFamily: 'Pretendard',
                     fontSize: 20,

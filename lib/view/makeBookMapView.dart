@@ -125,7 +125,7 @@ class MakeBookMapView extends StatelessWidget {
       if(bookMapKey.currentState!.validate()){
         bookMapKey.currentState!.save();
         bookMapController.saveNew();
-
+        // bookMapController.refresh();
         Get.back();
         Get.snackbar('저장완료', '북맵이 만들어졌어요!', backgroundColor: appColor.shade300,
             duration: const Duration(seconds: 1));

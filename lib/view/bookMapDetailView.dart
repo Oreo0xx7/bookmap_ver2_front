@@ -46,6 +46,7 @@ class BookMapDetailView extends StatelessWidget {
                     child: Text("편집"),
                     onPressed: () {
                       editController.fetchData(bookMapId);
+                      editController.refresh();
                       Get.to(() => BookMapEditView(),
                           arguments: [bookMapId, myOrScrap]);
                       },
@@ -53,9 +54,28 @@ class BookMapDetailView extends StatelessWidget {
                   TextButton(
                     child: Text("삭제"),
                     onPressed: () {
-                      controller.deleteBookMap(bookMapId);
-                      bookMapController.fetchData();
-                      Get.offUntil(MaterialPageRoute(builder: (context) => MainView()), (route) => route.isFirst);
+                      showDialog(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (context) => AlertDialog(
+                          content: Text("${controller.bookMap.value.bookMapTitle ?? ""} 북맵을 삭제할까요?"),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text("취소"),
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                            TextButton(
+                              child: Text("삭제"),
+                              onPressed: () {
+                                controller.deleteBookMap(bookMapId);
+                                bookMapController.fetchData();
+                                bookMapController.refresh();
+                                Get.offUntil(MaterialPageRoute(builder: (context) => MainView()), (route) => route.isFirst);
+                              },
+                            ),
+                          ],
+                        ),
+                      );
                     },
                   ),
                 ]
@@ -64,6 +84,7 @@ class BookMapDetailView extends StatelessWidget {
             onPressed: () {
               controller.deleteScrap(bookMapId);
               bookMapController.fetchData();
+              bookMapController.refresh();
               Get.offUntil(MaterialPageRoute(builder: (context) => MainView()), (route) => route.isFirst);
             },
           ),
