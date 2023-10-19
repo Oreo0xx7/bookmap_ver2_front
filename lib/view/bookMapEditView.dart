@@ -67,11 +67,18 @@ class BookMapEditView extends StatelessWidget {
               child: Text("저장"),
               onPressed: () async{
                 editController.removeImage();
-                editController.updateBookMap(bookMapId);
+                await editController.updateBookMap(bookMapId);
                 detailController.updateData(editController.bookMap.value);
                 detailController.refresh();
-                bookMapController.fetchData();
+                await bookMapController.fetchData();
                 bookMapController.refresh();
+                print(bookMapController.myBookMaps.length);
+                print("북맵 사진 ${bookMapController.myBookMaps[bookMapController.myBookMaps.length-1].bookMapImage}");
+                Get.find<BookMapController>().refresh();
+                // bookMapController.refresh();
+                // Get.find<BookMapController>().update();
+
+                // print(bookMapController.myBookMaps);
 
                 // detailController.updateData(editController.bookMap.value);
                 // Get.off(() => BookMapDetailView(),

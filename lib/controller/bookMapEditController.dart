@@ -48,8 +48,9 @@ class BookMapEditController extends GetxController {
     });
   }
 
-  void updateBookMap(bookMapId){
-    BookMapServices.postBookMapUpdate(loginController.sessionId, bookMapId, bookMap.value);
+   Future<int> updateBookMap(bookMapId) async{
+    int status = await BookMapServices.postBookMapUpdate(loginController.sessionId, bookMapId, bookMap.value);
+    return status;
   }
 
   void addIndex(String type){

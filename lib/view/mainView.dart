@@ -14,6 +14,7 @@ import '../controller/bookController.dart';
 import '../controller/bookMapController.dart';
 import '../controller/memoController.dart';
 import 'BookDetailView.dart';
+import 'bookMapDetailView.dart';
 import 'bookMapView.dart';
 import 'libraryView.dart';
 import 'makeBookMapView.dart';
@@ -323,45 +324,54 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: bookMapController.myBookMaps.length >= 3 ? 3 : bookMapController.myBookMaps.length,
                     itemBuilder: (context, index) {
-                      return Container(
-                        padding: EdgeInsets.only(top: 10, left: 15),
-                        width: double.maxFinite,
-                        height: 115,
-                        child: Row(
-                          children: [
-                            (bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapImage == null)
-                                ? Image.asset('src/sampleBook.jpg')
-                                : Image.network(bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapImage ?? "",
-                                fit: BoxFit.fitHeight, height: 115),
-                            Padding(padding: EdgeInsets.only(left: 15)),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapTitle ?? "",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: 'Pretendard'),
-                                ),
-                                Text(
-                                  bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].nickname ?? "",
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: 'Pretendard'),
-                                ),
-                                // Text(
-                                //   bookMapController.bookMaps[index].makerEmail,
-                                //   style: TextStyle(
-                                //       fontSize: 12,
-                                //       fontWeight: FontWeight.w400,
-                                //       fontFamily: 'Pretendard'),
-                                // )
-                              ],
-                            ),
-                          ],
+                      return GestureDetector(
+                        behavior: HitTestBehavior.opaque, // 클릭 영역을 확장
+                        onTap: (){
+                          print("탭 눌러진거임");
+                            Get.to(() =>
+                                BookMapDetailView(),
+                                arguments: [bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapId, 0]);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(top: 10, left: 15),
+                          width: double.maxFinite,
+                          height: 115,
+                          child: Row(
+                            children: [
+                              (bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapImage == null)
+                                  ? Image.asset('src/sampleBook.jpg')
+                                  : Image.network(bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapImage ?? "",
+                                  fit: BoxFit.fitHeight, height: 115),
+                              Padding(padding: EdgeInsets.only(left: 15)),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapTitle ?? "",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: 'Pretendard'),
+                                  ),
+                                  Text(
+                                    bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].nickname ?? "",
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: 'Pretendard'),
+                                  ),
+                                  // Text(
+                                  //   bookMapController.bookMaps[index].makerEmail,
+                                  //   style: TextStyle(
+                                  //       fontSize: 12,
+                                  //       fontWeight: FontWeight.w400,
+                                  //       fontFamily: 'Pretendard'),
+                                  // )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -382,8 +392,8 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
               child: Text(
                 '인기 도서',
                 style: TextStyle(
-                    fontFamily: 'Pretendard',
                     fontSize: 20,
+                    fontFamily: 'Pretendard',
                     fontWeight: FontWeight.w700,
                     color: appColor.shade900),
               ),

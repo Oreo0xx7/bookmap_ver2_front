@@ -19,7 +19,7 @@ class BookMapState extends StatefulWidget{
 
 class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStateMixin{
   late TabController bookMapTapController;
-  final BookMapController bookMapController = Get.find<BookMapController>();
+  final BookMapController bookMapController = Get.put(BookMapController());
   @override
   void initState(){
     super.initState();
@@ -28,7 +28,7 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    //bookMapController.fetchData();
+    // bookMapController.fetchData();
     return Column(
       children: [
         Align(

@@ -109,7 +109,7 @@ class BookMapServices{
     );
   }
 
-  static void postBookMapUpdate(sessionId, bookMapId, bookMap) async {
+  static Future<int> postBookMapUpdate(sessionId, bookMapId, bookMap) async {
     var response = await client.post(
       Uri.parse('$url/bookmap/update/$bookMapId'),
       headers: <String, String>{
@@ -118,6 +118,7 @@ class BookMapServices{
       },
       body: bookMapToJson(bookMap),
     );
+    return response.statusCode;
   }
 
 
