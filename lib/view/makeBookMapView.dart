@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:bookmap_ver2/controller/bookMapController.dart';
 import 'package:bookmap_ver2/controller/loginController.dart';
+import 'package:bookmap_ver2/controller/profileController.dart';
 import 'package:bookmap_ver2/model/bookMapModel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ class MakeBookMapView extends StatelessWidget {
   final LoginController loginController = Get.find<LoginController>();
   TextEditingController textEditingController = TextEditingController();
   BookMapController bookMapController = Get.find<BookMapController>();
+  final profileController  = Get.put(ProfileController());
   var bookMapKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,7 @@ class MakeBookMapView extends StatelessWidget {
                         label: '북맵 이름',
                         onSaved: (val){
                           bookMapController.newBookMap.value!.bookMapTitle = val;
-                          bookMapController.newBookMap.value!.nickname = loginController.googleAccount.value!.displayName!;
+                          bookMapController.newBookMap.value!.nickname = profileController.userData.value.nickName;
                           },
                         onChanged: (val){},
                         validator: (val){
@@ -125,7 +127,7 @@ class MakeBookMapView extends StatelessWidget {
       if(bookMapKey.currentState!.validate()){
         bookMapKey.currentState!.save();
         bookMapController.saveNew();
-        // bookMapController.refresh();
+        bookMapController.refresh();
         Get.back();
         Get.snackbar('저장완료', '북맵이 만들어졌어요!', backgroundColor: appColor.shade300,
             duration: const Duration(seconds: 1));
