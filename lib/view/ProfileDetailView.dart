@@ -1,10 +1,10 @@
 import 'package:bookmap_ver2/controller/userDetailController.dart';
+import 'package:bookmap_ver2/view/bookMapDetailView.dart';
 import 'package:bookmap_ver2/view/profileDetailBookMapView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../asset.dart';
-import 'bookMapDetailInSearchView.dart';
 
 class ProfileDetailView extends StatelessWidget {
   var id = Get.arguments;
@@ -35,14 +35,12 @@ class ProfileDetailView extends StatelessWidget {
             padding: const EdgeInsets.all(12.0),
             child:userBasicInfo()),
         Obx(() => ListView.builder(
-
           shrinkWrap: true,
           itemCount: userDetailController.profileDetail.value.userBookMapResponseDto.length,
           itemBuilder: (context, index){
             return GestureDetector(
                 onTap: () {
-                  Get.to(() => BookMapDetailInSearchView(), arguments: [userDetailController.profileDetail.value.userBookMapResponseDto[index].bookMapId,
-                  userDetailController.profileDetail.value.userBookMapResponseDto[index].scraped]);
+                  Get.to(() => BookMapDetailView(), arguments: userDetailController.profileDetail.value.userBookMapResponseDto[index].bookMapId);
                 },
                 child:
                     userDetailController.profileDetail.value.userBookMapResponseDto[index].share ?

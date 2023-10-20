@@ -221,7 +221,7 @@ class BookMapEditView extends StatelessWidget {
                           ));
                         }
                       },
-                      child: (books?[index].image != null)
+                      child: (books?[index].image != "")
                           ? Image.network(books?[index].image)
                           : Image.asset('src/sampleBook.jpg')
                         // height: 130,

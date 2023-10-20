@@ -330,7 +330,7 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                           print("탭 눌러진거임");
                             Get.to(() =>
                                 BookMapDetailView(),
-                                arguments: [bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapId, 0]);
+                                arguments: bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapId);
                         },
                         child: Container(
                           padding: EdgeInsets.only(top: 10, left: 15),

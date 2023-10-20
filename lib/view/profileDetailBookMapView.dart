@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../asset.dart';
 import '../model/userProfileModel.dart';
-import 'bookMapDetailInSearchView.dart';
 
 class ProfileDetailBookMapDetailView extends StatelessWidget {
 
@@ -50,4 +49,14 @@ class ProfileDetailBookMapDetailView extends StatelessWidget {
       ),
     );
   }
+}
+
+List<String> makeHash(List<String>? tags) {
+  List<String> newHash = [];
+  tags?.forEach((tag) {
+    if (tag.trim().isNotEmpty) {
+      newHash.add("#" + tag);
+    }
+  });
+  return newHash;
 }
