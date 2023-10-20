@@ -28,6 +28,38 @@ class BookMapServices{
     }
   }
 
+  static Future<int?> getUserId(sessionId) async {
+    var response = await client.get(
+      Uri.parse('$url/get/userId'),
+      headers: <String, String>{
+        'sessionId': sessionId.toString(),
+      }
+    );
+    if (response.statusCode == 200) {
+      var data = utf8.decode(response.bodyBytes);
+      return int.parse(data);
+    }
+    else {
+      return null;
+    }
+  }
+
+  static Future<bool?> getCheckScrap(sessionId, bookMapId) async {
+    var response = await client.get(
+        Uri.parse('$url/scrap/check/$bookMapId'),
+        headers: <String, String>{
+          'sessionId': sessionId.toString(),
+        }
+    );
+    if (response.statusCode == 200) {
+      var data = utf8.decode(response.bodyBytes);
+      return (data.toString() == "true" ? true : false);
+    }
+    else {
+      return null;
+    }
+  }
+
 
 
 

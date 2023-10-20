@@ -24,8 +24,7 @@ class BookMapEditView extends StatelessWidget {
   final detailController = Get.put(BookMapDetailController());
   final bookMapController = Get.put(BookMapController());
   final mainController = Get.put(MainController());
-  var bookMapId = Get.arguments[0];
-  int myOrScrap = Get.arguments[1];
+  var bookMapId = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +62,7 @@ class BookMapEditView extends StatelessWidget {
                     fontSize: 22,
                     fontFamily: 'Pretendard',
                     fontWeight: FontWeight.bold)),
-            actions: [TextButton(
+            actions: [ TextButton(
               child: Text("저장"),
               onPressed: () async{
                 editController.removeImage();
@@ -222,12 +221,12 @@ class BookMapEditView extends StatelessWidget {
                           ));
                         }
                       },
-                      child: Image.network(
-                        books?[index].image,
+                      child: (books?[index].image != null)
+                          ? Image.network(books?[index].image)
+                          : Image.asset('src/sampleBook.jpg')
                         // height: 130,
                       ),
-                    ),
-                  );
+                    );
                 }),
           ),
         ),

@@ -7,33 +7,39 @@ String bookMapToJson(BookMap data) => json.encode(data.toJson());
 
 class BookMap {
   int? bookMapId;
+  int? userId;
   String? bookMapTitle;
   String? bookMapContent;
   String? bookMapImage;
   List<String>? hashTag;
   bool share = true;
   String? nickname;
+  int? scrapCount;
   List<BookMapIndex>? bookMapIndex;
 
   BookMap({
     this.bookMapId,
+    this.userId,
     this.bookMapTitle,
     this.bookMapContent,
     this.bookMapImage,
     this.hashTag,
     this.share = true,
     this.nickname,
+    this.scrapCount,
     this.bookMapIndex,
   });
 
   factory BookMap.fromJson(Map<String, dynamic> json) => BookMap(
     bookMapId: json["bookMapId"],
+    userId: json["userId"],
     bookMapTitle: json["bookMapTitle"],
     bookMapContent: json["bookMapContent"],
     bookMapImage: json["bookMapImage"],
     hashTag: (json["hashTag"] ?? [] as List<dynamic>).cast<String>(),
     share: json["share"],
     nickname: json["nickname"],
+    scrapCount: json["scrapCount"],
     bookMapIndex: (json["bookMapIndex"] as List<dynamic>?)?.map((x) => BookMapIndex.fromJson(x)).toList() ?? [],
 
     // bookMapIndex: List<BookMapIndex>.from(json["bookMapIndex"].map((x) => BookMapIndex.fromJson(x))),

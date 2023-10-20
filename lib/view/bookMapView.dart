@@ -125,7 +125,7 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
                               onTap: (){
                                 Get.to(() =>
                                     BookMapDetailView(),
-                                    arguments: [bookMapController.myBookMaps[index].bookMapId, 0]);
+                                    arguments: bookMapController.myBookMaps[index].bookMapId);
                               },
                               child: Card(
                                 surfaceTintColor: appColor,
@@ -153,6 +153,7 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
                                               children: [
                                                 Padding(padding: EdgeInsets.only(bottom: 10)),
                                                 Text('${bookMapController.myBookMaps[index].bookMapTitle}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
+                                                Text(makeHash(bookMapController.myBookMaps[index].hashTag).join(" "), style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),),
                                                 Text('${bookMapController.myBookMaps[index].nickname}', style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
                                               ],
                                             ),
@@ -180,7 +181,7 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
                               onTap: (){
                                 Get.to(() =>
                                     BookMapDetailView(),
-                                    arguments: [bookMapController.scrapBookMaps[index].bookMapId, 1]);
+                                    arguments: bookMapController.scrapBookMaps[index].bookMapId);
                               },
                               child: Card(
                                 surfaceTintColor: appColor,
@@ -208,7 +209,8 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
                                               children: [
                                                 Padding(padding: EdgeInsets.only(bottom: 10)),
                                                 Text('${bookMapController.scrapBookMaps[index].bookMapTitle}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
-                                                Text('${bookMapController.scrapBookMaps[index].nickname}', style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
+                                                Text(makeHash(bookMapController.scrapBookMaps[index].hashTag).join(" "), style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),),
+                                                Text('${bookMapController.scrapBookMaps[index].nickname}', style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),),
                                               ],
                                             ),
                                           ],
@@ -257,4 +259,14 @@ class _CirclePainter extends BoxPainter{
         offset + Offset(configuration.size!.width / 2, configuration.size!.height - radius);
     canvas.drawCircle(circleOffset, radius, _paint);
   }
+}
+
+List<String> makeHash(List<String>? tags) {
+  List<String> newHash = [];
+  tags?.forEach((tag) {
+    if (tag.trim().isNotEmpty){
+      newHash.add("#" + tag);
+    }
+  });
+  return newHash;
 }

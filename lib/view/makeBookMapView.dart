@@ -56,9 +56,8 @@ class MakeBookMapView extends StatelessWidget {
                             return '북맵 이름을 작성해주세요.';
                           }
                           return null;
-                        },
-
-                        ),
+                          },
+                    ),
                     renderTextFormField(label: '북맵 소개글', onSaved: (val){
                       bookMapController.newBookMap.value!.bookMapContent = val;
                     }, validator: (val){return null;}, onChanged: (val){}),
@@ -127,7 +126,7 @@ class MakeBookMapView extends StatelessWidget {
       if(bookMapKey.currentState!.validate()){
         bookMapKey.currentState!.save();
         bookMapController.saveNew();
-        // bookMapController.refresh();
+        bookMapController.refresh();
         Get.back();
         Get.snackbar('저장완료', '북맵이 만들어졌어요!', backgroundColor: appColor.shade300,
             duration: const Duration(seconds: 1));

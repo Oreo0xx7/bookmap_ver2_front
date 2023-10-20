@@ -26,31 +26,37 @@ String bookMapModelToJson(List<BookMapModel> data) => json.encode(List<dynamic>.
 
 class BookMapModel {
   int? bookMapId;
+  int? userId;
   String? bookMapTitle;
   String? bookMapContent;
   String? bookMapImage;
   List<String>? hashTag;
   bool share;
   String? nickname;
+  int? scrapCount;
 
   BookMapModel({
     this.bookMapId,
+    this.userId,
     this.bookMapTitle,
     this.bookMapContent,
     this.bookMapImage,
     this.hashTag,
     this.share = true,
     this.nickname,
+    this.scrapCount,
   });
 
   factory BookMapModel.fromJson(Map<String, dynamic> json) => BookMapModel(
     bookMapId: json["bookMapId"],
+    userId: json["userId"],
     bookMapTitle: json["bookMapTitle"],
     bookMapContent: json["bookMapContent"],
     bookMapImage: json["bookMapImage"],
     hashTag: (json["hashTag"] ?? [] as List<dynamic>).cast<String>(),
     share: json["share"],
-    nickname: json["nickname"]
+    nickname: json["nickname"],
+    scrapCount: json["scrapCount"],
   );
 
   Map<String, dynamic> toJson() => {
