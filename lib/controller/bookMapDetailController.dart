@@ -18,21 +18,21 @@ class BookMapDetailController extends GetxController {
     bookMap(BookMap());
   }
 
-  void fetchData(bookMapId) async {
+  Future<void> fetchData(bookMapId) async {
     var bookMapData = await BookMapServices.getBookMapDetail(bookMapId);
     scrap = await BookMapServices.getCheckScrap(loginController.sessionId, bookMapId);
     bookMap(bookMapData);
   }
 
-  void scrapBookMap(bookMapId) {
-    BookMapServices.postBookMapScrap(loginController.sessionId, bookMapId);
+  Future<void> scrapBookMap(bookMapId) async{
+    var data = BookMapServices.postBookMapScrap(loginController.sessionId, bookMapId);
   }
 
   void deleteBookMap(bookMapId) {
     BookMapServices.deleteBookMap(bookMapId);
   }
 
-  void deleteScrap(bookMapId){
-    BookMapServices.deleteBookMapScrap(loginController.sessionId, bookMapId);
+  Future<void> deleteScrap(bookMapId) async{
+    var data = BookMapServices.deleteBookMapScrap(loginController.sessionId, bookMapId);
   }
 }

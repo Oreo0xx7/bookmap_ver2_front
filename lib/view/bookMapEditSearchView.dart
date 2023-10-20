@@ -109,7 +109,7 @@ class MainSearchTabView extends State<MainSearchTabState>
               .onSearchTextChanged(text); // 검색어 변경 콜백, 'text'가 입력한 텍스트입니다.
         },
         onEditingComplete: () {
-          controller.fetchData();
+          controller.fetchAllData();
           FocusScope.of(context).unfocus();
         },
         decoration: InputDecoration(

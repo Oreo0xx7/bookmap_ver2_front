@@ -87,15 +87,19 @@ class BookMapDetailView extends StatelessWidget {
                 ]
             ) : (controller.scrap) ? TextButton(
                 child: Text("스크랩 삭제"),
-              onPressed: () {
-                  controller.deleteScrap(bookMapId);
-                  bookMapController.fetchData();
+              onPressed: () async {
+                  await controller.deleteScrap(bookMapId);
+                  await bookMapController.fetchData();
                   bookMapController.refresh();
-                  Get.offUntil(MaterialPageRoute(builder: (context) => MainView()), (route) => route.isFirst);
-                  },) : TextButton(
+                   // Get.offUntil(MaterialPageRoute(builder: (context) => BookMap()), (route) => route.isFirst);
+                //Get.off(BookMapDetailView());
+                 Get.back();
+
+              },) : TextButton(
               child: Text("스크랩"),
-              onPressed: () {
-                controller.scrapBookMap(bookMapId);
+              onPressed: () async {
+                await controller.scrapBookMap(bookMapId);
+                await bookMapController.fetchData();
                 Get.snackbar(
                     '저장 완료','\'${controller.bookMap.value.bookMapTitle}\' 북맵을 내 북맵에 스크랩했습니다.');
                 Get.find<BookMapController>().refresh();

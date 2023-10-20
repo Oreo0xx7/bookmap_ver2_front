@@ -50,6 +50,7 @@ class UserBookMapResponseDto {
     bool share;
     String nickname;
     int scrapCount;
+    bool scraped;
 
     UserBookMapResponseDto({
         required this.bookMapId,
@@ -61,6 +62,7 @@ class UserBookMapResponseDto {
         required this.share,
         required this.nickname,
         required this.scrapCount,
+        required this.scraped,
     });
 
     factory UserBookMapResponseDto.fromJson(Map<String, dynamic> json) => UserBookMapResponseDto(
@@ -73,6 +75,7 @@ class UserBookMapResponseDto {
         share: json["share"],
         nickname: json["nickname"],
         scrapCount: json["scrapCount"],
+        scraped: json["scraped"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -85,5 +88,6 @@ class UserBookMapResponseDto {
         "share": share,
         "nickname": nickname,
         "scrapCount": scrapCount,
+        "scraped": scraped,
     };
 }

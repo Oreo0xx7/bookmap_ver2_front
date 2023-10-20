@@ -20,7 +20,7 @@ class MainSearchController extends GetxController{
     tabs[index] = !tabs[index];
     print("현재 탭 상황" + tabs[0].toString() + tabs[1].toString() + tabs[2].toString());
 
-    fetchData();
+    fetchAllData();
     // if (tabStatus.value == true) {
     //   fetchData();
     // } else {
@@ -36,10 +36,10 @@ class MainSearchController extends GetxController{
     //네트워크 요구
   }
 
-  void fetchData() async {
+  void fetchData() async{
     var books = await SearchServices.fetchBooks(searchText);
     var searchBookmaps = await SearchServices.fetchBookmaps(searchText);
-    var users = await SearchServices.fetchUsers(searchText, loginController.sessionId.toString());
+
     if (books != null) {
       bookList.value = books;
       print(books);
@@ -50,6 +50,30 @@ class MainSearchController extends GetxController{
     }else{
       bookMapList.value = [];
     }
+
+  }
+
+  void fetchAllData() async {
+    var books = await SearchServices.fetchBooks(searchText);
+    var searchBookmaps = await SearchServices.fetchBookmaps(searchText);
+    var users = await SearchServices.fetchUsers(searchText, loginController.sessionId.toString());
+
+    if (books != null) {
+      bookList.value = books;
+      print(books);
+    }
+    if( searchBookmaps != null){
+      bookMapList.value = searchBookmaps;
+      print(searchBookmaps);
+    }else{
+      bookMapList.value = [];
+    }
+    if(users != null){
+      userList.value = users;
+    }
+  }
+  void userData() async {
+    var users = await SearchServices.fetchUsers(searchText, loginController.sessionId.toString());
     if(users != null){
       userList.value = users;
     }

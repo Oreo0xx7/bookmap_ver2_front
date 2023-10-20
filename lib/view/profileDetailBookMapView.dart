@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../asset.dart';
 import '../model/userProfileModel.dart';
+import 'bookMapDetailInSearchView.dart';
 
 class ProfileDetailBookMapDetailView extends StatelessWidget {
 
@@ -37,7 +38,8 @@ class ProfileDetailBookMapDetailView extends StatelessWidget {
                     children: [
                       Padding(padding: EdgeInsets.only(bottom: 10)),
                       Text('${userBookMapResponseDto.bookMapTitle}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
-                      Text('${userBookMapResponseDto.bookMapContent}', style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
+                      Text('${userBookMapResponseDto.bookMapContent}', style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),),
+                      Text(makeHash(userBookMapResponseDto.hashTag).join(" "), style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),),
                     ],
                   ),
                 ],

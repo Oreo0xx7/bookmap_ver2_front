@@ -137,11 +137,12 @@ class SearchServices {
     }
   }
 
-  static Future<UserProfileModel?> fetchSearchProfile(id) async{
-    var response = await client.post(Uri.parse('$url/bookmap/get/search/NickName'),
+  static Future<UserProfileModel?> fetchSearchProfile(myId, id) async{
+    var response = await client.get(Uri.parse('$url/bookmap/get/search/NickName'),
       headers: <String, String>{
         'Content-Type': 'application/json',
-        'userId' : id.toString()
+        'userId' : id.toString(),
+        'sessionId': myId.toString()
       },
     );
     if (response.statusCode == 200) {

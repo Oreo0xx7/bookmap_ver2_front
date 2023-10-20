@@ -41,9 +41,12 @@ class ProfileDetailView extends StatelessWidget {
           itemBuilder: (context, index){
             return GestureDetector(
                 onTap: () {
-                  Get.to(() => BookMapDetailInSearchView(), arguments: userDetailController.profileDetail.value.userBookMapResponseDto[index].bookMapId);
+                  Get.to(() => BookMapDetailInSearchView(), arguments: [userDetailController.profileDetail.value.userBookMapResponseDto[index].bookMapId,
+                  userDetailController.profileDetail.value.userBookMapResponseDto[index].scraped]);
                 },
-                child: ProfileDetailBookMapDetailView(userDetailController.profileDetail.value.userBookMapResponseDto[index]));
+                child:
+                    userDetailController.profileDetail.value.userBookMapResponseDto[index].share ?
+              ProfileDetailBookMapDetailView(userDetailController.profileDetail.value.userBookMapResponseDto[index]): Container());
           },
         ))
       ]),

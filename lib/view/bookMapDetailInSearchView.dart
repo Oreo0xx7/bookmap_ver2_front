@@ -9,16 +9,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../asset.dart';
 import '../controller/bookMapDetailController.dart';
-
+import '../controller/userDetailController.dart';
 
 class BookMapDetailInSearchView extends StatelessWidget {
   BookMapDetailInSearchView({Key? key}) : super(key: key);
   final controller = Get.put(BookMapDetailController());
-  var bookMapId = Get.arguments;
+  final bookMapController = Get.put(BookMapController());
+  final userDetailController = Get.put(UserDetailController());
+  var bookMapId = Get.arguments[0];
+  var scrapped = Get.arguments[1];
 
   @override
   Widget build(BuildContext context) {
     controller.fetchData(bookMapId);
+    print("scrap: ${controller.scrap}");
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -33,15 +37,29 @@ class BookMapDetailInSearchView extends StatelessWidget {
                 fontWeight: FontWeight.bold)),
         actions: [
           TextButton(
-            child: Text("스크랩"),
-            onPressed: () {
-              controller.scrapBookMap(bookMapId);
-              Get.snackbar(
-                  '저장 완료','\'${controller.bookMap.value.bookMapTitle}\' 북맵을 내 북맵에 스크랩했습니다.'
-              );
+            child: scrapped
+                ? TextButton(
+                    child: Text("스크랩 삭제"),
+                    onPressed: () async {
+                      await controller.deleteScrap(bookMapId);
+                      await bookMapController.fetchData();
+                      bookMapController.refresh();
+                      Get.offUntil(MaterialPageRoute(builder: (context) => MainView()), (route) => route.isFirst);
+                      //Get.off(BookMapDetailView());
+                    },
+                  )
+                : Text("스크랩"),
+            onPressed: () async {
+              await controller.scrapBookMap(bookMapId);
+              await bookMapController.fetchData();
+              bookMapController.refresh();
+              Get.snackbar('저장 완료',
+                  '\'${controller.bookMap.value.bookMapTitle}\' 북맵을 내 북맵에 스크랩했습니다.');
+
               Get.find<BookMapController>().refresh();
-              Get.offUntil(MaterialPageRoute(builder: (context) => MainView()), (route) => route.isFirst);
-              },
+              Get.offUntil(MaterialPageRoute(builder: (context) => MainView()),
+                  (route) => route.isFirst);
+            },
           ),
         ],
       ),
@@ -55,55 +73,52 @@ class BookMapDetailInSearchView extends StatelessWidget {
               final bookMap = controller.bookMap.value;
               return Container(
                 margin: EdgeInsets.all(1),
-                child: Column(
-
-                    children: [
-                      bookMapExplain(context, bookMap),
-                      SingleChildScrollView(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-
-                            // if(bookMap.bookMapTitle != null)
-                            //   Padding(
-                            //     padding: const EdgeInsets.all(5.0),
-                            //     child: Text(
-                            //       '${bookMap.bookMapTitle}',
-                            //       style: TextStyle(fontSize: 40),
-                            //     ),
-                            //   ),
-                            // if(bookMap.bookMapContent != null)
-                            //   Padding(
-                            //     padding: const EdgeInsets.fromLTRB(5, 20, 5, 5),
-                            //     child: Text(
-                            //       '${bookMap.bookMapContent}',
-                            //       style: TextStyle(fontSize: 20),
-                            //     ),
-                            //   ),
-                            // Padding(
-                            //   padding: const EdgeInsets.all(5.0),
-                            //   child: Text(
-                            //     '${makeHash(bookMap.hashTag).join(' ')}',
-                            //     style: TextStyle(fontSize: 20, color: Colors.blue),
-                            //   ),
-                            // ),
-                            // Padding(
-                            //   padding: const EdgeInsets.only(top: 8.0, bottom: 10),
-                            //   child: Divider(
-                            //     color: Colors.black38,
-                            //     thickness: 1,
-                            //   ),
-                            // ),
-                            if (bookMap.bookMapIndex != null)
-                              myIndex(bookMap.bookMapIndex),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                            )
-                          ],
-                        ),
-                      ),]
-                ),
+                child: Column(children: [
+                  bookMapExplain(context, bookMap),
+                  SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // if(bookMap.bookMapTitle != null)
+                        //   Padding(
+                        //     padding: const EdgeInsets.all(5.0),
+                        //     child: Text(
+                        //       '${bookMap.bookMapTitle}',
+                        //       style: TextStyle(fontSize: 40),
+                        //     ),
+                        //   ),
+                        // if(bookMap.bookMapContent != null)
+                        //   Padding(
+                        //     padding: const EdgeInsets.fromLTRB(5, 20, 5, 5),
+                        //     child: Text(
+                        //       '${bookMap.bookMapContent}',
+                        //       style: TextStyle(fontSize: 20),
+                        //     ),
+                        //   ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(5.0),
+                        //   child: Text(
+                        //     '${makeHash(bookMap.hashTag).join(' ')}',
+                        //     style: TextStyle(fontSize: 20, color: Colors.blue),
+                        //   ),
+                        // ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(top: 8.0, bottom: 10),
+                        //   child: Divider(
+                        //     color: Colors.black38,
+                        //     thickness: 1,
+                        //   ),
+                        // ),
+                        if (bookMap.bookMapIndex != null)
+                          myIndex(bookMap.bookMapIndex),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                        )
+                      ],
+                    ),
+                  ),
+                ]),
               );
             }))
           ],
@@ -137,16 +152,20 @@ class BookMapDetailInSearchView extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
               child: Text(
                 '${bookMap.bookMapContent}',
-                style: TextStyle(fontSize: 20,
-                  color: Colors.black38, fontFamily: 'Pretendard',
-                  fontWeight: FontWeight.w500,),
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black38,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
           Padding(
             padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
             child: Text(
               '${makeHash(bookMap.hashTag).join(' ')}',
-              style: TextStyle(fontSize: 20,
+              style: TextStyle(
+                  fontSize: 20,
                   fontFamily: 'Pretendard',
                   fontStyle: FontStyle.normal,
                   fontWeight: FontWeight.w300,
@@ -215,7 +234,6 @@ Widget myBook(List<dynamic> books) {
               }),
         ),
       ),
-
     ],
   );
 }
@@ -225,10 +243,12 @@ Widget myMemo(String memo) {
     padding: const EdgeInsets.fromLTRB(10, 2, 2, 2),
     child: Text(
       '${memo}',
-      style: TextStyle(fontSize: 20,
+      style: TextStyle(
+        fontSize: 20,
         fontFamily: 'Pretendard',
         fontStyle: FontStyle.normal,
-        fontWeight: FontWeight.w300,),
+        fontWeight: FontWeight.w300,
+      ),
     ),
   );
 }
