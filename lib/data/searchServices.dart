@@ -9,6 +9,7 @@ import '../model/mainSearchBookMapModel.dart';
 import '../model/mainSearchBookModel.dart';
 import '../model/mainViewModel.dart';
 import '../model/searchUserModel.dart';
+import '../model/userProfileModel.dart';
 
 class SearchServices {
   static var client = http.Client();
@@ -135,4 +136,21 @@ class SearchServices {
       return null;
     }
   }
+
+  static Future<UserProfileModel?> fetchSearchProfile(id) async{
+    var response = await client.post(Uri.parse('$url/bookmap/get/search/NickName'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'userId' : id.toString()
+      },
+    );
+    if (response.statusCode == 200) {
+      var jsonData = utf8.decode(response.bodyBytes); // 바이트 데이터를 디코딩
+      var document = userProfileModelFromJson(jsonData);
+      return document;
+    } else {
+      return null;
+    }
+
+}
 }

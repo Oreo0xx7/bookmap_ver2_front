@@ -1,4 +1,5 @@
 import 'package:bookmap_ver2/controller/mainsearchController.dart';
+import 'package:bookmap_ver2/controller/userDetailController.dart';
 import 'package:bookmap_ver2/view/BookDetailView.dart';
 import 'package:bookmap_ver2/view/ProfileDetailView.dart';
 import 'package:bookmap_ver2/view/bookMapDetailInSearchView.dart';
@@ -30,6 +31,7 @@ class MainSearchTabState extends StatefulWidget {
 class MainSearchTabView extends State<MainSearchTabState>
     with SingleTickerProviderStateMixin {
   final controller = Get.put(MainSearchController());
+  final userDetailController = Get.put(UserDetailController());
   late TabController searchTapController;
 
   @override
@@ -147,6 +149,7 @@ class MainSearchTabView extends State<MainSearchTabState>
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: (){
+                              userDetailController.fetchData(controller.userList[index].id);
                               Get.to(() => ProfileDetailView(), arguments: controller.userList[index].id);
                             },
                               child: MainSearchUserTile(controller.userList[index]));
