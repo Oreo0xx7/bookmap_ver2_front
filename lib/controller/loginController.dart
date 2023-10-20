@@ -1,6 +1,7 @@
 
 
 import 'package:bookmap_ver2/api_key.dart';
+import 'package:bookmap_ver2/data/bookMapServices.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/io_client.dart';
@@ -19,6 +20,7 @@ class LoginController extends GetxController{
   var googleFormerUser = Rx<GoogleSignInAccount?>(null);
 
   var sessionId = ''.obs;
+  var userId;
 
   //final sessionProvider = SessionProvider();
 
@@ -57,6 +59,7 @@ class LoginController extends GetxController{
     print("JSON 디코딩 오류: $e");
     }
     httpClient.close();
+    userId = await BookMapServices.getUserId(sessionId);
     return response.body.toString();
   }
 }
