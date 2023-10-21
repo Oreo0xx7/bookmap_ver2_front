@@ -28,26 +28,36 @@ class ProfileDetailView extends StatelessWidget {
         centerTitle: true,
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-        Padding(
-            padding: const EdgeInsets.all(12.0),
-            child:userBasicInfo()),
-        Obx(() => ListView.builder(
-          shrinkWrap: true,
-          itemCount: userDetailController.profileDetail.value.userBookMapResponseDto.length,
-          itemBuilder: (context, index){
-            return GestureDetector(
-                onTap: () {
-                  Get.to(() => BookMapDetailView(), arguments: userDetailController.profileDetail.value.userBookMapResponseDto[index].bookMapId);
-                },
-                child:
-                    userDetailController.profileDetail.value.userBookMapResponseDto[index].share ?
-              ProfileDetailBookMapDetailView(userDetailController.profileDetail.value.userBookMapResponseDto[index]): Container());
-          },
-        ))
-      ]),
+            Padding(
+                padding: const EdgeInsets.all(12.0), child: userBasicInfo()),
+            Expanded(
+              child: Obx(() => ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: userDetailController
+                        .profileDetail.value.userBookMapResponseDto.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                          onTap: () {
+                            Get.to(() => BookMapDetailView(),
+                                arguments: userDetailController
+                                    .profileDetail
+                                    .value
+                                    .userBookMapResponseDto[index]
+                                    .bookMapId);
+                          },
+                          child: userDetailController.profileDetail.value
+                                  .userBookMapResponseDto[index].share
+                              ? ProfileDetailBookMapDetailView(
+                                  userDetailController.profileDetail.value
+                                      .userBookMapResponseDto[index])
+                              : Container());
+                    },
+                  )),
+            )
+          ]),
     );
   }
 
