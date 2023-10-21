@@ -30,7 +30,17 @@ class BookDetailView extends StatelessWidget {
           future: bookProvider.fetchBook(),
           builder: (context, snapshot){
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
+              return Scaffold(
+                body: Column(
+                  
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    Center(child: CircularProgressIndicator(
+                      color: Colors.green,)),
+                  ],
+                ),
+              );
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else if (bookProvider.book == null) {

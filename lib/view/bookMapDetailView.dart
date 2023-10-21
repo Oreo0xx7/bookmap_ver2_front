@@ -96,11 +96,12 @@ class BookMapDetailView extends StatelessWidget {
                   await controller.deleteScrap(bookMapId);
                   await bookMapController.fetchData();
                   bookMapController.refresh();
+                  Get.back();
                   Get.snackbar(
                       '스크랩 삭제','\'${controller.bookMap.value.bookMapTitle}\' 북맵을 내 스크랩에서 삭제했습니다.');
                    // Get.offUntil(MaterialPageRoute(builder: (context) => BookMap()), (route) => route.isFirst);
                 //Get.off(BookMapDetailView());
-                 Get.back();
+
 
               },) : TextButton(
               child: Text("스크랩"),

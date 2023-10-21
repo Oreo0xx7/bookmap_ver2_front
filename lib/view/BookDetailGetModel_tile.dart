@@ -868,22 +868,41 @@ class BookDetailGetViewTile extends StatelessWidget {
               SingleChildScrollView(
                 child: Column(
                   children: [
-                    TextField(
-                      maxLines: null, // 여러 줄 입력을 가능하게 합니다.
-                      keyboardType: TextInputType.multiline,
-                      decoration: InputDecoration(hintText: '메모 제목'),
-                      onChanged: (value) {
-                        memoTitle = value;
-                        print("memo title is ${memoTitle}");
-                      },
+                    Padding(
+                      padding: EdgeInsets.only(right: 5, left: 5),
+                      child: TextField(
+                        maxLines: null, // 여러 줄 입력을 가능하게 합니다.
+                        keyboardType: TextInputType.multiline,
+                        decoration: InputDecoration(hintText: '메모 제목',
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.green,
+                              width: 1.0,
+                            ),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          memoTitle = value;
+                          print("memo title is ${memoTitle}");
+                        },
+                      ),
                     ),
-                    TextField(
-                      maxLines: null, // 여러 줄 입력을 가능하게 합니다.
-                      keyboardType: TextInputType.multiline,
-                      decoration: InputDecoration(hintText: '메모'),
-                      onChanged: (value) {
-                        memoContent = value;
-                      },
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 10),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 5, left: 5),
+                      child: TextField(
+                        maxLines: null, // 여러 줄 입력을 가능하게 합니다.
+                        keyboardType: TextInputType.multiline,
+                        decoration: InputDecoration(hintText: '메모',
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(vertical: 40, horizontal: 15),
+                        ),
+                        onChanged: (value) {
+                          memoContent = value;
+                        },
+                      ),
                     ),
                     Row(
                       children: [

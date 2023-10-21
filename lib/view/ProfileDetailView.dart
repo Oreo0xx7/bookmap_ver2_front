@@ -84,7 +84,7 @@ class ProfileDetailView extends StatelessWidget {
                   ),
                   Padding(padding: EdgeInsets.all(5)),
                   Text(
-                    userDetailController.profileDetail.value.status != ''
+                    userDetailController.profileDetail.value.status != null
                         ? userDetailController.profileDetail.value.status
                         : '',
                     style: TextStyle(
