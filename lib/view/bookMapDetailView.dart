@@ -74,14 +74,12 @@ class BookMapDetailView extends StatelessWidget {
                             ),
                             TextButton(
                               child: Text("삭제"),
-                              onPressed: () {
+                              onPressed: () async {
                                 controller.deleteBookMap(bookMapId);
-                                bookMapController.fetchData();
+                                await bookMapController.fetchData();
                                 bookMapController.refresh();
-                                Get.offUntil(
-                                    MaterialPageRoute(
-                                        builder: (context) => MainView()),
-                                        (route) => route.isFirst);
+                                Navigator.pop(context);
+                                Navigator.pop(context);
                               },
                             ),
                           ],
