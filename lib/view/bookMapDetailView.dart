@@ -159,7 +159,6 @@ class BookMapDetailView extends StatelessWidget {
                   onPressed: () {
                     userDetailController.fetchData(controller.bookMap.value.userId);
                     Get.to(() => ProfileDetailView(), arguments: controller.bookMap.value.userId);
-
                   },
                   child: Text(
                     '${bookMap.nickname} 님의 북맵',
@@ -175,7 +174,8 @@ class BookMapDetailView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(5, 3, 5, 3),
                 child: Text(
-                  '${bookMap.bookMapTitle}',
+                  (bookMap.share) ?
+                  '${bookMap.bookMapTitle}' : "${bookMap.bookMapTitle}\u{1F512}",
                   style: TextStyle(
                       fontSize: 25,
                       fontFamily: 'Pretendard',

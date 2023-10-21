@@ -99,7 +99,8 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Padding(padding: EdgeInsets.only(bottom: 10)),
-                                                    Text('${bookMapController.myBookMaps[index].bookMapTitle}',
+                                                    Text((bookMapController.myBookMaps[index].share) ?
+                                                    '${bookMapController.myBookMaps[index].bookMapTitle}' : "${bookMapController.myBookMaps[index].bookMapTitle}\u{1F512}",
                                                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard', height: 2),),
                                                     Text(makeHash(bookMapController.myBookMaps[index].hashTag).join(" "),
                                                       style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),),
@@ -179,7 +180,8 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Padding(padding: EdgeInsets.only(bottom: 10)),
-                                                    Text('${bookMapController.scrapBookMaps[index].bookMapTitle}',
+                                                    Text((bookMapController.scrapBookMaps[index].share) ?
+                                                    '${bookMapController.scrapBookMaps[index].bookMapTitle}' : "${bookMapController.scrapBookMaps[index].bookMapTitle}\u{1F512}",
                                                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard', height: 2),),
                                                     Text(makeHash(bookMapController.scrapBookMaps[index].hashTag).join(" "),
                                                       style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),),
