@@ -46,3 +46,15 @@ class BookMapController extends GetxController{
     }
   }
 }
+
+List<String> makeHash(List<String>? tags) {
+  List<String> newHash = [];
+  tags?.forEach((tag) {
+    tag = tag.replaceAll(RegExp(r'''^!#%&@`:;-.<>,~\\(\\)\\{\\}\\^\\[\\][*][+][$][|][']["]'''), "");
+    tag = tag.trim();
+    if (tag.isNotEmpty){
+      newHash.add("#" + tag);
+    }
+  });
+  return newHash;
+}

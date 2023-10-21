@@ -15,6 +15,7 @@ class MainSearchBookMapModel {
   String? bookMapImage;
   List<String>? hashTag;
   bool share;
+  int scrapCount;
 
   MainSearchBookMapModel({
     required this.bookMapId,
@@ -23,6 +24,7 @@ class MainSearchBookMapModel {
     required this.bookMapImage,
     required this.hashTag,
     required this.share,
+    required this.scrapCount,
   });
 
   factory MainSearchBookMapModel.fromJson(Map<String, dynamic> json) => MainSearchBookMapModel(
@@ -32,6 +34,7 @@ class MainSearchBookMapModel {
     bookMapImage: json["bookMapImage"],
     hashTag: json["hashTag"] == null ? [] : List<String>.from(json["hashTag"]!.map((x) => x)),
     share: json["share"],
+    scrapCount: json["scrapCount"]
   );
 
   Map<String, dynamic> toJson() => {

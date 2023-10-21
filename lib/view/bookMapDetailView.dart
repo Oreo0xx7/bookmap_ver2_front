@@ -131,48 +131,9 @@ class BookMapDetailView extends StatelessWidget {
                   child: Column(
                     children: [
                       bookMapExplain(context, bookMap),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-
-                          // if(bookMap.bookMapTitle != null)
-                          //   Padding(
-                          //     padding: const EdgeInsets.all(5.0),
-                          //     child: Text(
-                          //       '${bookMap.bookMapTitle}',
-                          //       style: TextStyle(fontSize: 40),
-                          //     ),
-                          //   ),
-                          // if(bookMap.bookMapContent != null)
-                          //   Padding(
-                          //     padding: const EdgeInsets.fromLTRB(5, 20, 5, 5),
-                          //     child: Text(
-                          //       '${bookMap.bookMapContent}',
-                          //       style: TextStyle(fontSize: 20),
-                          //     ),
-                          //   ),
-                          // Padding(
-                          //   padding: const EdgeInsets.all(5.0),
-                          //   child: Text(
-                          //     '${makeHash(bookMap.hashTag).join(' ')}',
-                          //     style: TextStyle(fontSize: 20, color: Colors.blue),
-                          //   ),
-                          // ),
-                          // Padding(
-                          //   padding: const EdgeInsets.only(top: 8.0, bottom: 10),
-                          //   child: Divider(
-                          //     color: Colors.black38,
-                          //     thickness: 1,
-                          //   ),
-                          // ),
-                          if (bookMap.bookMapIndex != null)
-                            myIndex(bookMap.bookMapIndex),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                          )
-                        ],
-                      ),]
+                      if (bookMap.bookMapIndex != null)
+                        myIndex(bookMap.bookMapIndex),
+                    ],
                   ),
                 ),
               );
@@ -233,7 +194,7 @@ class BookMapDetailView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
               child: Text(
-                '${makeHash(bookMap.hashTag).join(' ')}',
+                makeHash(bookMap.hashTag).join(' '),
                 style: TextStyle(fontSize: 14,
                     fontFamily: 'Pretendard',
                     fontStyle: FontStyle.normal,
@@ -264,15 +225,6 @@ class BookMapDetailView extends StatelessWidget {
   }
 }
 
-List<String> makeHash(List<String>? tags) {
-  List<String> newHash = [];
-  tags?.forEach((tag) {
-    if (tag.trim().isNotEmpty) {
-      newHash.add("#" + tag);
-    }
-  });
-  return newHash;
-}
 
 InputDecoration myDecoration(String label) {
   return InputDecoration(

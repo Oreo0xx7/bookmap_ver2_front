@@ -57,67 +57,12 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
               child: TabBarView(
                 controller: bookMapTapController,
                 children: [
-                      //전체
-                  // NotificationListener(
-                  //   onNotification: (OverscrollIndicatorNotification overscroll) {
-                  //     overscroll.disallowIndicator();
-                  //     return true;
-                  //     },
-                  //   child: ListView.builder(
-                  //     itemCount: bookMapController.allBookMaps.length,
-                  //     itemBuilder: (context, index){
-                  //       return GestureDetector(
-                  //         onTap: (){
-                  //           Get.to(() =>
-                  //               BookMapDetailView(),
-                  //               arguments: bookMapController.allBookMaps[index].bookMapId
-                  //           );},
-                  //         child: Card(
-                  //           surfaceTintColor: appColor,
-                  //               margin: EdgeInsets.all(12),
-                  //               child: Padding(
-                  //                 padding: EdgeInsets.all(16),
-                  //                 child: Row(
-                  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //                   children: [
-                  //                     Expanded(
-                  //                         flex: 3,
-                  //                         child: (bookMapController.allBookMaps[index].bookMapImage == null)
-                  //                             ? Image.asset('src/sampleBook.jpg')
-                  //                             : Image.network(bookMapController.allBookMaps[index].bookMapImage ?? "", fit: BoxFit.fitWidth, width: 50,)),
-                  //                     const Spacer(
-                  //                       flex: 1,
-                  //                     ),
-                  //                     Expanded(
-                  //                       flex: 11,
-                  //                       child: Column(
-                  //                         crossAxisAlignment: CrossAxisAlignment.start,
-                  //                         children: [
-                  //                           Column(
-                  //                             crossAxisAlignment: CrossAxisAlignment.start,
-                  //                             children: [
-                  //                               Padding(padding: EdgeInsets.only(bottom: 10)),
-                  //                               Text('${bookMapController.allBookMaps[index].bookMapTitle}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
-                  //                               Text('${bookMapController.allBookMaps[index].nickname}', style: TextStyle(fontSize: 14, fontFamily: 'Pretendard'),)
-                  //                             ],
-                  //                           ),
-                  //                         ],
-                  //                       ),
-                  //                     ),
-                  //                   ],
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //           );
-                  //         },
-                  //       ),
-                  //     ),
                       //내가 만든 sort:1
-                      NotificationListener(
-                        onNotification: (OverscrollIndicatorNotification overscroll) {
-                          overscroll.disallowIndicator();
-                          return true;
-                        },
+                  NotificationListener(
+                    onNotification: (OverscrollIndicatorNotification overscroll) {
+                      overscroll.disallowIndicator();
+                      return true;
+                      },
                         child: ListView.builder(
                           itemCount: bookMapController.myBookMaps.length,
                           itemBuilder: (context, index){
@@ -127,42 +72,66 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
                                     BookMapDetailView(),
                                     arguments: bookMapController.myBookMaps[index].bookMapId);
                               },
-                              child: Card(
-                                surfaceTintColor: appColor,
-                                margin: EdgeInsets.all(12),
-                                child: Padding(
-                                  padding: EdgeInsets.all(16),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                          flex: 3,
-                                          child: (bookMapController.myBookMaps[index].bookMapImage == null)
-                                              ? Image.asset('src/sampleBook.jpg')
-                                              : Image.network(bookMapController.myBookMaps[index].bookMapImage ?? "", fit: BoxFit.fitWidth, width: 50,)),
-                                      const Spacer(
-                                        flex: 1,
-                                      ),
-                                      Expanded(
-                                        flex: 11,
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Column(
+                              child: Stack(
+                                children: [
+                                  Card(
+                                    surfaceTintColor: appColor,
+                                    margin: EdgeInsets.all(12),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(16),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                              flex: 3,
+                                              child: (bookMapController.myBookMaps[index].bookMapImage == null)
+                                                  ? Image.asset('src/sampleBook.jpg')
+                                                  : Image.network(bookMapController.myBookMaps[index].bookMapImage ?? "", fit: BoxFit.fitWidth, width: 50,)),
+                                          const Spacer(
+                                            flex: 1,
+                                          ),
+                                          Expanded(
+                                            flex: 11,
+                                            child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Padding(padding: EdgeInsets.only(bottom: 10)),
-                                                Text('${bookMapController.myBookMaps[index].bookMapTitle}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
-                                                Text(makeHash(bookMapController.myBookMaps[index].hashTag).join(" "), style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),),
-                                                Text('${bookMapController.myBookMaps[index].nickname}', style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),)
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Padding(padding: EdgeInsets.only(bottom: 10)),
+                                                    Text('${bookMapController.myBookMaps[index].bookMapTitle}',
+                                                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard', height: 2),),
+                                                    Text(makeHash(bookMapController.myBookMaps[index].hashTag).join(" "),
+                                                      style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),),
+                                                    Text('${bookMapController.myBookMaps[index].nickname}',
+                                                      style: TextStyle(fontSize: 13, fontFamily: 'Pretendard', height: 3),)
+                                                  ],
+                                                ),
                                               ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                ),
+                                  Positioned(
+                                      top: 110,
+                                      left: 300,
+                                      child: Row(
+                                        children: [
+                                          Image.asset(
+                                            'src/scrap.png',
+                                            width: 20,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                            child: Text('${bookMapController.myBookMaps[index].scrapCount ?? 0}',
+                                                style: TextStyle(fontSize: 13, fontFamily: 'Pretendard')),
+                                          ),
+                                        ]
+                                      )
+                                  ),
+                                ]
                               ),
                             );
                           },
@@ -183,42 +152,66 @@ class BoockMapTapState extends State<BookMapState> with SingleTickerProviderStat
                                     BookMapDetailView(),
                                     arguments: bookMapController.scrapBookMaps[index].bookMapId);
                               },
-                              child: Card(
-                                surfaceTintColor: appColor,
-                                margin: EdgeInsets.all(12),
-                                child: Padding(
-                                  padding: EdgeInsets.all(16),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                          flex: 3,
-                                          child: (bookMapController.scrapBookMaps[index].bookMapImage == null)
-                                              ? Image.asset('src/sampleBook.jpg')
-                                              : Image.network(bookMapController.scrapBookMaps[index].bookMapImage ?? "", fit: BoxFit.fitWidth, width: 50,)),
-                                      const Spacer(
-                                        flex: 1,
-                                      ),
-                                      Expanded(
-                                        flex: 11,
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Column(
+                              child: Stack(
+                                children: [
+                                  Card(
+                                    surfaceTintColor: appColor,
+                                    margin: EdgeInsets.all(12),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(16),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                              flex: 3,
+                                              child: (bookMapController.scrapBookMaps[index].bookMapImage == null)
+                                                  ? Image.asset('src/sampleBook.jpg')
+                                                  : Image.network(bookMapController.scrapBookMaps[index].bookMapImage ?? "", fit: BoxFit.fitWidth, width: 50,)),
+                                          const Spacer(
+                                            flex: 1,
+                                          ),
+                                          Expanded(
+                                            flex: 11,
+                                            child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Padding(padding: EdgeInsets.only(bottom: 10)),
-                                                Text('${bookMapController.scrapBookMaps[index].bookMapTitle}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard'),),
-                                                Text(makeHash(bookMapController.scrapBookMaps[index].hashTag).join(" "), style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),),
-                                                Text('${bookMapController.scrapBookMaps[index].nickname}', style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),),
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Padding(padding: EdgeInsets.only(bottom: 10)),
+                                                    Text('${bookMapController.scrapBookMaps[index].bookMapTitle}',
+                                                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Pretendard', height: 2),),
+                                                    Text(makeHash(bookMapController.scrapBookMaps[index].hashTag).join(" "),
+                                                      style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),),
+                                                    Text('${bookMapController.scrapBookMaps[index].nickname}',
+                                                      style: TextStyle(fontSize: 13, fontFamily: 'Pretendard', height: 3),),
+                                                  ],
+                                                ),
                                               ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                ),
+                                  Positioned(
+                                      top: 110,
+                                      left: 300,
+                                      child: Row(
+                                          children: [
+                                            Image.asset(
+                                              'src/scrap.png',
+                                              width: 20,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                              child: Text('${bookMapController.scrapBookMaps[index].scrapCount ?? 0}',
+                                                  style: TextStyle(fontSize: 13, fontFamily: 'Pretendard')),
+                                            ),
+                                          ]
+                                      )
+                                  ),
+                                ]
                               ),
                             );
                           },
@@ -259,14 +252,4 @@ class _CirclePainter extends BoxPainter{
         offset + Offset(configuration.size!.width / 2, configuration.size!.height - radius);
     canvas.drawCircle(circleOffset, radius, _paint);
   }
-}
-
-List<String> makeHash(List<String>? tags) {
-  List<String> newHash = [];
-  tags?.forEach((tag) {
-    if (tag.trim().isNotEmpty){
-      newHash.add("#" + tag);
-    }
-  });
-  return newHash;
 }

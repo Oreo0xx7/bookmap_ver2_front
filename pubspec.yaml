@@ -40,6 +40,7 @@ flutter:
     - src/logo.png
     - src/btn_google_light.png
     - src/sampleBook.jpg
+    - src/scrap.png
     - src/user_img_default.png
 
   fonts:

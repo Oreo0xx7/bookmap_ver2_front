@@ -27,7 +27,7 @@ class UserProfileModel {
         picture: json["picture"],
         nickName: json["nickName"],
         userId: json["userId"],
-        status: json["status"],
+        status: json["status"] ?? "",
         userBookMapResponseDto: List<UserBookMapResponseDto>.from(json["userBookMapResponseDto"].map((x) => UserBookMapResponseDto.fromJson(x))),
     );
 

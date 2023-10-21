@@ -332,46 +332,71 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                                 BookMapDetailView(),
                                 arguments: bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapId);
                         },
-                        child: Container(
-                          padding: EdgeInsets.only(top: 10, left: 15),
-                          width: double.maxFinite,
-                          height: 115,
-                          child: Row(
-                            children: [
-                              (bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapImage == null)
-                                  ? Image.asset('src/sampleBook.jpg')
-                                  : Image.network(bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapImage ?? "",
-                                  fit: BoxFit.fitHeight, height: 115),
-                              Padding(padding: EdgeInsets.only(left: 15)),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Stack(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(top: 10, left: 15),
+                              width: double.maxFinite,
+                              height: 115,
+                              child: Row(
                                 children: [
-                                  Text(
-                                    bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapTitle ?? "",
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'Pretendard'),
+                                  (bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapImage == null)
+                                      ? Image.asset('src/sampleBook.jpg')
+                                      : Image.network(bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapImage ?? "",
+                                      fit: BoxFit.fitHeight, height: 115),
+                                  Padding(padding: EdgeInsets.only(left: 15)),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapTitle ?? "",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: 'Pretendard',
+                                        height: 2),
+                                      ),
+                                      Text(makeHash(bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].hashTag).join(" "),
+                                        style: TextStyle(fontSize: 13, fontFamily: 'Pretendard'),),
+                                      Text(
+                                        bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].nickname ?? "",
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: 'Pretendard',
+                                        height: 3),
+                                      ),
+                                      // Text(
+                                      //   bookMapController.bookMaps[index].makerEmail,
+                                      //   style: TextStyle(
+                                      //       fontSize: 12,
+                                      //       fontWeight: FontWeight.w400,
+                                      //       fontFamily: 'Pretendard'),
+                                      // )
+                                    ],
                                   ),
-                                  Text(
-                                    bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].nickname ?? "",
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'Pretendard'),
-                                  ),
-                                  // Text(
-                                  //   bookMapController.bookMaps[index].makerEmail,
-                                  //   style: TextStyle(
-                                  //       fontSize: 12,
-                                  //       fontWeight: FontWeight.w400,
-                                  //       fontFamily: 'Pretendard'),
-                                  // )
                                 ],
                               ),
-                            ],
-                          ),
+                            ),
+                            Positioned(
+                                top: 88,
+                                left: 300,
+                                child: Row(
+                                    children: [
+                                      Image.asset(
+                                        'src/scrap.png',
+                                        width: 18,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                        child: Text('${bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].scrapCount ?? 0}',
+                                            style: TextStyle(fontSize: 13, fontFamily: 'Pretendard')),
+                                      ),
+                                    ]
+                                )
+                            ),
+                          ]
                         ),
                       );
                     },

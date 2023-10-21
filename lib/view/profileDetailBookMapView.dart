@@ -23,7 +23,7 @@ class ProfileDetailBookMapDetailView extends StatelessWidget {
                 flex: 3,
                 child: ( userBookMapResponseDto.bookMapImage == null)
                     ? Image.asset('src/sampleBook.jpg')
-                    : Image.network(userBookMapResponseDto.bookMapImage ?? "", fit: BoxFit.fitWidth, width: 50,)),
+                    : Image.network(userBookMapResponseDto.bookMapImage, fit: BoxFit.fitWidth, width: 50,)),
             const Spacer(
               flex: 1,
             ),
@@ -54,7 +54,9 @@ class ProfileDetailBookMapDetailView extends StatelessWidget {
 List<String> makeHash(List<String>? tags) {
   List<String> newHash = [];
   tags?.forEach((tag) {
-    if (tag.trim().isNotEmpty) {
+    tag = tag.replaceAll(RegExp(r'''^!#%&@`:;-.<>,~\\(\\)\\{\\}\\^\\[\\][*][+][$][|][']["]'''), "");
+    tag = tag.trim();
+    if (tag.isNotEmpty){
       newHash.add("#" + tag);
     }
   });
