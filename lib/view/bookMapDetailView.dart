@@ -277,7 +277,6 @@ Widget myBook(List<dynamic> books) {
               }),
         ),
       ),
-
     ],
   );
 }
@@ -310,17 +309,41 @@ Widget myIndex(List<dynamic>? bookMapIndex) {
               itemBuilder: (context, index) {
                 if ("Book".compareTo(bookMapIndex?[index].type) == 0) {
                   if (bookMapIndex?[index].map != null) {
-                    return myBook(bookMapIndex?[index].map);
+                    return Column(
+                      children: [
+                        myBook(bookMapIndex?[index].map),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0, bottom: 10),
+                          child: Divider(
+                            color: Colors.black38,
+                            thickness: 1,
+                          ),
+                        ),
+                      ],
+                    );
                   }
                 } else if ("Memo".compareTo(bookMapIndex?[index].type) == 0) {
                   if (bookMapIndex?[index].memo != null) {
-                    return myMemo(bookMapIndex?[index].memo);
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        myMemo(bookMapIndex?[index].memo),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0, bottom: 10),
+                          child: Divider(
+                            color: Colors.black38,
+                            thickness: 1,
+                          ),
+                        ),
+                      ],
+                    );
                   }
                 } else {
                   return Container();
                 }
               }),
         ),
+
       ],
     ),
   );
