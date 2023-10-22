@@ -13,7 +13,7 @@ class BookShelfModelController extends GetxController {
     //네트워크 요구
   }
 
-  void fetchData() async {
+  Future<void> fetchData() async {
     var data =
         await SearchServices.fetchShelf(loginController.sessionId.toString());
     if (data != null) {

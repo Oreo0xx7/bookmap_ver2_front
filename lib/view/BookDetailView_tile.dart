@@ -1,5 +1,6 @@
 import 'package:bookmap_ver2/api_key.dart';
 import 'package:bookmap_ver2/asset.dart';
+import 'package:bookmap_ver2/controller/bookShelfModelController.dart';
 import 'package:bookmap_ver2/model/bookDetailModel.dart';
 import 'package:bookmap_ver2/view/BookDetailViewTile_tile/BookDetailViewTile_reading.dart';
 import 'package:bookmap_ver2/view/BookDetailViewTile_tile/bookDetailViewTile_want.dart';
@@ -18,6 +19,7 @@ class BookDetailViewTile extends StatelessWidget {
 
   final controller = Get.put(BookDetailPopupController());
   final mainController = Get.put(MainController());
+  final bookShelfController = Get.put(BookShelfModelController());
 
   @override
   Widget build(BuildContext context) {
@@ -371,6 +373,7 @@ class BookDetailViewTile extends StatelessWidget {
                                             //           MainView()),
                                             // );
                                             await mainController.fetchData();
+                                            await bookShelfController.fetchData();
                                             Get.offAll(() => MainView()); // GetX의 Get.offAll을 사용하여 화면 이동
                                             // Get.put(mainController); // mainController를 전역으로 공유
                                             // mainController.fetchData();
