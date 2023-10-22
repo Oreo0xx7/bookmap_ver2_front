@@ -327,7 +327,6 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                       return GestureDetector(
                         behavior: HitTestBehavior.opaque, // 클릭 영역을 확장
                         onTap: (){
-                          print("탭 눌러진거임");
                             Get.to(() =>
                                 BookMapDetailView(),
                                 arguments: bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapId);
@@ -350,7 +349,9 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapTitle ?? "",
+                                        (bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].share) ?
+                                        '${bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapTitle}' :
+                                        "${bookMapController.myBookMaps[bookMapController.myBookMaps.length-1 - index].bookMapTitle}\u{1F512}",
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600,
