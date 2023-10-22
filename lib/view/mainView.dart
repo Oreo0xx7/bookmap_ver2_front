@@ -251,16 +251,14 @@ class HomeStateful extends State<Home> with SingleTickerProviderStateMixin {
                               children: [
                                 Image.network(
                                     mainController.mainData.value
-                                            .bookImageDto[index].image ??
-                                        '',
+                                            .bookImageDto[index].image,
                                     fit: BoxFit.fitHeight,
                                     height: 120),
                                 const Padding(
                                     padding: EdgeInsets.only(bottom: 10)),
                                 Text(
                                   mainController.mainData.value
-                                          .bookImageDto[index].title ??
-                                      '',
+                                          .bookImageDto[index].title,
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,

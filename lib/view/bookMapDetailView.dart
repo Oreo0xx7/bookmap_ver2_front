@@ -129,6 +129,7 @@ class BookMapDetailView extends StatelessWidget {
                   child: Column(
                     children: [
                       bookMapExplain(context, bookMap),
+                      Padding(padding: EdgeInsets.only(bottom: 12)),
                       if (bookMap.bookMapIndex != null)
                         myIndex(bookMap.bookMapIndex),
                     ],
@@ -287,15 +288,21 @@ Widget myBook(List<dynamic> books) {
 }
 
 Widget myMemo(String memo) {
-  return Container(
-    padding: const EdgeInsets.fromLTRB(15, 2, 15, 2),
-    child: Text(
-      '${memo}',
-      style: TextStyle(fontSize: 16,
-        fontFamily: 'Pretendard',
-        fontStyle: FontStyle.normal,
-        fontWeight: FontWeight.w300,),
-    ),
+  return Row(
+    children: [
+      Icon(Icons.arrow_downward, size: 40),
+      Container(
+        padding: const EdgeInsets.fromLTRB(15, 2, 15, 2),
+        child: Text(
+          '${memo}',
+          style: TextStyle(fontSize: 16,
+            fontFamily: 'Pretendard',
+            fontStyle: FontStyle.normal,
+            fontWeight: FontWeight.w300,),
+        ),
+      ),
+
+    ]
   );
 }
 
@@ -318,7 +325,7 @@ Widget myIndex(List<dynamic>? bookMapIndex) {
                       children: [
                         myBook(bookMapIndex?[index].map),
                         Padding(
-                          padding: const EdgeInsets.only(top: 8.0, bottom: 10),
+                          padding: const EdgeInsets.only(top: 8.0, bottom: 10, left: 8, right: 8),
                           child: Divider(
                             color: Colors.black38,
                             thickness: 1,
@@ -334,7 +341,7 @@ Widget myIndex(List<dynamic>? bookMapIndex) {
                       children: [
                         myMemo(bookMapIndex?[index].memo),
                         Padding(
-                          padding: const EdgeInsets.only(top: 8.0, bottom: 10),
+                          padding: const EdgeInsets.only(top: 8.0, bottom: 10, left: 8, right: 8),
                           child: Divider(
                             color: Colors.black38,
                             thickness: 1,
